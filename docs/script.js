@@ -84,8 +84,12 @@ async function load_3w_activity (url, identifier) {
             if (ref == identifier) {
                 
                 let title_node = document.createElement("h2");
-                title_node.textContent = activity["#activity+project"];
+                title_node.textContent = "Somalia 3W activity";
                 activity_node.appendChild(title_node);
+
+                let project_node = document.createElement("p");
+                project_node.textContent = "Project description: " + activity["#activity+project"];
+                activity_node.appendChild(project_node);
 
                 let local_node = document.createElement("p");
                 local_node.textContent = "Organisation type(s): " + activity["#org+prog+type"];
