@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IATI/3W explorer</title>
+    <link rel="stylesheet" href="../style.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="../script.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>IATI/3W explorer</h1>
+      <nav id="primary-nav" class="tabs">
+        <a href="../">Overview</a>
+        <a href="./">IATI activities</a>
+        <a href="../3w/">3W activities</a>
+      </nav>
+    </header>
+    <main>
+      <section id="3w-activity">
+      </section>
+    </main>
+    <script type="text/javascript" defer="defer">
+      load_3w_activity("../data/som-3w-consolidated.json", decodeURI(location.hash.substring(1)));
+    </script>
+  </body>
+</html>
