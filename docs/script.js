@@ -1,4 +1,9 @@
-async function hash (s) {
+let i3w = {
+    data_iati: "../data/somalia-iati-activities-2020.json",
+    data_3w: "../data/som-3w-consolidated.json"
+};
+
+i3w.hash = async function (s) {
     const hashBuffer = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(s));
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -20,10 +25,13 @@ async function make_3w_ref (activity) {
         strings.push(activity[key]);
     });
         
-    return await hash(strings.join("|||"));
+    return await i3w.hash(strings.join("|||"));
 }
 
-function load_iati (url) {
+/**
+ * Load all IATI activities
+ */
+i3w.load_iati = async function () {
 
     function populate_iati (data) {
         let list_node = document.getElementById("iati-activity-list");
@@ -37,13 +45,17 @@ function load_iati (url) {
         });
     }
 
-    fetch(url)
+    fetch(i3w.data_iati)
         .then(response => response.json().then(data => populate_iati(data)))
         .catch(data => console.error(data));
 
 }
 
-async function load_3w (url) {
+
+/**
+ * Load all 3W activities
+ */
+i3w.load_3w = async function () {
 
     async function populate_3w (data) {
         let list_node = document.getElementById("3w-activity-list");
@@ -67,13 +79,13 @@ async function load_3w (url) {
         }
     }
 
-    fetch(url)
+    fetch(i3w.data_3w)
         .then(response => response.json().then(data => populate_3w(data)))
         .catch(data => console.error(data));
 
 }
 
-async function load_3w_activity (url, identifier) {
+i3w.load_3w_activity = async function (identifier) {
 
     async function show_activity (data) {
         let activity_node = document.getElementById("3w-activity");
@@ -135,11 +147,11 @@ async function load_3w_activity (url, identifier) {
         
     }
 
-    fetch(url)
+    fetch(i3w.data_3w)
         .then (response => response.json().then(data => show_activity(data)));
 }
 
-function load_iati_activity (url, identifier) {
+i3w.load_iati_activity = async function (identifier) {
 
     function show_activity (data) {
         let activity_node = document.getElementById("iati-activity");
@@ -178,6 +190,7 @@ function load_iati_activity (url, identifier) {
         }
     }
     
-    fetch(url)
+    fetch(i3w.data_iati)
         .then (response => response.json().then(data => show_activity(data)));
 }
+
