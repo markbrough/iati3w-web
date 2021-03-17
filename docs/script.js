@@ -1,15 +1,23 @@
+/**
+ * Top-level namespace/package and variables
+ */
 let i3w = {
     data_iati: "../data/somalia-iati-activities-2020.json",
     data_3w: "../data/som-3w-consolidated.json"
 };
 
-i3w.hash = async function (s) {
-    const hashBuffer = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(s));
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
-async function make_3w_ref (activity) {
+/**
+ * Make a pseudo-identifier for a 3W activity.
+ */
+i3w.make_3w_ref = async function (activity) {
+
+    async function hash (s) {
+        const hashBuffer = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(s));
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
     let strings = [];
     Array(
         "#activity+programme",
@@ -25,8 +33,9 @@ async function make_3w_ref (activity) {
         strings.push(activity[key]);
     });
         
-    return await i3w.hash(strings.join("|||"));
+    return await hash(strings.join("|||"));
 }
+
 
 /**
  * Load all IATI activities
@@ -64,7 +73,7 @@ i3w.load_3w = async function () {
             let activity = data[i];
             let activity_node = document.createElement("li");
             let link_node = document.createElement("a");
-            link_node.setAttribute("href", "activity.html#" + encodeURI(await make_3w_ref(activity)));
+            link_node.setAttribute("href", "activity.html#" + encodeURI(await i3w.make_3w_ref(activity)));
             link_node.textContent = get_3w_org(activity) + ": " + activity["#activity+project"];
             activity_node.appendChild(link_node);
             list_node.appendChild(activity_node);
@@ -85,6 +94,57 @@ i3w.load_3w = async function () {
 
 }
 
+
+/**
+ * Load a specific IATI activity
+ */
+i3w.load_iati_activity = async function (identifier) {
+
+    function show_activity (data) {
+        let activity_node = document.getElementById("iati-activity");
+        activity_node.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+            let activity = data[i];
+            if (activity.identifier == identifier) {
+
+                let title_node = document.createElement("h2");
+                title_node.textContent = "[" + identifier + "] " + activity.title;
+                activity_node.appendChild(title_node);
+
+                let org_node = document.createElement("p");
+                org_node.textContent = "Reported by " + activity.orgs.reporting.name;
+                activity_node.appendChild(org_node);
+
+                let locations_node = document.createElement("p");
+                if (activity.locations.length > 0) {
+                    let s = "Locations:";
+                    activity.locations.forEach(location => {
+                        s += " " + location;
+                    });
+                    locations_node.textContent = s;
+                } else {
+                    locations_node.textContent = "No locations specified";
+                }
+                activity_node.appendChild(locations_node);
+
+                let description_node = document.createElement("p");
+                description_node.classList.add("pre");
+                description_node.textContent = activity.description;
+                activity_node.appendChild(description_node);
+                
+                return;
+            }
+        }
+    }
+    
+    fetch(i3w.data_iati)
+        .then (response => response.json().then(data => show_activity(data)));
+}
+
+
+/**
+ * Load a specific 3W activity
+ */
 i3w.load_3w_activity = async function (identifier) {
 
     async function show_activity (data) {
@@ -92,7 +152,7 @@ i3w.load_3w_activity = async function (identifier) {
         activity_node.innerHTML = "";
         for (var i = 0; i < data.length; i++) {
             let activity = data[i];
-            let ref = await make_3w_ref(activity);
+            let ref = await i3w.make_3w_ref(activity);
             if (ref == identifier) {
                 
                 let title_node = document.createElement("h2");
@@ -151,46 +211,4 @@ i3w.load_3w_activity = async function (identifier) {
         .then (response => response.json().then(data => show_activity(data)));
 }
 
-i3w.load_iati_activity = async function (identifier) {
-
-    function show_activity (data) {
-        let activity_node = document.getElementById("iati-activity");
-        activity_node.innerHTML = "";
-        for (var i = 0; i < data.length; i++) {
-            let activity = data[i];
-            if (activity.identifier == identifier) {
-
-                let title_node = document.createElement("h2");
-                title_node.textContent = "[" + identifier + "] " + activity.title;
-                activity_node.appendChild(title_node);
-
-                let org_node = document.createElement("p");
-                org_node.textContent = "Reported by " + activity.orgs.reporting.name;
-                activity_node.appendChild(org_node);
-
-                let locations_node = document.createElement("p");
-                if (activity.locations.length > 0) {
-                    let s = "Locations:";
-                    activity.locations.forEach(location => {
-                        s += " " + location;
-                    });
-                    locations_node.textContent = s;
-                } else {
-                    locations_node.textContent = "No locations specified";
-                }
-                activity_node.appendChild(locations_node);
-
-                let description_node = document.createElement("p");
-                description_node.classList.add("pre");
-                description_node.textContent = activity.description;
-                activity_node.appendChild(description_node);
-                
-                return;
-            }
-        }
-    }
-    
-    fetch(i3w.data_iati)
-        .then (response => response.json().then(data => show_activity(data)));
-}
 
