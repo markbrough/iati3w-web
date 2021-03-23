@@ -40,7 +40,7 @@ i3w.make_element = function (name, attributes, content) {
 i3w.load_iati = async function () {
 
     function populate_iati (data) {
-        let node = document.getElementById("iati-activity-list");
+        let node = document.getElementById("activity-list");
         i3w.show_activity_list(data, node);
     }
 
@@ -57,7 +57,7 @@ i3w.load_iati = async function () {
 i3w.load_3w = async function () {
 
     function populate_3w (data) {
-        let node = document.getElementById("3w-activity-list");
+        let node = document.getElementById("activity-list");
         return i3w.show_activity_list(data, node);
     }
 
