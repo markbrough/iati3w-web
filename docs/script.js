@@ -3,8 +3,8 @@
  */
 let i3w = {
     urls: {
-        data_iati: "https://davidmegginson.github.io/iati3w-data/3w-data.json",
-        data_3w: "https://davidmegginson.github.io/iati3w-data/iati-data.json"
+        data_iati: "https://davidmegginson.github.io/iati3w-data/iati-data.json",
+        data_3w: "https://davidmegginson.github.io/iati3w-data/3w-data.json"
     }
 };
 
@@ -14,37 +14,24 @@ let i3w = {
  */
 i3w.normalize_string = function (s) {
     return s.replace(/\s+/g, " ").trim().toLowerCase();
-}
+};
 
 
 /**
- * Make a pseudo-identifier for a 3W activity.
+ * Make an element node with optional attributes and content
  */
-i3w.make_3w_ref = async function (activity) {
-
-    async function hash (s) {
-        const hashBuffer = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(s));
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+i3w.make_element = function (name, attributes, content) {
+    let node = document.createElement(name);
+    if (attributes) {
+        for (attribute in attributes) {
+            node.setAttribute(attribute, attributes[attribute]);
+        }
     }
-
-    let strings = [];
-    Array(
-        "#activity+programme",
-        "#activity+project",
-        "#adm1+name",
-        "#adm2+name",
-        "#loc+name",
-        "#org+impl+name",
-        "#org+name+prog",
-        "#org+name+funding",
-        "#sector"
-    ).forEach(key => {
-        strings.push(activity[key]);
-    });
-        
-    return await hash(strings.join("|||"));
-}
+    if (content) {
+        node.textContent = content;
+    }
+    return node;
+};
 
 
 /**
@@ -55,10 +42,12 @@ i3w.load_iati = async function () {
     function populate_iati (data) {
         let list_node = document.getElementById("iati-activity-list");
         data.forEach(activity => {
-            let activity_node = document.createElement("li");
-            let link_node = document.createElement("a");
-            link_node.setAttribute("href", "activity.html#" + encodeURI(activity.identifier));
-            link_node.textContent = activity.orgs.reporting.name + ": " + activity.title;
+            let activity_node = i3w.make_element("li", {}, activity.reported_by + ": ");
+            let link_node = i3w.make_element(
+                "a",
+                { href: "activity.html#" + encodeURI(activity.identifier) },
+                activity.title
+            );
             activity_node.appendChild(link_node);
             list_node.appendChild(activity_node);
         });
@@ -68,7 +57,7 @@ i3w.load_iati = async function () {
         .then(response => response.json().then(data => populate_iati(data)))
         .catch(data => console.error(data));
 
-}
+};
 
 
 /**
