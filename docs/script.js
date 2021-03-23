@@ -2,9 +2,19 @@
  * Top-level namespace/package and variables
  */
 let i3w = {
-    data_iati: "../data/somalia-iati-activities-2020.json",
-    data_3w: "../data/som-3w-consolidated.json"
+    urls: {
+        data_iati: "https://davidmegginson.github.io/iati3w-data/3w-data.json",
+        data_3w: "https://davidmegginson.github.io/iati3w-data/iati-data.json"
+    }
 };
+
+
+/**
+ * Normalise a string for search/index
+ */
+i3w.normalize_string = function (s) {
+    return s.replace(/\s+/g, " ").trim().toLowerCase();
+}
 
 
 /**
@@ -54,7 +64,7 @@ i3w.load_iati = async function () {
         });
     }
 
-    fetch(i3w.data_iati)
+    fetch(i3w.urls.data_iati)
         .then(response => response.json().then(data => populate_iati(data)))
         .catch(data => console.error(data));
 
@@ -88,7 +98,7 @@ i3w.load_3w = async function () {
         }
     }
 
-    fetch(i3w.data_3w)
+    fetch(i3w.urls.data_3w)
         .then(response => response.json().then(data => populate_3w(data)))
         .catch(data => console.error(data));
 
@@ -137,7 +147,7 @@ i3w.load_iati_activity = async function (identifier) {
         }
     }
     
-    fetch(i3w.data_iati)
+    fetch(i3w.urls.data_iati)
         .then (response => response.json().then(data => show_activity(data)));
 }
 
@@ -207,7 +217,7 @@ i3w.load_3w_activity = async function (identifier) {
         
     }
 
-    fetch(i3w.data_3w)
+    fetch(i3w.urls.data_3w)
         .then (response => response.json().then(data => show_activity(data)));
 }
 
