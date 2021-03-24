@@ -166,11 +166,11 @@ i3w.show_activity = function (activity, node) {
     ));
 
     node.appendChild(i3w.make_element(
-        "p", {}, "DAC sectors: " + activity.dac_sectors.join(", ")
+        "p", {}, "DAC sectors: " + activity.sectors.dac.join(", ")
     ));
 
     node.appendChild(i3w.make_element(
-        "p", {}, "Humanitarian clusters: " + activity.humanitarian_clusters.join(", ")
+        "p", {}, "Humanitarian clusters: " + activity.sectors.humanitarian.join(", ")
     ));
 
     node.appendChild(i3w.make_element(
