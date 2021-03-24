@@ -2,13 +2,8 @@ body {
     font-family: sans-serif;
 }
 
-main {
-    padding: 3ex 0 0 0;
-    
-}
-
 img.logo {
-    height: 3ex;
+    height: 2ex;
 }
 
 header {
@@ -17,9 +12,9 @@ header {
     align-items: center;
     top: 0;
     left: 0;
-    padding: 1ex;
     height: 3ex;
-    width: 100%;
+    padding: 1ex;
+    width: 100vw;
     background: #ffffff;
     border-bottom: 1px solid #add8e6;
 }
@@ -42,6 +37,18 @@ nav a {
 
 a.active {
     font-weight: bold;
+}
+
+main {
+    position: fixed;
+    top: 5ex;
+    left: 0;
+    padding: 1ex 1em;
+    width: calc(100vw - 2em);
+    height: calc(100vh - 3ex);
+    overflow-y: scroll;
+    word-wrap: break-word;
+    
 }
 
 .pre {
