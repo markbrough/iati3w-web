@@ -167,8 +167,8 @@ i3w.load_org = async function (org_name) {
                 list = i3w.el("ul");
                 console.log(role, org.activities);
                 org.activities[role].forEach(activity => {
-                    item = i3w.el("li", {}, activity.title);
-                    
+                    item = i3w.el("li", {});
+                    item.appendChild(i3w.el("a", {href: "../activity.html#" + encodeURIComponent(activity.identifier)}, activity.title));
                     list.appendChild(item);
                 });
                 subsect.appendChild(list);
