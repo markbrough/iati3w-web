@@ -32,16 +32,22 @@
       <section id="orgs">
         <h3>Organisations working in this sector</h3>
         <ul>
-          {% for org in info.orgs %}
-          <li><a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a></li>
+          {% for org, count in info.orgs %}
+          <li>
+            <a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+            ({{ count | plural("activity", "activities") }})
+          </li>
           {% endfor %}
         </ul>
       </section>
       <section id="locations">
         <h3>Locations where this sector is active</h3>
         <ul>
-          {% for location in info.locations %}
-          <li><a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a></li>
+          {% for location, count in info.locations %}
+          <li>
+            <a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+            ({{ count | plural("activity", "activities") }})
+          </li>
           {% endfor %}
         </ul>
       </section>

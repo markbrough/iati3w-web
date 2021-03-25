@@ -4,6 +4,13 @@ var env = new nunjucks.configure();
 
 env.addFilter('urlenc', encodeURIComponent);
 
+env.addFilter('plural', (n, singular, plural) => {
+    if (n > 1) {
+        return "" + n + " " + plural;
+    } else {
+        return "" + n + " " + singular;
+    }
+});
 
 /**
  * Top-level namespace/package and variables

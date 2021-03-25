@@ -30,30 +30,40 @@
     <script id="template.org" type="template">
       <h2>Organisation: {{ org_name }}</h2>
       <section id="partners">
-        <h3>Partners</h3>
+        <h3>Partners the organisation has worked with</h3>
         <ul>
           {% for org, count in info.partners %}
-          <li><a href="org.html?ref={{ org | urlenc }}">{{ org }}</a> ({{ count }})</li>
+          <li>
+            <a href="org.html?ref={{ org | urlenc }}">{{ org }}</a>
+            ({{ count | plural("activity", "activities") }})
+          </li>
           {% endfor %}
         </ul>
       </section>
       <section id="sectors">
-        <h3>Sectors</h3>
+        <h3>Sectors the organisation works in</h3>
         <ul>
           {% for sector, count in info.sectors %}
-          <li><a href="../sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a> ({{ count }})</li>
+          <li>
+            <a href="../sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
+            ({{ count | plural("activity", "activities") }})
+          </li>
           {% endfor %}
       </section>
       <section id="locations">
-        <h3>Locations</h3>
+        <h3>Locations where the organisation works</h3>
         <ul>
           {% for location, count in info.locations %}
-          <li><a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a> ({{ count }} {% if count > 1 %}activities{% else %}activity{% endif %})</li>
+          <li>
+            <a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+            ({{ count | plural("activity", "activities") }})
+          </li>
           {% endfor %}
         </ul>
       </section>
       <section id="activities">
-        <h3>Activities</h3>
+        <h3>Activities the organisation has participated in</h3>
+        {% if info.activities.implementing %}
         <section id="activities.implementing">
           <h4>As an implementing partner</h4>
           <ul>
@@ -62,6 +72,8 @@
             {% endfor %}
           </ul>
         </section>
+        {% endif %}
+        {% if info.activities.programming %}
         <section id="activities.programming">
           <h4>As a programming partner</h4>
           <ul>
@@ -70,6 +82,8 @@
             {% endfor %}
           </ul>
         </section>
+        {% endif %}
+        {% if info.activities.funding %}
         <section id="activities.funding">
           <h4>As a funding partner</h4>
           <ul>
@@ -78,6 +92,7 @@
             {% endfor %}
           </ul>
         </section>
+        {% endif %}
       </section>
     </script>
     <script type="module" defer="defer">
