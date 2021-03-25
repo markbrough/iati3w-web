@@ -17,17 +17,22 @@
         IATI/3W explorer
       </h1>
       <nav id="primary-nav" class="tabs">
-        <a href="../iati/" title="List IATI activities for Somalia">IATI</a>
-        <a class="active" href="../3w/" title="List 3W activities for Somalia">3W</a>
-        <a href="../" title="Go to home page">About</a>
+        <a href="../orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
+        <a class="active">What?</a>
+        <a href="../locations/" title="Locations active in Somalia.">Were?</a>
+        <a href="../">About</a>
       </nav>
     </header>
     <main>
-      <section id="3w-activity">
+      <section id="3w">
+        <h2>Sectors active in Somalia</h2>
+        <ul id="activity-list">
+          <li class="loading">Loading...</li>
+        </ul>
+      </section>
+      <section id="activity">
       </section>
     </main>
-    <script type="text/javascript" defer="defer">
-      i3w.load_3w_activity(decodeURI(location.hash.substring(1)));
-    </script>
+    <script type="text/javascript" defer="defer">i3w.load_3w();</script>
   </body>
 </html>

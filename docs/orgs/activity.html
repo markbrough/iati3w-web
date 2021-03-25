@@ -10,28 +10,25 @@
   </head>
   <body>
     <header>
-      <a href="../" title="Go to home page">
+      <a href="../" title="Home">
         <img src="../iati3w-icon.png" class="logo" />
       </a>
       <h1>
         IATI/3W explorer
       </h1>
       <nav id="primary-nav" class="tabs">
-        <a href="../iati/" title="List IATI activities for Somalia">IATI</a>
-        <a class="active">3W</a>
-        <a href="../" title="Go to home page">About</a>
+        <a class="active" href="../orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
+        <a href="../sectors/" title="Aid sectors active in Somalia.">What?</a>
+        <a href="../locations/" title="Locations active in Somalia.">Were?</a>
+        <a href="../">About</a>
       </nav>
     </header>
     <main>
-      <section id="3w">
-        <h2>3W activities for Somalia</h2>
-        <ul id="activity-list">
-          <li class="loading">Loading...</li>
-        </ul>
-      </section>
-      <section id="activity">
+      <section id="iati-activity">
       </section>
     </main>
-    <script type="text/javascript" defer="defer">i3w.load_3w();</script>
+    <script type="text/javascript" defer="defer">
+      i3w.load_iati_activity(decodeURI(location.hash.substring(1)));
+    </script>
   </body>
 </html>
