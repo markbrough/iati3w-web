@@ -45,7 +45,7 @@ main {
     left: 0;
     padding: 1ex 1em;
     width: calc(100vw - 2em);
-    height: calc(100vh - 3ex);
+    height: calc(100vh - 5ex);
     overflow-y: scroll;
     word-wrap: break-word;
     

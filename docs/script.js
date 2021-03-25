@@ -3,9 +3,29 @@
  */
 let i3w = {
     urls: {
+        activities: "https://davidmegginson.github.io/iati3w-data/activities.json",
+        org_index: "https://davidmegginson.github.io/iati3w-data/org-index.json",
+        sector_index: "https://davidmegginson.github.io/iati3w-data/org-index.json",
+        location_index: "https://davidmegginson.github.io/iati3w-data/org-index.json",
         data_iati: "https://davidmegginson.github.io/iati3w-data/iati-data.json",
         data_3w: "https://davidmegginson.github.io/iati3w-data/3w-data.json"
+    },
+    cache: {}
+};
+
+
+/**
+ * Fetch and cache JSON data.
+ */
+i3w.fetch_json = async function (url) {
+
+    // Download the data if it's not already in the cache.
+    if (!(url in i3w.cache)) {
+        const response = await fetch(url);
+        i3w.cache[url] = response.json()
     }
+
+    return i3w.cache[url];
 };
 
 
@@ -20,7 +40,7 @@ i3w.normalize_string = function (s) {
 /**
  * Make an element node with optional attributes and content
  */
-i3w.make_element = function (name, attributes, content) {
+i3w.el = function (name, attributes, content) {
     let node = document.createElement(name);
     if (attributes) {
         for (attribute in attributes) {
@@ -35,19 +55,138 @@ i3w.make_element = function (name, attributes, content) {
 
 
 /**
- * Load all IATI activities
+ * Load a list or organisations
  */
-i3w.load_iati = async function () {
+i3w.load_org_list = async function () {
 
-    function populate_iati (data) {
-        let node = document.getElementById("activity-list");
-        i3w.show_activity_list(data, node);
+    function draw (org_name, org_data) {
+        const node = i3w.el("p", {class: "org-summary"});
+        const url = "org.html#" + encodeURIComponent(org_name);
+        node.appendChild(i3w.el("a", { class: "org_name", href: url }, org_name));
+
+        let s = " Activities:";
+        ["implementing", "programming", "funding"].forEach(role => {
+            if (role in org_data.activities && org_data.activities[role].length > 0) {
+                s += " " + org_data.activities[role].length + " (" + role + ")";
+            }
+        });
+        node.appendChild(i3w.el("span", { class: "info" }, s));
+
+        return node;
+    };
+
+    const orgs = await i3w.fetch_json(i3w.urls.org_index);
+    const container = document.getElementById("content");
+    container.innerHTML = "";
+    Object.keys(orgs).sort().forEach(org_name => {
+        if (org_name) {
+            container.appendChild(draw(org_name, orgs[org_name]));
+        }
+    });
+};
+
+
+/**
+ * Load an org
+ */
+i3w.load_org = async function (org_name) {
+
+    function draw (org, container) {
+        container.appendChild(i3w.el("h2", {}, "Organisation: " + org_name));
+
+        // Partners
+        let sect = i3w.el("section", {id: "partners"});
+        let partners = Object.keys(org.partners).sort();
+        let n = partners.length;
+        sect.appendChild(i3w.el("h3", {}, "Partners"));
+        if (n > 0) {
+            sect.appendChild(i3w.el("p", {}, org_name + " works with " + n + (n > 1 ? " partners" : " partner") + " in Somalia:"));
+            let list = i3w.el("ul");
+            partners.forEach(partner => {
+                let item = i3w.el("li");
+                item.appendChild(i3w.el("a", {href: "org.html#" + encodeURIComponent(partner)}, partner));
+                item.appendChild(i3w.el("span", {class: "info"}, " (" + org.partners[partner] + ")"));
+                list.appendChild(item);
+            });
+            sect.appendChild(list);
+        } else {
+            sect.appendChild(i3w.el("p", {}, "No known partners."));
+        }
+        container.appendChild(sect);
+
+        // Sectors
+        sect = i3w.el("section", {id: "sectors"});
+        sect.appendChild(i3w.el("h3", {}, "Sectors"));
+        let sectors = Object.keys(org.sectors).sort();
+        if (sectors.length > 0) {
+            sect.appendChild(i3w.el("p", {}, org_name + " works in " + sectors.length + (sectors.length > 1 ? " sectors" : " sector") + " in Somalia:"));
+            let list = i3w.el("ul");
+            sectors.forEach(sector => {
+                let item = i3w.el("li");
+                item.appendChild(i3w.el("a", {href: "../sectors/sector.html#" + encodeURIComponent(sector)}, sector));
+                list.appendChild(item);
+            });
+            sect.appendChild(list);
+        }
+        container.appendChild(sect);
+        
+        // Locations
+        sect = i3w.el("section", {id: "locations"});
+        sect.appendChild(i3w.el("h3", {}, "Locations"));
+        let locations = Object.keys(org.locations).sort();
+        if (locations.length > 0) {
+            sect.appendChild(i3w.el("p", {}, org_name + " works in " + locations.length + (locations.length > 1 ? " locations" : " location") + " in Somalia:"));
+            let list = i3w.el("ul");
+            locations.forEach(location => {
+                let item = i3w.el("li");
+                item.appendChild(i3w.el("a", {href: "../locations/location.html#" + encodeURIComponent(location)}, location));
+                list.appendChild(item);
+            });
+            sect.appendChild(list);
+        }
+        container.appendChild(sect);
+        
+        // Activities
+        sect = i3w.el("section", {id: "activities"});
+        sect.appendChild(i3w.el("h3", {}, "Activities"));
+
+        let unique_activities = new Set();
+        ["implementing", "programming", "funding"].forEach(role => {
+            if (role in org.activities) {
+                org.activities[role].forEach(activity => {
+                    unique_activities.add(activity.identifier);
+                });
+            }
+        });
+        n = unique_activities.size;
+        sect.appendChild(i3w.el("p", {}, org_name + " participates in " + n + (n > 1 ? " activities" : " activity") + " in Somalia."));
+        ["implementing", "programming", "funding"].forEach(role => {
+            if (role in org.activities) {
+                subsect = i3w.el("section", {id: "activities." + role});
+                subsect.appendChild(i3w.el("h4", {}, "As " + role + " partner"));
+                list = i3w.el("ul");
+                console.log(role, org.activities);
+                org.activities[role].forEach(activity => {
+                    item = i3w.el("li", {}, activity.title);
+                    
+                    list.appendChild(item);
+                });
+                subsect.appendChild(list);
+                sect.appendChild(subsect);
+            }
+        });
+
+        container.appendChild(sect);
     }
 
-    fetch(i3w.urls.data_iati)
-        .then(response => response.json().then(data => populate_iati(data)))
-        .catch(data => console.error(data));
-
+    const orgs = await i3w.fetch_json(i3w.urls.org_index);
+    let container = document.getElementById("content");
+    container.innerHTML = "";
+    if (org_name in orgs) {
+        draw(orgs[org_name], container);
+    } else {
+        console.error(org_name, " not found");
+    }
 };
 
 
@@ -55,130 +194,10 @@ i3w.load_iati = async function () {
  * Load all 3W activities
  */
 i3w.load_3w = async function () {
-
-    function populate_3w (data) {
-        let node = document.getElementById("activity-list");
-        return i3w.show_activity_list(data, node);
-    }
-
-    fetch(i3w.urls.data_3w)
-        .then(response => response.json().then(data => populate_3w(data)))
-        .catch(data => console.error(data));
-
+    const data = await i3w.fetch_json(i3w.urls.data_3w);
+    i3w.show_activity_list(data, document.getElementById("activity-list"));
 };
 
+// FIXME - stupid way to do it
+window.addEventListener("hashchange", () => window.location.reload(true));
 
-/**
- * Load a specific IATI activity
- */
-i3w.load_iati_activity = async function (identifier) {
-
-    function show_activity (data) {
-        let activity_node = document.getElementById("iati-activity");
-        activity_node.innerHTML = "";
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].identifier == identifier) {
-                return i3w.show_activity(data[i], activity_node);
-            } else {
-                activity_node.appendChild(i3w.make_element(
-                    "p", { class: "error" }, "IATI activity " + identifier + " not found"
-                ));
-            }
-        }
-    }
-    
-    fetch(i3w.urls.data_iati)
-        .then (response => response.json().then(data => show_activity(data)));
-}
-
-
-/**
- * Load a specific 3W activity
- */
-i3w.load_3w_activity = async function (identifier) {
-
-    function show_activity (data) {
-        let node = document.getElementById("3w-activity");
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].identifier == identifier) {
-                return i3w.show_activity(data[i], node);
-            }
-            node.appendChild(i3w.make_element(
-                "p", { class: "error" }, "3W activity " + identifier + " not found."
-            ));
-        }
-    }
-    
-    fetch(i3w.urls.data_3w)
-        .then (response => response.json().then(data => show_activity(data)));
-}
-
-
-/**
- * Draw a list of IATI or 3W activities on an HTML page inside the DOM node provided.
- */
-i3w.show_activity_list = function (activities, node) {
-
-    node.innerHTML = "";
-
-    activities.forEach(activity => {
-        let item_node = i3w.make_element(
-            "li", {}, (activity.source == "IATI" ? activity.reported_by : activity.orgs.programming[0]) + ": "
-        );
-        item_node.appendChild(i3w.make_element(
-            "a", { href: "activity.html#" + encodeURI(activity.identifier) }, activity.title
-        ));
-        node.appendChild(item_node);
-    });
-    
-};
-
-
-/**
- * Draw an IATI or 3W activity on an HTML page inside the DOM node provided.
- */
-i3w.show_activity = function (activity, node) {
-
-    node.innerHTML = "";
-
-    node.appendChild(i3w.make_element(
-        "h2", {}, activity.title
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Activity identifier: " + activity.identifier
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Reported by: " + activity.reported_by
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Admin 1: " + activity.locations.admin1.join(", ")
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Admin 2: " + activity.locations.admin2.join(", ")
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Locations: " + activity.locations.unclassified.join(", ")
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "DAC sectors: " + activity.sectors.dac.join(", ")
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", {}, "Humanitarian clusters: " + activity.sectors.humanitarian.join(", ")
-    ));
-
-    node.appendChild(i3w.make_element(
-        "h3", {}, "Description"
-    ));
-
-    node.appendChild(i3w.make_element(
-        "p", { class: "pre" }, activity.description
-    ));
-    
-};
