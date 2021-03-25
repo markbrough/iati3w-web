@@ -62,7 +62,7 @@ export async function load_org_list () {
 
     function draw (org_name, org_data) {
         const node = el("p", {class: "org-summary"});
-        const url = "org.html#" + encodeURIComponent(org_name);
+        const url = "org.html?ref=" + encodeURIComponent(org_name);
         node.appendChild(el("a", { class: "org_name", href: url }, org_name));
 
         let s = " Activities:";
@@ -90,7 +90,7 @@ export async function load_org_list () {
 /**
  * Load an org
  */
-export async function load_org (org_name) {
+export async function load_org () {
 
     function draw (org, container) {
         container.appendChild(el("h2", {}, "Organisation: " + org_name));
@@ -105,7 +105,7 @@ export async function load_org (org_name) {
             let list = el("ul");
             partners.forEach(partner => {
                 let item = el("li");
-                item.appendChild(el("a", {href: "org.html#" + encodeURIComponent(partner)}, partner));
+                item.appendChild(el("a", {href: "org.html?ref=" + encodeURIComponent(partner)}, partner));
                 item.appendChild(el("span", {class: "info"}, " (" + org.partners[partner] + ")"));
                 list.appendChild(item);
             });
@@ -124,7 +124,7 @@ export async function load_org (org_name) {
             let list = el("ul");
             sectors.forEach(sector => {
                 let item = el("li");
-                item.appendChild(el("a", {href: "../sectors/sector.html#" + encodeURIComponent(sector)}, sector));
+                item.appendChild(el("a", {href: "../sectors/sector.html?ref=" + encodeURIComponent(sector)}, sector));
                 list.appendChild(item);
             });
             sect.appendChild(list);
@@ -140,7 +140,7 @@ export async function load_org (org_name) {
             let list = el("ul");
             locations.forEach(location => {
                 let item = el("li");
-                item.appendChild(el("a", {href: "../locations/location.html#" + encodeURIComponent(location)}, location));
+                item.appendChild(el("a", {href: "../locations/location.html?ref=" + encodeURIComponent(location)}, location));
                 list.appendChild(item);
             });
             sect.appendChild(list);
@@ -180,6 +180,7 @@ export async function load_org (org_name) {
         container.appendChild(sect);
     }
 
+    const org_name = new URLSearchParams(window.location.search).get('ref');
     const orgs = await fetch_json(urls.org_index);
     let container = document.getElementById("content");
     container.innerHTML = "";
@@ -189,8 +190,3 @@ export async function load_org (org_name) {
         console.error(org_name, " not found");
     }
 }
-
-
-// FIXME - stupid way to do it
-window.addEventListener("hashchange", () => window.location.reload(true));
-
