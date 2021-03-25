@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IATI/3W explorer</title>
+    <link rel="stylesheet" href="./style.css"/>
+    <link rel="icon" type="image/png" sizes="512x512" href="./iati3w-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <header>
+      <a href="./" title="Home">
+        <img src="./iati3w-icon.png" class="logo" />
+      </a>
+      <h1>
+        IATI/3W explorer
+      </h1>
+      <nav id="primary-nav" class="tabs">
+        <a href="./orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
+        <a href="./sectors/" title="Aid sectors active in Somalia.">What?</a>
+        <a href="./locations/" title="Locations active in Somalia.">Were?</a>
+        <a href="./">About</a>
+      </nav>
+    </header>
+    <main>
+      <section id="content">
+        <p class="loading">Loading…</p>
+      </section>
+    </main>
+    <script id="template.activity" type="template">
+      <h2>Activity: {{ activity.title }}</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th>Identifier ({{ activity.source }})</th>
+            <td>{{ activity.identifier }}</td>
+          </tr>
+          <tr>
+            <th>Reported by</th>
+            <td>{{ activity.reported_by }} ({{ activity.source }})</td>
+          </tr>
+          {% if activity.dates.start %}
+          <tr>
+            <th>Start</th>
+            <td>{{ activity.dates.start }}</td>
+          </tr>
+          {% endif %}
+          {% if activity.dates.end %}
+          <tr>
+            <th>End</th>
+            <td>{{ activity.dates.end }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+      <p class="pre">{{ activity.description }}</p>
+      <section id="orgs">
+        <h3>Who is working on this activity?</h3>
+        {% if activity.orgs.implementing %}
+        <p>
+          <b>Implementing:</b>
+          {% for org in activity.orgs.implementing %}
+          <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+          {% endfor %}
+        </p>
+        {% endif %}
+        {% if activity.orgs.programming %}
+        <p>
+          <b>Programming:</b>
+          {% for org in activity.orgs.programming %}
+          <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+          {% endfor %}
+        </p>
+        {% endif %}
+        {% if activity.orgs.funding %}
+        <p>
+          <b>Funding:</b>
+          {% for org in activity.orgs.funding %}
+          <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+          {% endfor %}
+        </p>
+        {% endif %}
+      </section>
+      <section id="sectors">
+        <h3>What sectors does the activity target?</h3>
+        {% if activity.sectors.humanitarian %}
+        <p>
+          <b>Humanitarian clusters:</b>
+          {% for sector in activity.sectors.humanitarian %}
+          <a href="./sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
+          {% endfor %}
+        </p>
+        {% endif %}
+        {% if activity.sectors.humanitarian %}
+        <p>
+          <b>OECD sectors:</b>
+          {% for sector in activity.sectors.dac %}
+          <a href="./sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
+          {% endfor %}
+        </p>
+        {% endif %}
+      </section>
+      <section id="locations">
+        <h3>Where is the activity happening?</h3>
+        <p>
+          <b>Admin 1:</b>
+          {% for location in activity.locations.admin1 %}
+          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          {% endfor %}
+        </p>
+        <p>
+          <b>Admin 2:</b>
+          {% for location in activity.locations.admin2 %}
+          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          {% endfor %}
+        </p>
+        <p>
+          <b>Unclassified:</b>
+          {% for location in activity.locations.unclassified %}
+          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          {% endfor %}
+        </p>
+      </section>
+    </script>
+    <script type="module" defer="defer">
+      import { load_activity } from "./script.js";
+      load_activity();
+    </script>
+  </body>
+</html>

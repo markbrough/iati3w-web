@@ -103,7 +103,32 @@ export async function load_sector () {
             sector_name: sector_name,
             info: sectors.humanitarian[sector_name]
         });
+        // FIXME!!!
+    } else if (sector_name in sectors.dac) {
+        container.innerHTML = render_template("template.sector", {
+            sector_name: sector_name,
+            info: sectors.dac[sector_name]
+        });
     } else {
         console.error(sector_name, " not found");
     }
+}
+
+/**
+ * Load an activity
+ */
+export async function load_activity () {
+    const identifier = new URLSearchParams(window.location.search).get('ref');
+    const activities = await fetch_json(urls.activities);
+    const container = document.getElementById("content");
+    for (var i = 0; i < activities.length; i++) {
+        if (activities[i].identifier == identifier) {
+            container.innerHTML = render_template("template.activity", {
+                activity: activities[i]
+            });
+            console.log(activities[i]);
+            return;
+        }
+    }
+    console.error(identifier, " not found");
 }
