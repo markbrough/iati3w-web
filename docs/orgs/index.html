@@ -23,13 +23,17 @@
       </nav>
     </header>
     <main>
-      <section>
-        <h2>Organisations active in Somalia</h2>
-        <ul id="content">
-          <li>Loading...</li>
-        </ul>
+      <section id="content">
+        <p class="loading">Loading…</p>
       </section>
     </main>
+    <script id="template.orglist" type="template">
+      <ul>
+        {% for org_name, org in orgs %}
+        <li><a href="org.html?ref={{ org_name | urlenc }}">{{ org_name }}</a></li>
+        {% endfor %}
+      </ul>
+    </script>
     <script type="module" defer="defer">
       import { load_org_list } from "../script.js";
       load_org_list();

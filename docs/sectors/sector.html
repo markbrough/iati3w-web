@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <a href="../" title="Go to home page">
+      <a href="../" title="Home">
         <img src="../iati3w-icon.png" class="logo" />
       </a>
       <h1>
@@ -17,44 +17,46 @@
       </h1>
       <nav id="primary-nav" class="tabs">
         <a href="../orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
-        <a class="active">What?</a>
+        <a class="active" href="../sectors/" title="Aid sectors active in Somalia.">What?</a>
         <a href="../locations/" title="Locations active in Somalia.">Were?</a>
         <a href="../">About</a>
       </nav>
     </header>
     <main>
-      <h2>Aid clusters and sectors in Somalia</h2>
       <section id="content">
         <p class="loading">Loading…</p>
       </section>
     </main>
-    <script id="template.sectorlist" type="template">
-      <section id="humanitarian">
-        <h3>Humanitarian clusters</h3>
+    <script id="template.sector" type="template">
+      <h2>Sector: {{ sector_name }}</h2>
+      <section id="orgs">
+        <h3>Organisations working in this sector</h3>
         <ul>
-          {% for sector_name, info in sectors.humanitarian %}
-          <li>
-            <a href="sector.html?ref={{ sector_name }}">{{ sector_name }}</a>
-            ({{ info.activities | length }})
-          </li>
+          {% for org in info.orgs %}
+          <li><a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a></li>
           {% endfor %}
         </ul>
       </section>
-      <section id="dac">
-        <h3>OECD sectors</h3>
+      <section id="locations">
+        <h3>Locations where this sector is active</h3>
         <ul>
-          {% for sector_name, info in sectors.dac %}
-          <li>
-            <a href="sector.html?ref={{ sector_name }}">{{ sector_name }}</a>
-            ({{ info.activities | length }})
-          </li>
+          {% for location in info.locations %}
+          <li><a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+      <section id="activities">
+        <h3>Activities in this sector</h3>
+        <ul>
+          {% for activity in info.activities %}
+          <li><a href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title }}</a></li>
           {% endfor %}
         </ul>
       </section>
     </script>
     <script type="module" defer="defer">
-      import { load_sector_list } from "../script.js";
-      load_sector_list();
+      import { load_sector } from "../script.js";
+      load_sector();
     </script>
   </body>
 </html>
