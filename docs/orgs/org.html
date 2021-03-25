@@ -26,6 +26,59 @@
       <section id="content">
       </section>
     </main>
+    <script id="template.org" type="template">
+      <h2>Organisation: {{ org_name }}</h2>
+      <section id="partners">
+        <h3>Partners</h3>
+        <ul>
+          {% for org, count in info.partners %}
+          <li><a href="org.html?ref={{ org | urlenc }}">{{ org }}</a> ({{ count }})</li>
+          {% endfor %}
+        </ul>
+      </section>
+      <section id="sectors">
+        <h3>Sectors</h3>
+        <ul>
+          {% for sector, count in info.sectors %}
+          <li><a href="../sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a> ({{ count }})</li>
+          {% endfor %}
+      </section>
+      <section id="locations">
+        <h3>Locations</h3>
+        <ul>
+          {% for location, count in info.locations %}
+          <li><a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a> ({{ count }} {% if count > 1 %}activities{% else %}activity{% endif %})</li>
+          {% endfor %}
+        </ul>
+      </section>
+      <section id="activities">
+        <h3>Activities</h3>
+        <section id="activities.implementing">
+          <h4>As an implementing partner</h4>
+          <ul>
+            {% for activity in info.activities.implementing %}
+            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+        <section id="activities.programming">
+          <h4>As a programming partner</h4>
+          <ul>
+            {% for activity in info.activities.programming %}
+            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+        <section id="activities.funding">
+          <h4>As a funding partner</h4>
+          <ul>
+            {% for activity in info.activities.funding %}
+            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+      </section>
+    </script>
     <script type="module" defer="defer">
       import { load_org } from "../script.js";
       load_org();

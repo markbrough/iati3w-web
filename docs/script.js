@@ -1,3 +1,8 @@
+import * as Nunjucks from "./modules/nunjucks.min.js";
+
+var env = new nunjucks.configure();
+
+env.addFilter('urlenc', encodeURIComponent);
 
 
 /**
@@ -31,27 +36,10 @@ async function fetch_json (url) {
 
 
 /**
- * Normalise a string for search/index
+ * Render a template in an HTML <script> element and return the text.
  */
-function normalize_string (s) {
-    return s.replace(/\s+/g, " ").trim().toLowerCase();
-}
-
-
-/**
- * Make an element node with optional attributes and content
- */
-function el (name, attributes, content) {
-    let node = document.createElement(name);
-    if (attributes) {
-        for (var attribute in attributes) {
-            node.setAttribute(attribute, attributes[attribute]);
-        }
-    }
-    if (content) {
-        node.textContent = content;
-    }
-    return node;
+function render_template (template_id, data) {
+    return nunjucks.renderString(document.getElementById(template_id).innerHTML, data);
 }
 
 
@@ -91,101 +79,15 @@ export async function load_org_list () {
  * Load an org
  */
 export async function load_org () {
-
-    function draw (org, container) {
-        container.appendChild(el("h2", {}, "Organisation: " + org_name));
-
-        // Partners
-        let sect = el("section", {id: "partners"});
-        let partners = Object.keys(org.partners).sort();
-        let n = partners.length;
-        sect.appendChild(el("h3", {}, "Partners"));
-        if (n > 0) {
-            sect.appendChild(el("p", {}, org_name + " works with " + n + (n > 1 ? " partners" : " partner") + " in Somalia:"));
-            let list = el("ul");
-            partners.forEach(partner => {
-                let item = el("li");
-                item.appendChild(el("a", {href: "org.html?ref=" + encodeURIComponent(partner)}, partner));
-                item.appendChild(el("span", {class: "info"}, " (" + org.partners[partner] + ")"));
-                list.appendChild(item);
-            });
-            sect.appendChild(list);
-        } else {
-            sect.appendChild(el("p", {}, "No known partners."));
-        }
-        container.appendChild(sect);
-
-        // Sectors
-        sect = el("section", {id: "sectors"});
-        sect.appendChild(el("h3", {}, "Sectors"));
-        let sectors = Object.keys(org.sectors).sort();
-        if (sectors.length > 0) {
-            sect.appendChild(el("p", {}, org_name + " works in " + sectors.length + (sectors.length > 1 ? " sectors" : " sector") + " in Somalia:"));
-            let list = el("ul");
-            sectors.forEach(sector => {
-                let item = el("li");
-                item.appendChild(el("a", {href: "../sectors/sector.html?ref=" + encodeURIComponent(sector)}, sector));
-                list.appendChild(item);
-            });
-            sect.appendChild(list);
-        }
-        container.appendChild(sect);
-        
-        // Locations
-        sect = el("section", {id: "locations"});
-        sect.appendChild(el("h3", {}, "Locations"));
-        let locations = Object.keys(org.locations).sort();
-        if (locations.length > 0) {
-            sect.appendChild(el("p", {}, org_name + " works in " + locations.length + (locations.length > 1 ? " locations" : " location") + " in Somalia:"));
-            let list = el("ul");
-            locations.forEach(location => {
-                let item = el("li");
-                item.appendChild(el("a", {href: "../locations/location.html?ref=" + encodeURIComponent(location)}, location));
-                list.appendChild(item);
-            });
-            sect.appendChild(list);
-        }
-        container.appendChild(sect);
-        
-        // Activities
-        sect = el("section", {id: "activities"});
-        sect.appendChild(el("h3", {}, "Activities"));
-
-        let unique_activities = new Set();
-        ["implementing", "programming", "funding"].forEach(role => {
-            if (role in org.activities) {
-                org.activities[role].forEach(activity => {
-                    unique_activities.add(activity.identifier);
-                });
-            }
-        });
-        n = unique_activities.size;
-        sect.appendChild(el("p", {}, org_name + " participates in " + n + (n > 1 ? " activities" : " activity") + " in Somalia."));
-        ["implementing", "programming", "funding"].forEach(role => {
-            if (role in org.activities) {
-                subsect = el("section", {id: "activities." + role});
-                subsect.appendChild(el("h4", {}, "As " + role + " partner"));
-                list = el("ul");
-                console.log(role, org.activities);
-                org.activities[role].forEach(activity => {
-                    item = el("li", {});
-                    item.appendChild(el("a", {href: "../activity.html#" + encodeURIComponent(activity.identifier)}, activity.title));
-                    list.appendChild(item);
-                });
-                subsect.appendChild(list);
-                sect.appendChild(subsect);
-            }
-        });
-
-        container.appendChild(sect);
-    }
-
     const org_name = new URLSearchParams(window.location.search).get('ref');
     const orgs = await fetch_json(urls.org_index);
-    let container = document.getElementById("content");
-    container.innerHTML = "";
+    const container = document.getElementById("content");
     if (org_name in orgs) {
-        draw(orgs[org_name], container);
+        console.log(orgs[org_name]);
+        container.innerHTML = render_template("template.org", {
+            org_name: org_name,
+            info: orgs[org_name]
+        });
     } else {
         console.error(org_name, " not found");
     }
