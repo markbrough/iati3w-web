@@ -6,7 +6,6 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../iati3w-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8" />
-    <script type="text/javascript" src="../script.js"></script>
   </head>
   <body>
     <header>
@@ -27,8 +26,9 @@
       <section id="content">
       </section>
     </main>
-    <script type="text/javascript" defer="defer">
-      i3w.load_org(decodeURI(location.hash.substring(1)));
+    <script type="module" defer="defer">
+      import { load_org } from "../script.js";
+      load_org(decodeURI(location.hash.substring(1)));
     </script>
   </body>
 </html>
