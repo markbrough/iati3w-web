@@ -78,7 +78,7 @@
           <p id="locations.admin1" class="inline-list">
             {% for location in info.locations[type].keys() | sort %}
             <span>
-              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type=admin1">{{ location }}</a>
+              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type }}">{{ location }}</a>
               <br/>({{ info.locations[type][location] | plural("activity", "activities") }})
             </span>
             {% endfor %}
