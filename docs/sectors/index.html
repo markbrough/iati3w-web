@@ -34,7 +34,7 @@
         <ul>
           {% for sector_name, info in sectors.humanitarian %}
           <li>
-            <a href="sector.html?ref={{ sector_name }}">{{ sector_name }}</a>
+            <a href="sector.html?ref={{ sector_name }}&amp;type=humanitarian">{{ sector_name }}</a>
             ({{ info.activities | length }})
           </li>
           {% endfor %}
@@ -45,7 +45,7 @@
         <ul>
           {% for sector_name, info in sectors.dac %}
           <li>
-            <a href="sector.html?ref={{ sector_name }}">{{ sector_name }}</a>
+            <a href="sector.html?ref={{ sector_name }}&amp;type=dac">{{ sector_name }}</a>
             ({{ info.activities | length }})
           </li>
           {% endfor %}

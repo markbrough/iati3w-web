@@ -7,13 +7,13 @@ const ORG_ROLE_LABELS = {
 };
 
 const SECTOR_TYPE_LABELS = {
-    dac: "OECD sectors",
-    humanitarian: "Humanitarian clusters"
+    dac: "OECD sector",
+    humanitarian: "Humanitarian cluster"
 };
 
 const LOCATION_TYPE_LABELS = {
-    admin1: "Regions",
-    admin2: "Districts",
+    admin1: "Region",
+    admin2: "District",
     unclassified: "Unclassified"
 };
 
@@ -92,7 +92,6 @@ export async function load_org () {
     const orgs = await fetch_json(urls.org_index);
     const container = document.getElementById("content");
     if (org_name in orgs) {
-        console.log(orgs[org_name]);
         container.innerHTML = render_template("template.org", {
             org_name: org_name,
             info: orgs[org_name]
@@ -107,7 +106,6 @@ export async function load_org () {
  */
 export async function load_sector_list () {
     const sectors = await fetch_json(urls.sector_index);
-    console.log(sectors);
     const container = document.getElementById("content");
     container.innerHTML = render_template("template.sectorlist", {
         sectors: sectors
@@ -120,22 +118,17 @@ export async function load_sector_list () {
  */
 export async function load_sector () {
     const sector_name = new URLSearchParams(window.location.search).get('ref');
+    const sector_type = new URLSearchParams(window.location.search).get('type');
     const sectors = await fetch_json(urls.sector_index);
     const container = document.getElementById("content");
-    console.log(sectors);
-    if (sector_name in sectors.humanitarian) {
+    if (sector_type in sectors && sector_name in sectors[sector_type]) {
         container.innerHTML = render_template("template.sector", {
             sector_name: sector_name,
-            info: sectors.humanitarian[sector_name]
-        });
-        // FIXME!!!
-    } else if (sector_name in sectors.dac) {
-        container.innerHTML = render_template("template.sector", {
-            sector_name: sector_name,
-            info: sectors.dac[sector_name]
+            sector_type: sector_type,
+            info: sectors[sector_type][sector_name]
         });
     } else {
-        console.error(sector_name, " not found");
+        console.error(sector_name, sector_type, " not found");
     }
 }
 
@@ -151,7 +144,6 @@ export async function load_activity () {
             container.innerHTML = render_template("template.activity", {
                 activity: activities[i]
             });
-            console.log(activities[i]);
             return;
         }
     }

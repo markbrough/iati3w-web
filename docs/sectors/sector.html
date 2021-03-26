@@ -28,36 +28,44 @@
       </section>
     </main>
     <script id="template.sector" type="template">
-      <h2>Sector: {{ sector_name }}</h2>
+      <h2>{{ sector_type | sector }}: {{ sector_name }}</h2>
       <section id="orgs">
         <h3>Organisations working in this sector</h3>
-        <ul>
-          {% for org, count in info.orgs %}
-          <li>
+        <p class="inline-list">
+          {% for org in info.orgs.keys() | sort %}
+          <span>
             <a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
-            ({{ count | plural("activity", "activities") }})
-          </li>
+            <br/>{{ info.orgs[org] | plural("activity", "activities") }}
+          </span>
           {% endfor %}
-        </ul>
+        </p>
       </section>
       <section id="locations">
         <h3>Locations where this sector is active</h3>
-        <ul>
-          {% for location, count in info.locations %}
-          <li>
-            <a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
-            ({{ count | plural("activity", "activities") }})
-          </li>
-          {% endfor %}
-        </ul>
+        {% for loctype in info.locations.keys() %}
+        <section id="locations.{{ loctype }}">
+          <h4>{{ loctype | location }}</h4>
+          <p class="inline-list">
+            {% for location in info.locations[loctype].keys() | sort %}
+            <span>
+              <a href="../locations/location.html?ref={{ location }}&amp;type={{ loctype }}">{{ location }}</a>
+              <br/>{{ info.locations[loctype][location] | plural("activity", "activities") }}
+            </span>
+            {% endfor %}
+          </p>
+        </section>
+        {% endfor %}
       </section>
       <section id="activities">
         <h3>Activities in this sector</h3>
-        <ul>
+        <p class="inline-list wide">
           {% for activity in info.activities %}
-          <li><a href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title }}</a></li>
+          <span>
+            [{{ activity.source }}]
+            <a href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title }}</a>
+          </span>
           {% endfor %}
-        </ul>
+        </p>
       </section>
     </script>
     <script type="module" defer="defer">

@@ -38,7 +38,7 @@
           {% for org in info.partners.keys() | sort %}
           <span>
             <a href="org.html?ref={{ org | urlenc }}">{{ org }}</a>
-            <br/>({{ info.partners[org] | plural("activity", "activities") }})
+            <br/>{{ info.partners[org] | plural("activity", "activities") }}
           </span>
           {% endfor %}
         </p>
@@ -58,7 +58,7 @@
             {% for sector in info.sectors[type].keys() | sort %}
             <span>
               <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type }}">{{ sector }}</a>
-              <br/>({{ info.sectors[type][sector] | plural("activity", "activities") }})
+              <br/>{{ info.sectors[type][sector] | plural("activity", "activities") }}
             </span>
             {% endfor %}
           </p>
@@ -79,7 +79,7 @@
             {% for location in info.locations[type].keys() | sort %}
             <span>
               <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type }}">{{ location }}</a>
-              <br/>({{ info.locations[type][location] | plural("activity", "activities") }})
+              <br/>{{ info.locations[type][location] | plural("activity", "activities") }}
             </span>
             {% endfor %}
           </p>
