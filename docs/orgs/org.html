@@ -28,72 +28,86 @@
       </section>
     </main>
     <script id="template.org" type="template">
+
       <h2>Organisation: {{ org_name }}</h2>
+
       <section id="partners">
-        <h3>Partners the organisation has worked with</h3>
-        <ul>
-          {% for org, count in info.partners %}
-          <li>
+        <h3>Who do they collaborate with?</h3>
+        {% if info.partners | length > 0 %}
+        <p class="inline-list">
+          {% for org in info.partners.keys() | sort %}
+          <span>
             <a href="org.html?ref={{ org | urlenc }}">{{ org }}</a>
-            ({{ count | plural("activity", "activities") }})
-          </li>
+            <br/>({{ info.partners[org] | plural("activity", "activities") }})
+          </span>
           {% endfor %}
-        </ul>
+        </p>
+        {% else %}
+        <p>
+          No partners are listed for the activities involving {{ org_name }}.
+        </p>
+        {% endif %}
       </section>
+      
       <section id="sectors">
-        <h3>Sectors the organisation works in</h3>
-        <ul>
-          {% for sector, count in info.sectors %}
-          <li>
-            <a href="../sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
-            ({{ count | plural("activity", "activities") }})
-          </li>
-          {% endfor %}
+        <h3>What do they do?</h3>
+        {% for type in info.sectors.keys() %}
+        <section id="sectors.{{ type }}">
+          <h4>{{ type | sector }}</h4>
+          <p class="inline-list">
+            {% for sector in info.sectors[type].keys() | sort %}
+            <span>
+              <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type }}">{{ sector }}</a>
+              <br/>({{ info.sectors[type][sector] | plural("activity", "activities") }})
+            </span>
+            {% endfor %}
+          </p>
+        </section>
+        {% else %}
+        <p class="warning">
+          There is no sector information in the activities involving {{ org_name }}.
+        </p>
+        {% endfor %}
       </section>
+      
       <section id="locations">
-        <h3>Locations where the organisation works</h3>
-        <ul>
-          {% for location, count in info.locations %}
-          <li>
-            <a href="../locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
-            ({{ count | plural("activity", "activities") }})
-          </li>
-          {% endfor %}
-        </ul>
+        <h3>Where do they work?</h3>
+        {% for type in info.locations.keys() %}
+        <section id="locations.{{ type }}">
+          <h4>{{ type | location }}</h4>
+          <p id="locations.admin1" class="inline-list">
+            {% for location in info.locations[type].keys() | sort %}
+            <span>
+              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type=admin1">{{ location }}</a>
+              <br/>({{ info.locations[type][location] | plural("activity", "activities") }})
+            </span>
+            {% endfor %}
+          </p>
+        </section>
+        {% else %}
+        <p>
+          There is no subnational location information in the activities involving {{ org_name }}.
+        </p>
+        {% endfor %}
       </section>
+      
       <section id="activities">
-        <h3>Activities the organisation has participated in</h3>
-        {% if info.activities.implementing %}
-        <section id="activities.implementing">
-          <h4>As an implementing partner</h4>
-          <ul>
-            {% for activity in info.activities.implementing %}
-            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
+        <h3>Activities</h3>
+        {% for type in info.activities.keys() %}
+        <section id="activities.{{ type }}">
+          <h4>{{ type | role }}</h4>
+          <p class="inline-list wide">
+            {% for activity in info.activities[type] %}
+            <span>
+              [{{ activity.source }}]
+              <a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a>
+            </span>
             {% endfor %}
-          </ul>
+          </p>
         </section>
-        {% endif %}
-        {% if info.activities.programming %}
-        <section id="activities.programming">
-          <h4>As a programming partner</h4>
-          <ul>
-            {% for activity in info.activities.programming %}
-            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </section>
-        {% endif %}
-        {% if info.activities.funding %}
-        <section id="activities.funding">
-          <h4>As a funding partner</h4>
-          <ul>
-            {% for activity in info.activities.funding %}
-            <li><a href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </section>
-        {% endif %}
+        {% endfor %}
       </section>
+      
     </script>
     <script type="module" defer="defer">
       import { load_org } from "../script.js";

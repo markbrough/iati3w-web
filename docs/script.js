@@ -1,5 +1,24 @@
 import * as Nunjucks from "./modules/nunjucks.min.js";
 
+const ORG_ROLE_LABELS = {
+    implementing: "Implementing partner",
+    programming: "Programming partner",
+    funding: "Funding partner"
+};
+
+const SECTOR_TYPE_LABELS = {
+    dac: "OECD sectors",
+    humanitarian: "Humanitarian clusters"
+};
+
+const LOCATION_TYPE_LABELS = {
+    admin1: "Regions",
+    admin2: "Districts",
+    unclassified: "Unclassified"
+};
+
+nunjucks.installJinjaCompat();
+
 var env = new nunjucks.configure();
 
 env.addFilter('urlenc', encodeURIComponent);
@@ -11,6 +30,11 @@ env.addFilter('plural', (n, singular, plural) => {
         return "" + n + " " + singular;
     }
 });
+
+env.addFilter('role', code => { return ORG_ROLE_LABELS[code] });
+env.addFilter('sector', code => { return SECTOR_TYPE_LABELS[code] });
+env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] });
+
 
 /**
  * Top-level namespace/package and variables
@@ -68,6 +92,7 @@ export async function load_org () {
     const orgs = await fetch_json(urls.org_index);
     const container = document.getElementById("content");
     if (org_name in orgs) {
+        console.log(orgs[org_name]);
         container.innerHTML = render_template("template.org", {
             org_name: org_name,
             info: orgs[org_name]

@@ -58,3 +58,18 @@ main {
 #activity-list li {
     margin-bottom: 2ex;
 }
+
+.inline-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.inline-list span {
+    width: 15em;
+    margin: 0 1em 1em 1em;
+}
+
+.inline-list.wide span {
+    width: 32em;
+}
