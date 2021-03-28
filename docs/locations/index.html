@@ -6,7 +6,6 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../iati3w-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8" />
-    <script type="text/javascript" src="../script.js"></script>
   </head>
   <body>
     <header>
@@ -24,15 +23,28 @@
       </nav>
     </header>
     <main>
-      <section id="3w">
-        <h2>Sectors active in Somalia</h2>
-        <ul id="activity-list">
-          <li class="loading">Loading...</li>
-        </ul>
-      </section>
-      <section id="activity">
+      <h2>Locations for aid projects in Somalia</h2>
+      <section id="content">
+        <p class="loading">Loading…</p>
       </section>
     </main>
-    <script type="text/javascript" defer="defer">i3w.load_3w();</script>
+    <script id="template.locationlist" type="template">
+      {% for loctype, data in locations %}
+      <section id="{{ loctype }}">
+        <h3>{{ loctype | location }}</h3>
+        <ul>
+          {% for location in data.keys() | sort %}
+          <li>
+            <a href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endfor %}
+    </script>
+    <script type="module" defer="defer">
+      import { load_location_list } from "../script.js";
+      load_location_list();
+    </script>
   </body>
 </html>

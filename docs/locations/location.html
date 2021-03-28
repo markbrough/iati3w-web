@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IATI/3W explorer</title>
+    <link rel="stylesheet" href="../style.css"/>
+    <link rel="icon" type="image/png" sizes="512x512" href="../iati3w-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <header>
+      <a href="../" title="Home">
+        <img src="../iati3w-icon.png" class="logo" />
+      </a>
+      <h1>
+        IATI/3W explorer
+      </h1>
+      <nav id="primary-nav" class="tabs">
+        <a href="../orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
+        <a class="active" href="../sectors/" title="Aid sectors active in Somalia.">What?</a>
+        <a href="../locations/" title="Locations active in Somalia.">Were?</a>
+        <a href="../">About</a>
+      </nav>
+    </header>
+    <main>
+      <section id="content">
+        <p class="loading">Loading…</p>
+      </section>
+    </main>
+    <script id="template.location" type="template">
+      <h2>{{ location_type | location }}: {{ location_name }}</h2>
+      <section id="orgs">
+        <h3>Organisations working in this location</h3>
+        <p class="inline-list">
+          {% for org in info.orgs.keys() | sort %}
+          <span>
+            <a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+            <br/>{{ info.orgs[org] | plural("activity", "activities") }}
+          </span>
+          {% endfor %}
+        </p>
+      </section>
+      <section id="sectors">
+        <h3>What organisations are doing here</h3>
+        {% for type in info.sectors.keys() %}
+        <section id="sectors.{{ type }}">
+          <h4>{{ type | sector }}</h4>
+          <p class="inline-list">
+            {% for sector in info.sectors[type].keys() | sort %}
+            <span>
+              <a href="../sectors/sector.html?ref={{ sector }}&amp;type={{ type }}">{{ sector }}</a>
+              <br/>{{ info.sectors[type][sector] | plural("activity", "activities") }}
+            </span>
+            {% endfor %}
+          </p>
+        </section>
+        {% endfor %}
+      </section>
+      <section id="activities">
+        <h3>Activities in this sector</h3>
+        <p class="inline-list wide">
+          {% for activity in info.activities %}
+          <span>
+            [{{ activity.source }}]
+            <a href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title }}</a>
+          </span>
+          {% endfor %}
+        </p>
+      </section>
+    </script>
+    <script type="module" defer="defer">
+      import { load_location } from "../script.js";
+      load_location();
+    </script>
+  </body>
+</html>

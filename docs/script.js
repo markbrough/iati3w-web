@@ -14,7 +14,7 @@ const SECTOR_TYPE_LABELS = {
 const LOCATION_TYPE_LABELS = {
     admin1: "Region",
     admin2: "District",
-    unclassified: "Unclassified"
+    unclassified: "Unclassified location"
 };
 
 nunjucks.installJinjaCompat();
@@ -129,6 +129,37 @@ export async function load_sector () {
         });
     } else {
         console.error(sector_name, sector_type, " not found");
+    }
+}
+
+/**
+ * Load a list of locations
+ */
+export async function load_location_list () {
+    const locations = await fetch_json(urls.location_index);
+    const container = document.getElementById("content");
+    container.innerHTML = render_template("template.locationlist", {
+        locations: locations
+    });
+}
+
+
+/**
+ * Load a location
+ */
+export async function load_location () {
+    const location_name = new URLSearchParams(window.location.search).get('ref');
+    const location_type = new URLSearchParams(window.location.search).get('type');
+    const locations = await fetch_json(urls.location_index);
+    const container = document.getElementById("content");
+    if (location_type in locations && location_name in locations[location_type]) {
+        container.innerHTML = render_template("template.location", {
+            location_name: location_name,
+            location_type: location_type,
+            info: locations[location_type][location_name]
+        });
+    } else {
+        console.error(location_name, location_type, " not found");
     }
 }
 
