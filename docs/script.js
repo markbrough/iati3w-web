@@ -42,6 +42,17 @@ env.addFilter('truncate', (s, length) => {
     }
 });
 
+env.addFilter("join", (l, connector) => {
+    if (! connector) {
+        connector = ", ";
+    }
+    if (! l) {
+        return "";
+    } else {
+        return l.join(connector);
+    }
+});
+
 env.addFilter('role', code => { return ORG_ROLE_LABELS[code] });
 env.addFilter('sector', code => { return SECTOR_TYPE_LABELS[code] });
 env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] });

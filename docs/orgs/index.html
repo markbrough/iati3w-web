@@ -28,14 +28,14 @@
       </section>
     </main>
     <script id="template.orglist" type="template">
-      <p class="inline-list">
+      <div class="inline-list">
         {% for org_name in orgs.keys() | sort %}
-        <span>
+        <div class="item">
           <a title="{{ org_name}}" href="org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
-          <br/>{{ orgs[org_name].activities | length | plural("activity", "activities") }}
-        </span>
+          <span class="info">{{ orgs[org_name].activities | length | plural("activity", "activities") }}</span>
+        </div>
         {% endfor %}
-      </p>
+      </div>
     </script>
     <script type="module" defer="defer">
       import { load_org_list } from "../script.js";

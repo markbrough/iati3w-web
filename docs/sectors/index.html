@@ -31,25 +31,25 @@
     <script id="template.sectorlist" type="template">
       <section id="humanitarian">
         <h3>Humanitarian clusters</h3>
-        <ul>
+        <p class="inline-list">
           {% for sector_name, info in sectors.humanitarian %}
-          <li>
+          <span class="item">
             <a href="sector.html?ref={{ sector_name }}&amp;type=humanitarian">{{ sector_name }}</a>
             ({{ info.activities | length }})
-          </li>
+          </span>
           {% endfor %}
-        </ul>
+        </p>
       </section>
       <section id="dac">
         <h3>OECD sectors</h3>
-        <ul>
+        <p class="inline-list">
           {% for sector_name, info in sectors.dac %}
-          <li>
+          <span class="item">
             <a href="sector.html?ref={{ sector_name }}&amp;type=dac">{{ sector_name }}</a>
             ({{ info.activities | length }})
-          </li>
+          </span>
           {% endfor %}
-        </ul>
+        </p>
       </section>
     </script>
     <script type="module" defer="defer">

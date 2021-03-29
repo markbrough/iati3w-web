@@ -59,17 +59,22 @@ main {
     margin-bottom: 2ex;
 }
 
+.info {
+    display: block;
+    font-size: 69.5%;
+}
+
 .inline-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
 }
 
-.inline-list span {
+.inline-list .item {
     width: 15em;
     margin: 0 1em 1em 1em;
 }
 
-.inline-list.wide span {
+.inline-list.wide .item {
     width: 32em;
 }
