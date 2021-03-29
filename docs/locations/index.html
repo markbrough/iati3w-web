@@ -32,13 +32,13 @@
       {% for loctype, data in locations %}
       <section id="{{ loctype }}">
         <h3>{{ loctype | location }}</h3>
-        <ul>
+        <p class="inline-list">
           {% for location in data.keys() | sort %}
-          <li>
+          <span>
             <a href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location }}</a>
-          </li>
+          </span>
           {% endfor %}
-        </ul>
+        </p>
       </section>
       {% endfor %}
     </script>

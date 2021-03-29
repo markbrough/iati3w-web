@@ -34,7 +34,7 @@
         <p class="inline-list">
           {% for org in info.orgs.keys() | sort %}
           <span>
-            <a href="../orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
+            <a title="{{ org }}" href="../orgs/org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
             <br/>{{ info.orgs[org] | plural("activity", "activities") }}
           </span>
           {% endfor %}

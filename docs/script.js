@@ -31,6 +31,17 @@ env.addFilter('plural', (n, singular, plural) => {
     }
 });
 
+env.addFilter('truncate', (s, length) => {
+    if (! length) {
+        length = 100;
+    }
+    if (s.length <= length) {
+        return s;
+    } else {
+        return s.substring(0, length) + "…";
+    }
+});
+
 env.addFilter('role', code => { return ORG_ROLE_LABELS[code] });
 env.addFilter('sector', code => { return SECTOR_TYPE_LABELS[code] });
 env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] });
