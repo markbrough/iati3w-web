@@ -24,6 +24,11 @@
     </header>
     <main>
       <h2>Locations for aid projects in Somalia</h2>
+      <p>
+        This page lists all the locations from the 3W and IATI reports
+        together. You can use your browser search function to find a
+        specific one.
+      </p>
       <section id="content">
         <p class="loading">Loading…</p>
       </section>
@@ -32,13 +37,15 @@
       {% for loctype, data in locations %}
       <section id="{{ loctype }}">
         <h3>{{ loctype | location }}</h3>
-        <p class="inline-list">
+        <div class="inline-list">
           {% for location in data.keys() | sort %}
-          <span>
-            <a href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location }}</a>
-          </span>
+          <div class="item">
+            <a title="{{ location }}" href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location | truncate(50) }}</a>
+            <span class="info">{{ data[location].orgs | length | plural("organisation", "organisations") }}</span>
+            <span class="info">{{ data[location].activities | length | plural("activity", "activities") }}</span>
+          </div>
           {% endfor %}
-        </p>
+        </div>
       </section>
       {% endfor %}
     </script>

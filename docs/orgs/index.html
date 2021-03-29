@@ -23,6 +23,12 @@
       </nav>
     </header>
     <main>
+      <p>
+        These are all the organisations associated with 3W and IATI
+        activities from 2020 forward on a single page. You can use
+        your browser search function to look for a specific
+        organisation.
+      </p>
       <section id="content">
         <p class="loading">Loading…</p>
       </section>
@@ -32,7 +38,7 @@
         {% for org_name in orgs.keys() | sort %}
         <div class="item">
           <a title="{{ org_name}}" href="org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
-          <span class="info">{{ orgs[org_name].activities | length | plural("activity", "activities") }}</span>
+          <span class="info">{{ orgs[org_name].total_activities | plural("activity", "activities") }}</span>
         </div>
         {% endfor %}
       </div>

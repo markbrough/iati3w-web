@@ -17,8 +17,8 @@
       </h1>
       <nav id="primary-nav" class="tabs">
         <a href="../orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
-        <a class="active" href="../sectors/" title="Aid sectors active in Somalia.">What?</a>
-        <a href="../locations/" title="Locations active in Somalia.">Where?</a>
+        <a href="../sectors/" title="Aid sectors active in Somalia.">What?</a>
+        <a class="active" href="../locations/" title="Locations active in Somalia.">Where?</a>
         <a href="../">About</a>
       </nav>
     </header>
@@ -31,41 +31,43 @@
       <h2>{{ location_type | location }}: {{ location_name }}</h2>
       <section id="orgs">
         <h3>Organisations working in this location</h3>
-        <p class="inline-list">
+        <div class="inline-list">
           {% for org in info.orgs.keys() | sort %}
-          <span>
+          <div class="item">
             <a title="{{ org }}" href="../orgs/org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
-            <br/>{{ info.orgs[org] | plural("activity", "activities") }}
-          </span>
+            <span class="info">{{ info.orgs[org] | plural("activity", "activities") }}</span>
+          </div>
           {% endfor %}
-        </p>
+        </div>
       </section>
       <section id="sectors">
         <h3>What organisations are doing here</h3>
         {% for type in info.sectors.keys() %}
         <section id="sectors.{{ type }}">
           <h4>{{ type | sector }}</h4>
-          <p class="inline-list">
+          <div class="inline-list">
             {% for sector in info.sectors[type].keys() | sort %}
-            <span>
+            <div class="item">
               <a href="../sectors/sector.html?ref={{ sector }}&amp;type={{ type }}">{{ sector }}</a>
-              <br/>{{ info.sectors[type][sector] | plural("activity", "activities") }}
-            </span>
+              <span class="info">{{ info.sectors[type][sector] | plural("activity", "activities") }}</span>
+            </div>
             {% endfor %}
-          </p>
+          </div>
         </section>
         {% endfor %}
       </section>
       <section id="activities">
         <h3>Activities in this sector</h3>
-        <p class="inline-list wide">
+        <div class="inline-list wide">
           {% for activity in info.activities %}
-          <span>
-            [{{ activity.source }}]
-            <a href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title }}</a>
-          </span>
+          <div class="item">
+            <a title="{{ activity.title }}" href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title | truncate }}</a>
+            <span class="info"><b>Who:</b> {{ activity.orgs | join }}</span>
+            <span class="info"><b>Where:</b> {{ activity.locations | join }}</span>
+            <span class="info"><b>Source:</b> {{ activity.source }}</span>
+          </div>
           {% endfor %}
-        </p>
+        </div>
       </section>
     </script>
     <script type="module" defer="defer">
