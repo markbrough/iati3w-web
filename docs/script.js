@@ -7,7 +7,7 @@ const ORG_ROLE_LABELS = {
 };
 
 const SECTOR_TYPE_LABELS = {
-    dac: "OECD sector",
+    dac: "OECD-DAC purpose",
     humanitarian: "Humanitarian cluster"
 };
 
