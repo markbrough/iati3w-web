@@ -39,6 +39,15 @@ a.active {
     font-weight: bold;
 }
 
+nav.secondary {
+    display: flex;
+    font-size: 80%;
+}
+
+nav.secondary a {
+    padding: 0 2em 0 0;
+}
+
 main {
     position: fixed;
     top: 5ex;
