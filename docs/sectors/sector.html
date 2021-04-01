@@ -67,7 +67,7 @@
           {% for activity in info.activities %}
           <div class="item">
             <a title="{{ activity.title }}" href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title | truncate }}</a>
-            <span class="info"><b>Who:</b> {{ activity.orgs | join | truncate(65) }}</span>
+            <span class="info"><b>Who:</b> {{ activity.orgs | keyed("name") | join | truncate(65) }}</span>
             <span class="info"><b>Where:</b> {{ activity.locations | join }}</span>
             <span class="info"><b>Source:</b> {{ activity.source }}</span>
           </div>

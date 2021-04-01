@@ -59,7 +59,7 @@
         {% if activity.orgs.implementing %}
         <p>
           <b>Implementing:</b>
-          {% for org in activity.orgs.implementing %}
+          {% for org in activity.orgs.implementing | keyed("name") %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
@@ -67,7 +67,7 @@
         {% if activity.orgs.programming %}
         <p>
           <b>Programming:</b>
-          {% for org in activity.orgs.programming %}
+          {% for org in activity.orgs.programming | keyed("name") %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
@@ -75,7 +75,7 @@
         {% if activity.orgs.funding %}
         <p>
           <b>Funding:</b>
-          {% for org in activity.orgs.funding %}
+          {% for org in activity.orgs.funding | keyed("name") %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
