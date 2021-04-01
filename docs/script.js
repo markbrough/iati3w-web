@@ -34,7 +34,7 @@ const ORG_SCOPE_LABELS = {
     local: "Local and national actor",
     regional: "Regional actor",
     international: "International actor",
-    unknown: "Unknown-scope actor"
+    unknown: "Undetermined actor"
 };
 
 const SECTOR_TYPE_LABELS = {
@@ -101,6 +101,11 @@ template_env.addFilter("join", (l, connector) => {
     } else {
         return l.join(connector);
     }
+});
+
+// Filter to extract one keyed value from each object in a list
+template_env.addFilter("keyed", (l, key) => {
+    return l.map(item => item[key]);
 });
 
 // Filters to look up human-readable labels for type codes
