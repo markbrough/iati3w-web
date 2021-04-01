@@ -14,8 +14,8 @@ import * as Nunjucks from "./modules/nunjucks.min.js";
 // Constants
 //
 
-const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
-// const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
+// const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
+const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
 
 const DATA_URLS = {
     activities: BASE_DATA_URL + "activities.json",
@@ -28,6 +28,13 @@ const ORG_ROLE_LABELS = {
     implementing: "Implementing partner",
     programming: "Programming partner",
     funding: "Funding partner"
+};
+
+const ORG_SCOPE_LABELS = {
+    local: "Local and national actor",
+    regional: "Regional actor",
+    international: "International actor",
+    unknown: "Unknown-scope actor"
 };
 
 const SECTOR_TYPE_LABELS = {
@@ -98,6 +105,7 @@ template_env.addFilter("join", (l, connector) => {
 
 // Filters to look up human-readable labels for type codes
 template_env.addFilter('role', code => { return ORG_ROLE_LABELS[code] });
+template_env.addFilter('scope', code => { return ORG_SCOPE_LABELS[code] });
 template_env.addFilter('sector', code => { return SECTOR_TYPE_LABELS[code] });
 template_env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] });
 

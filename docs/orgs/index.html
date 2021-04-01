@@ -23,6 +23,13 @@
       </nav>
     </header>
     <main>
+      <nav class="secondary">
+        <a href="#local">Local and national actors</a>
+        <a href="#regional">Regional actors</a>
+        <a href="#international">International actors</a>
+        <a href="#unknown">Unknown scope</a>
+      </nav>
+      <h1>Aid organisations active in Somalia</h1>
       <p>
         These are all the organisations associated with 3W and IATI
         activities from 2020 forward on a single page. You can use
@@ -34,14 +41,21 @@
       </section>
     </main>
     <script id="template.orglist" type="template">
-      <div class="inline-list">
-        {% for org_name in orgs.keys() | sort %}
-        <div class="item">
-          <a title="{{ org_name}}" href="org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
-          <span class="info">{{ orgs[org_name].total_activities | plural("activity", "activities") }}</span>
+      {% for scope in ["local", "regional", "international", "unknown"] %}
+      <section id="{{ scope }}">
+        <h2>{{ scope | scope }}s</h2>
+        <div class="inline-list">
+          {% for org_name in orgs.keys() | sort %}
+          {% if orgs[org_name].info.scope == scope %}
+          <div class="item">
+            <a title="{{ org_name}}" href="org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
+            <span class="info">{{ orgs[org_name].total_activities | plural("activity", "activities") }}</span>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
+      </section>
+      {% endfor %}
     </script>
     <script type="module" defer="defer">
       import { load_org_list } from "../script.js";
