@@ -59,7 +59,7 @@
         {% if activity.orgs.implementing %}
         <p>
           <b>Implementing:</b>
-          {% for org in activity.orgs.implementing | keyed("name") %}
+          {% for org in activity.orgs.implementing %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
@@ -67,7 +67,7 @@
         {% if activity.orgs.programming %}
         <p>
           <b>Programming:</b>
-          {% for org in activity.orgs.programming | keyed("name") %}
+          {% for org in activity.orgs.programming %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
@@ -75,7 +75,7 @@
         {% if activity.orgs.funding %}
         <p>
           <b>Funding:</b>
-          {% for org in activity.orgs.funding | keyed("name") %}
+          {% for org in activity.orgs.funding %}
           <a href="./orgs/org.html?ref={{ org | urlenc }}">{{ org }}</a>
           {% endfor %}
         </p>
@@ -105,26 +105,26 @@
         <p>
           <b>Admin 1:</b>
           {% for location in activity.locations.admin1 %}
-          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          <a href="./locations/location.html?ref={{ location | urlenc }}&amp;type=admin1">{{ location }}</a>
           {% endfor %}
         </p>
         <p>
           <b>Admin 2:</b>
           {% for location in activity.locations.admin2 %}
-          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          <a href="./locations/location.html?ref={{ location | urlenc }}&amp;type=admin2">{{ location }}</a>
           {% endfor %}
         </p>
         <p>
           <b>Unclassified:</b>
           {% for location in activity.locations.unclassified %}
-          <a href="./locations/location.html?ref={{ location | urlenc }}">{{ location }}</a>
+          <a href="./locations/location.html?ref={{ location | urlenc }}&amp;type=unclassified">{{ location }}</a>
           {% endfor %}
         </p>
       </section>
     </script>
     <script type="module" defer="defer">
-      import { load_activity } from "./script.js";
-      load_activity();
+      import { render_activity } from "./script.js";
+      render_activity();
     </script>
   </body>
 </html>

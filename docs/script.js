@@ -14,8 +14,8 @@ import * as Nunjucks from "./modules/nunjucks.min.js";
 // Constants
 //
 
-const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
-// const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
+// const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
+const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
 
 const DATA_URLS = {
     activities: BASE_DATA_URL + "activities.json",
@@ -31,7 +31,7 @@ const ORG_ROLE_LABELS = {
 };
 
 const ORG_SCOPE_LABELS = {
-    local: "Local and national actor",
+    local: "Local or national actor",
     regional: "Regional actor",
     international: "International actor",
     unknown: "Undetermined actor"
@@ -92,14 +92,24 @@ template_env.addFilter('truncate', (s, length) => {
 });
 
 // Filter to combine multiple strings with a connector
+// If the arg is a map, join the values into a list
 template_env.addFilter("join", (l, connector) => {
     if (! connector) {
         connector = ", ";
     }
-    if (! l) {
+
+    if (!l) {
         return "";
     } else {
-        return l.join(connector);
+        let values = [];
+        if (Array.isArray(l)) {
+            values = l;
+        } else {
+            for (var key in l) {
+                values = values.concat(l[key]);
+            }
+        }
+        return values.join(connector);
     }
 });
 
@@ -120,23 +130,23 @@ template_env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] }
 //
 
 // Render a list of organisations
-export async function load_org_list () {
-    const orgs = await fetch_json(DATA_URLS.org_index);
+export async function render_org_list () {
     const container = document.getElementById("content");
     container.innerHTML = render_template("template.orglist", {
-        orgs: orgs
+        orgs: await get_org_index()
     });
 }
 
 // Render a single organisation, in detail
-export async function load_org () {
+export async function render_org () {
     const org_name = new URLSearchParams(window.location.search).get('ref');
-    const orgs = await fetch_json(DATA_URLS.org_index);
+    const orgs = await get_org_index();
     const container = document.getElementById("content");
     if (org_name in orgs) {
         container.innerHTML = render_template("template.org", {
-            org_name: org_name,
-            info: orgs[org_name]
+            org: orgs[org_name],
+            orgs: orgs,
+            activities: await get_activities()
         });
     } else {
         console.error(org_name, " not found");
@@ -198,20 +208,43 @@ export async function load_location () {
 }
 
 // Render a single activity, in detail
-export async function load_activity () {
+export async function render_activity () {
     const identifier = new URLSearchParams(window.location.search).get('ref');
-    const activities = await fetch_json(DATA_URLS.activities);
-    const container = document.getElementById("content");
-    for (var i = 0; i < activities.length; i++) {
-        if (activities[i].identifier == identifier) {
-            container.innerHTML = render_template("template.activity", {
-                activity: activities[i]
-            });
-            return;
-        }
+    const activities = await get_activities();
+    if (identifier in activities) {
+        const container = document.getElementById("content");
+        container.innerHTML = render_template("template.activity", {
+            activity: activities[identifier]
+        });
+    } else {
+        // FIXME show error page
+        console.error(identifier, " not found");
     }
-    // FIXME show error page
-    console.error(identifier, " not found");
+}
+
+
+//
+// Accessors
+//
+
+// fetch the org index
+async function get_org_index () {
+    return fetch_json(DATA_URLS.org_index);
+}
+
+// fetch the sector index
+async function get_sector_index () {
+    return fetch_json(DATA_URLS.sector_index);
+}
+
+// fetch the location index
+async function get_location_index () {
+    return fetch_json(DATA_URLS.location_index);
+}
+
+// fetch the activity list
+async function get_activities () {
+    return fetch_json(DATA_URLS.activities);
 }
 
 

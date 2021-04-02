@@ -35,90 +35,93 @@
         <a href="#activities">Activities</a>
       </nav>
 
-      <h2>Organisation: {{ org_name }}</h2>
+      <h2>Organisation: {{ org.info.name }}</h2>
+
+      <p><b>Scope of work:</b> {{ org.info.scope | scope }}</p>
 
       <section id="partners">
         <h3>Who do they collaborate with?</h3>
-        {% if info.partners | length > 0 %}
-        <div class="inline-list">
-          {% for org in info.partners.keys() | sort %}
-          <div class="item">
-            <a title="{{ org }}" href="org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
-            <span class="info">{{ info.partners[org] | plural("activity", "activities") }}</span>
+        {% for scope in ["local", "regional", "international", "unknown"] %}
+        {% if org.partners[scope].keys() | length > 0 %}
+        <section id="partners.{{ scope }}">
+          <h4>{{ scope | scope }}s</h4>
+          <div class="inline-list">
+            {% for partner in org.partners[scope].keys() | sort %}
+            <div class="item">
+              <a title="{{ partner }}" href="org.html?ref={{ partner | urlenc }}">{{ partner | truncate }}</a>
+            <span class="info">{{ org.partners[scope][partner] | plural("activity", "activities") }}</span>
           </div>
           {% endfor %}
         </div>
-        {% else %}
-        <p>
-          No partners are listed for the activities involving {{ org_name }}.
-        </p>
+        </section>
         {% endif %}
+        {% endfor %}
       </section>
       
       <section id="sectors">
         <h3>What do they do?</h3>
-        {% for type in info.sectors.keys() %}
+        {% for type in org.sectors.keys() %}
+        {% if org.sectors[type] | length > 0 %}
         <section id="sectors.{{ type }}">
           <h4>{{ type | sector }}</h4>
           <div class="inline-list">
-            {% for sector in info.sectors[type].keys() | sort %}
+            {% for sector in org.sectors[type].keys() | sort %}
             <div class="item">
               <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type }}">{{ sector }}</a>
-              <span class="info">{{ info.sectors[type][sector] | plural("activity", "activities") }}</span>
+              <span class="info">{{ org.sectors[type][sector] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}
           </div>
         </section>
-        {% else %}
-        <p class="warning">
-          There is no sector information in the activities involving {{ org_name }}.
-        </p>
+        {% endif %}
         {% endfor %}
       </section>
       
       <section id="locations">
         <h3>Where do they work?</h3>
-        {% for type in info.locations.keys() %}
+        {% for type in org.locations.keys() %}
+        {% if org.locations[type] | length > 0 %}
         <section id="locations.{{ type }}">
           <h4>{{ type | location }}</h4>
           <div id="locations.admin1" class="inline-list">
-            {% for location in info.locations[type].keys() | sort %}
+            {% for location in org.locations[type].keys() | sort %}
             <div class="item">
               <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type }}">{{ location }}</a>
-              <span class="info">{{ info.locations[type][location] | plural("activity", "activities") }}</span>
+              <span class="info">{{ org.locations[type][location] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}
           </div>
         </section>
-        {% else %}
-        <p>
-          There is no subnational location information in the activities involving {{ org_name }}.
-        </p>
+        {% endif %}
         {% endfor %}
       </section>
       
       <section id="activities">
         <h3>Activities</h3>
-        {% for type in info.activities.keys() %}
+        {% for type in org.activities.keys() %}
+        {% if org.activities[type] | length > 0 %}
         <section id="activities.{{ type }}">
-          <h4>{{ type | role }}</h4>
+          <h4>{{ type | role }} ({{ org.activities[type] | length }})</h4>
           <div class="inline-list wide">
-            {% for activity in info.activities[type] %}
+            {% for activity_id in org.activities[type] %}
+            {% set activity = activities[activity_id] %}
             <div class="item">
               <a title="{{ activity.title }}" href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title | truncate }}</a>
-              <span class="info"><b>Who:</b> {{ activity.orgs | keyed("name") | join | truncate }}</span>
+              <span class="info"><b>Who:</b> {{ activity.orgs | join }}</span>
               <span class="info"><b>Where:</b> {{ activity.locations | join }}</span>
               <span class="info"><b>Source:</b> {{ activity.source }}</span>
             </div>
             {% endfor %}
           </div>
         </section>
+        {% endif %}
         {% endfor %}
       </section>
+
     </script>
     <script type="module" defer="defer">
-      import { load_org } from "../script.js";
-      load_org();
+      import { render_org } from "../script.js";
+      render_org();
     </script>
   </body>
 </html>
