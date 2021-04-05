@@ -36,14 +36,23 @@
       <h2>{{ location_type | location }}: {{ location_name }}</h2>
       <section id="orgs">
         <h3>Organisations working in this location</h3>
-        <div class="inline-list">
-          {% for org in info.orgs.keys() | sort %}
-          <div class="item">
-            <a title="{{ org }}" href="../orgs/org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
-            <span class="info">{{ info.orgs[org] | plural("activity", "activities") }}</span>
+        {% set hasContent = false %}
+        {% for scope in ["local", "regional", "international", "unknown"] %}
+        {% if info.orgs[scope].keys() | length > 0 %}
+        {% set hasContent = true %}
+        <section id="orgs.{{ scope }}">
+          <h4>{{ scope | scope }}s</h4>
+          <div class="inline-list">
+            {% for org in info.orgs[scope].keys() | sort %}
+            <div class="item">
+              <a title="{{ org }}" href="../orgs/org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
+              <span class="info">{{ info.orgs[scope][org] | plural("activity", "activities") }}</span>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
-        </div>
+        </section>
+        {% endif %}
+        {% endfor %}
       </section>
       <section id="sectors">
         <h3>What organisations are doing here</h3>
@@ -64,10 +73,11 @@
       <section id="activities">
         <h3>Activities in this sector</h3>
         <div class="inline-list wide">
-          {% for activity in info.activities %}
+          {% for identifier in info.activities %}
+          {% set activity = activities[identifier] %}
           <div class="item">
             <a title="{{ activity.title }}" href="../activity.html?ref={{ activity.identifier | urlenc}}">{{ activity.title | truncate }}</a>
-            <span class="info"><b>Who:</b> {{ activity.orgs | keyed("name") | join }}</span>
+            <span class="info"><b>Who:</b> {{ activity.orgs | join }}</span>
             <span class="info"><b>Where:</b> {{ activity.locations | join }}</span>
             <span class="info"><b>Source:</b> {{ activity.source }}</span>
           </div>
@@ -76,8 +86,8 @@
       </section>
     </script>
     <script type="module" defer="defer">
-      import { load_location } from "../script.js";
-      load_location();
+      import { render_location } from "../script.js";
+      render_location();
     </script>
   </body>
 </html>

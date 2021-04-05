@@ -191,7 +191,7 @@ export async function load_location_list () {
 }
 
 // Render a single location, in detail
-export async function load_location () {
+export async function render_location () {
     const location_name = new URLSearchParams(window.location.search).get('ref');
     const location_type = new URLSearchParams(window.location.search).get('type');
     const locations = await fetch_json(DATA_URLS.location_index);
@@ -200,7 +200,8 @@ export async function load_location () {
         container.innerHTML = render_template("template.location", {
             location_name: location_name,
             location_type: location_type,
-            info: locations[location_type][location_name]
+            info: locations[location_type][location_name],
+            activities: await get_activities()
         });
     } else {
         // FIXME show error page
