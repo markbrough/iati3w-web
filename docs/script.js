@@ -130,27 +130,49 @@ template_env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] }
 //
 
 // Render a list of organisations
-export async function render_org_list () {
+export function render_org_list () {
     const container = document.getElementById("content");
-    container.innerHTML = render_template("template.orglist", {
-        orgs: await get_org_index()
+
+    const promise = get_org_index();
+
+    promise.then(orgs => {
+        container.innerHTML = render_template("template.orglist", {
+            orgs: orgs
+        });
+    });
+
+    promise.catch(error => {
+        console.error(error);
     });
 }
 
 // Render a single organisation, in detail
-export async function render_org () {
+export function render_org () {
     const org_name = new URLSearchParams(window.location.search).get('ref');
-    const orgs = await get_org_index();
     const container = document.getElementById("content");
-    if (org_name in orgs) {
-        container.innerHTML = render_template("template.org", {
-            org: orgs[org_name],
-            orgs: orgs,
-            activities: await get_activities()
-        });
-    } else {
-        console.error(org_name, " not found");
-    }
+
+    const promise = Promise.all([
+        get_org_index(),
+        get_activities()
+    ]);
+
+    promise.then(results => {
+        const [orgs, activities] = results;
+        if (org_name in orgs) {
+            container.innerHTML = render_template("template.org", {
+                org: orgs[org_name],
+                orgs: orgs,
+                activities: activities
+            });
+        } else {
+            console.error(org_name, " not found");
+        }
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
+    });
 }
 
 // Render a list of sectors in a web page
