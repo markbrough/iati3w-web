@@ -87,7 +87,7 @@
         <p>
           <b>Humanitarian clusters:</b>
           {% for sector in activity.sectors.humanitarian %}
-          <a href="./sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
+          <a href="./sectors/sector.html?ref={{ sector | urlenc }}&amp;type=humanitarian">{{ sector }}</a>
           {% endfor %}
         </p>
         {% endif %}
@@ -95,7 +95,7 @@
         <p>
           <b>OECD sectors:</b>
           {% for sector in activity.sectors.dac %}
-          <a href="./sectors/sector.html?ref={{ sector | urlenc }}">{{ sector }}</a>
+          <a href="./sectors/sector.html?ref={{ sector | urlenc }}&amp;type=dac">{{ sector }}</a>
           {% endfor %}
         </p>
         {% endif %}

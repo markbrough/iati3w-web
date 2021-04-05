@@ -74,7 +74,7 @@
           <div class="inline-list">
             {% for sector in org.sectors[type].keys() | sort %}
             <div class="item">
-              <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type }}">{{ sector }}</a>
+              <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type | urlenc }}">{{ sector }}</a>
               <span class="info">{{ org.sectors[type][sector] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}
@@ -98,7 +98,7 @@
           <div id="locations.admin1" class="inline-list">
             {% for location in org.locations[type].keys() | sort %}
             <div class="item">
-              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type }}">{{ location }}</a>
+              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type | urlenc }}">{{ location }}</a>
               <span class="info">{{ org.locations[type][location] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}

@@ -62,7 +62,7 @@
           <div class="inline-list">
             {% for location in sector.locations[loctype].keys() | sort %}
             <div class="item">
-              <a title="{{ location }}" href="../locations/location.html?ref={{ location }}&amp;type={{ loctype }}">{{ location | truncate(50) }}</a>
+              <a title="{{ location }}" href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location | truncate(50) }}</a>
               <span class="info">{{ sector.locations[loctype][location] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}

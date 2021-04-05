@@ -62,7 +62,7 @@
           <div class="inline-list">
             {% for sector in info.sectors[type].keys() | sort %}
             <div class="item">
-              <a href="../sectors/sector.html?ref={{ sector }}&amp;type={{ type }}">{{ sector }}</a>
+              <a href="../sectors/sector.html?ref={{ sector }}&amp;type={{ type | urlenc }}">{{ sector }}</a>
               <span class="info">{{ info.sectors[type][sector] | plural("activity", "activities") }}</span>
             </div>
             {% endfor %}

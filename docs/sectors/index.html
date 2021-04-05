@@ -39,7 +39,7 @@
           {% for sector_name in sectors.humanitarian.keys() | sort %}
           {% set info=sectors.humanitarian[sector_name] %}
           <div class="item">
-            <a href="sector.html?ref={{ sector_name }}&amp;type=humanitarian">{{ sector_name }}</a>
+            <a href="sector.html?ref={{ sector_name |urlencode }}&amp;type=humanitarian">{{ sector_name }}</a>
             <span class="info">{{ info.orgs | length | plural("organisation", "organisations") }}</span>
             <span class="info">{{ info.activities | length | plural("activity", "activities") }}</span>
           </div>
@@ -52,7 +52,7 @@
           {% for sector_name in sectors.dac.keys() | sort %}
           {% set info=sectors.dac[sector_name] %}
           <div class="item">
-            <a href="sector.html?ref={{ sector_name }}&amp;type=dac">{{ sector_name }}</a>
+            <a href="sector.html?ref={{ sector_name | urlencode }}&amp;type=dac">{{ sector_name }}</a>
             <span class="info">{{ info.orgs | length | plural("organisation", "organisations") }}</span>
             <span class="info">{{ info.activities | length | plural("activity", "activities") }}</span>
           </div>
