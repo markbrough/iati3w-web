@@ -41,8 +41,10 @@
 
       <section id="partners">
         <h3>Who do they collaborate with?</h3>
+        {% set hasContent = false %}
         {% for scope in ["local", "regional", "international", "unknown"] %}
         {% if org.partners[scope].keys() | length > 0 %}
+        {% set hasContent = true %}
         <section id="partners.{{ scope }}">
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
@@ -56,14 +58,19 @@
         </section>
         {% endif %}
         {% endfor %}
+        {% if not hasContent %}
+        <p class="notice">(No partner organisations found for {{ org.info.name }}.)</p>
+        {% endif %}
       </section>
       
       <section id="sectors">
         <h3>What do they do?</h3>
+        {% set hasContent = false %}
         {% for type in org.sectors.keys() %}
         {% if org.sectors[type] | length > 0 %}
+        {% set hasContent = true %}
         <section id="sectors.{{ type }}">
-          <h4>{{ type | sector }}</h4>
+          <h4>{{ type | sector }}s</h4>
           <div class="inline-list">
             {% for sector in org.sectors[type].keys() | sort %}
             <div class="item">
@@ -75,14 +82,19 @@
         </section>
         {% endif %}
         {% endfor %}
+        {% if not hasContent %}
+        <p class="notice">(No sectors found for {{ org.info.name }}.)</p>
+        {% endif %}
       </section>
       
       <section id="locations">
         <h3>Where do they work?</h3>
+        {% set hasContent = false %}
         {% for type in org.locations.keys() %}
         {% if org.locations[type] | length > 0 %}
+        {% set hasContent = true %}
         <section id="locations.{{ type }}">
-          <h4>{{ type | location }}</h4>
+          <h4>{{ type | location }}s</h4>
           <div id="locations.admin1" class="inline-list">
             {% for location in org.locations[type].keys() | sort %}
             <div class="item">
@@ -94,6 +106,9 @@
         </section>
         {% endif %}
         {% endfor %}
+        {% if not hasContent %}
+        <p class="notice">(No locations found for {{ org.info.name }}.)</p>
+        {% endif %}
       </section>
       
       <section id="activities">

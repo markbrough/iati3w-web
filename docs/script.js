@@ -38,7 +38,7 @@ const ORG_SCOPE_LABELS = {
 };
 
 const SECTOR_TYPE_LABELS = {
-    dac: "OECD-DAC purpose",
+    dac: "OECD-DAC purpose classification",
     humanitarian: "Humanitarian cluster"
 };
 
@@ -153,8 +153,8 @@ export async function render_org () {
     }
 }
 
-// Render a list of sectors
-export async function load_sector_list () {
+// Render a list of sectors in a web page
+export async function render_sector_list () {
     const sectors = await fetch_json(DATA_URLS.sector_index);
     const container = document.getElementById("content");
     container.innerHTML = render_template("template.sectorlist", {
@@ -162,8 +162,8 @@ export async function load_sector_list () {
     });
 }
 
-// Render a single sector, in detail
-export async function load_sector () {
+// Render a single sector in a web page
+export async function render_sector () {
     const sector_name = new URLSearchParams(window.location.search).get('ref');
     const sector_type = new URLSearchParams(window.location.search).get('type');
     const sectors = await fetch_json(DATA_URLS.sector_index);
@@ -172,7 +172,8 @@ export async function load_sector () {
         container.innerHTML = render_template("template.sector", {
             sector_name: sector_name,
             sector_type: sector_type,
-            info: sectors[sector_type][sector_name]
+            sector: sectors[sector_type][sector_name],
+            activities: await get_activities()
         });
     } else {
         // FIXME show error page
