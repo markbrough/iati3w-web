@@ -14,8 +14,8 @@ import * as Nunjucks from "./modules/nunjucks.min.js";
 // Constants
 //
 
-// const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
-const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
+const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
+// const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
 
 const DATA_URLS = {
     activities: BASE_DATA_URL + "activities.json",
