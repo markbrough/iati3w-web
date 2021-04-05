@@ -182,7 +182,7 @@ export async function render_sector () {
 }
 
 // Render a list of locations
-export async function load_location_list () {
+export async function render_location_list () {
     const locations = await fetch_json(DATA_URLS.location_index);
     const container = document.getElementById("content");
     container.innerHTML = render_template("template.locationlist", {
