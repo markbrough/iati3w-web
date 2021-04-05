@@ -131,16 +131,15 @@ template_env.addFilter('location', code => { return LOCATION_TYPE_LABELS[code] }
 
 // Render a list of organisations
 export function render_org_list () {
-    const container = document.getElementById("content");
-
     const promise = get_org_index();
 
     promise.then(orgs => {
-        container.innerHTML = render_template("template.orglist", {
+        content_node().innerHTML = render_template("template.orglist", {
             orgs: orgs
         });
     });
 
+    // FIXME display in page
     promise.catch(error => {
         console.error(error);
     });
@@ -149,8 +148,6 @@ export function render_org_list () {
 // Render a single organisation, in detail
 export function render_org () {
     const org_name = new URLSearchParams(window.location.search).get('ref');
-    const container = document.getElementById("content");
-
     const promise = Promise.all([
         get_org_index(),
         get_activities()
@@ -159,12 +156,13 @@ export function render_org () {
     promise.then(results => {
         const [orgs, activities] = results;
         if (org_name in orgs) {
-            container.innerHTML = render_template("template.org", {
+            content_node().innerHTML = render_template("template.org", {
                 org: orgs[org_name],
                 orgs: orgs,
                 activities: activities
             });
         } else {
+            // FIXME display in page
             console.error(org_name, " not found");
         }
     });
@@ -175,75 +173,120 @@ export function render_org () {
     });
 }
 
-// Render a list of sectors in a web page
-export async function render_sector_list () {
-    const sectors = await fetch_json(DATA_URLS.sector_index);
-    const container = document.getElementById("content");
-    container.innerHTML = render_template("template.sectorlist", {
-        sectors: sectors
+// Render a list of sectors
+export function render_sector_list () {
+    const promise = get_sector_index();
+
+    promise.then(sectors => {
+        content_node().innerHTML = render_template("template.sectorlist", {
+            sectors: sectors
+        });
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
     });
 }
 
-// Render a single sector in a web page
-export async function render_sector () {
+// Render a single sector, in detail
+export function render_sector () {
     const sector_name = new URLSearchParams(window.location.search).get('ref');
     const sector_type = new URLSearchParams(window.location.search).get('type');
-    const sectors = await fetch_json(DATA_URLS.sector_index);
-    const container = document.getElementById("content");
-    if (sector_type in sectors && sector_name in sectors[sector_type]) {
-        container.innerHTML = render_template("template.sector", {
-            sector_name: sector_name,
-            sector_type: sector_type,
-            sector: sectors[sector_type][sector_name],
-            activities: await get_activities()
-        });
-    } else {
-        // FIXME show error page
-        console.error(sector_name, sector_type, " not found");
-    }
+    const promise = Promise.all([
+        get_sector_index(),
+        get_activities()
+    ]);
+
+    promise.then(results => {
+        const [sectors, activities] = results;
+        if (sector_type in sectors && sector_name in sectors[sector_type]) {
+            content_node().innerHTML = render_template("template.sector", {
+                sector_name: sector_name,
+                sector_type: sector_type,
+                sector: sectors[sector_type][sector_name],
+                activities: activities
+            });
+        } else {
+            // FIXME display in page
+            console.error(sector_name, sector_type, " not found");
+        }
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
+    });
 }
 
 // Render a list of locations
-export async function render_location_list () {
-    const locations = await fetch_json(DATA_URLS.location_index);
-    const container = document.getElementById("content");
-    container.innerHTML = render_template("template.locationlist", {
-        locations: locations
+export function render_location_list () {
+    const promise = get_location_index();
+
+    promise.then(locations => {
+        content_node().innerHTML = render_template("template.locationlist", {
+            locations: locations
+        });
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
     });
 }
 
 // Render a single location, in detail
-export async function render_location () {
+export function render_location () {
     const location_name = new URLSearchParams(window.location.search).get('ref');
     const location_type = new URLSearchParams(window.location.search).get('type');
-    const locations = await fetch_json(DATA_URLS.location_index);
-    const container = document.getElementById("content");
-    if (location_type in locations && location_name in locations[location_type]) {
-        container.innerHTML = render_template("template.location", {
-            location_name: location_name,
-            location_type: location_type,
-            info: locations[location_type][location_name],
-            activities: await get_activities()
-        });
-    } else {
-        // FIXME show error page
-        console.error(location_name, location_type, " not found");
-    }
+    const promise = Promise.all([
+        get_location_index(),
+        get_activities()
+    ]);
+
+    promise.then(results => {
+        const [locations, activities] = results;
+        if (location_type in locations && location_name in locations[location_type]) {
+            content_node().innerHTML = render_template("template.location", {
+                location_name: location_name,
+                location_type: location_type,
+                info: locations[location_type][location_name],
+                activities: activities
+            });
+        } else {
+            // FIXME display in page
+            console.error(location_name, location_type, " not found");
+        }
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
+    });
 }
 
 // Render a single activity, in detail
-export async function render_activity () {
+export function render_activity () {
     const identifier = new URLSearchParams(window.location.search).get('ref');
-    const activities = await get_activities();
-    if (identifier in activities) {
-        const container = document.getElementById("content");
-        container.innerHTML = render_template("template.activity", {
-            activity: activities[identifier]
-        });
-    } else {
-        // FIXME show error page
-        console.error(identifier, " not found");
-    }
+    const promise = get_activities();
+
+
+    promise.then(activities => {
+        if (identifier in activities) {
+            const container = document.getElementById("content");
+            container.innerHTML = render_template("template.activity", {
+                activity: activities[identifier]
+            });
+        } else {
+            // FIXME display in page
+            console.error(identifier, " not found");
+        }
+    });
+
+    // FIXME display in page
+    promise.catch(error => {
+        console.error(error);
+    });
 }
 
 
@@ -275,6 +318,11 @@ async function get_activities () {
 //
 // General utility functions
 //
+
+// Get the element node with id "content"
+function content_node() {
+    return document.getElementById("content");
+}
 
 // Fetch and cache JSON data (uses global "cache" variable)
 async function fetch_json (url) {
