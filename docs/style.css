@@ -20,7 +20,7 @@ header {
 }
 
 header h1 {
-    font-size: 100%;
+    font-size: 80%;
     padding-left: .5em;
 }
 
@@ -45,6 +45,8 @@ nav.secondary {
 }
 
 nav.secondary a {
+    font-size: 70%;
+    font-style: italic;
     padding: 0 2em 0 0;
 }
 
@@ -86,4 +88,25 @@ main {
 
 .inline-list.wide .item {
     width: 32em;
+}
+
+dl {
+    display: grid;
+    grid-template-columns: 8em auto;
+}
+
+dt {
+    grid-column: 1;
+    text-align: right;
+    font-size: 83.333333%;
+    font-weight: bold;
+}
+
+dd {
+    grid-column: 2;
+    margin-bottom: 2ex;
+}
+
+ul li {
+    margin-bottom: 1ex;
 }
