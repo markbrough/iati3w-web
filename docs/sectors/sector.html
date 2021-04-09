@@ -36,10 +36,8 @@
       <h2>{{ sector_type | sector }}: {{ sector_name }}</h2>
       <section id="orgs">
         <h3>Organisations working in this sector</h3>
-        {% set hasContent = false %}
         {% for scope in ["local", "regional", "international", "unknown"] %}
         {% if sector.orgs[scope].keys() | length > 0 %}
-        {% set hasContent = true %}
         <section id="orgs.{{ scope }}">
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
@@ -57,8 +55,9 @@
       <section id="locations">
         <h3>Locations where this sector is active</h3>
         {% for loctype in sector.locations.keys() %}
+        {% if sector.locations[loctype].keys() | length > 0 %}
         <section id="locations.{{ loctype }}">
-          <h4>{{ loctype | location }}</h4>
+          <h4>{{ loctype | location }}s</h4>
           <div class="inline-list">
             {% for location in sector.locations[loctype].keys() | sort %}
             <div class="item">
@@ -68,6 +67,7 @@
             {% endfor %}
           </div>
         </section>
+        {% endif %}
         {% endfor %}
       </section>
       <section id="activities">
