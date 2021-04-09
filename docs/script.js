@@ -118,6 +118,20 @@ template_env.addFilter("keyed", (l, key) => {
     return l.map(item => item[key]);
 });
 
+// Flatten a categorised list (object with lists or objects as values)
+// If the values are also objects, use the keys
+template_env.addFilter("flatten", l => {
+    let result = [];
+    for (var key in l) {
+        if (Array.isArray(l[key])) {
+            result.concat(l[key]);
+        } else if (l[key]) {
+            result = result.concat(Object.keys(l[key]));
+        }
+    }
+    return result;
+})
+
 // Filters to look up human-readable labels for type codes
 template_env.addFilter('role', code => { return ORG_ROLE_LABELS[code] });
 template_env.addFilter('scope', code => { return ORG_SCOPE_LABELS[code] });

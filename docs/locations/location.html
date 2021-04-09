@@ -33,7 +33,8 @@
         <a href="#sectors">Sectors</a>
         <a href="#activities">Activities</a>
       </nav>
-      <h2>{{ location_type | location }}: {{ location_name }}</h2>
+      <p class="fixture">{{ location_type | location }}</p>
+      <h2>{{ location_name }}</h2>
       <section id="orgs">
         <h3>Organisations working in this location</h3>
         {% set hasContent = false %}

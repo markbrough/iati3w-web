@@ -41,12 +41,14 @@
     <script id="template.locationlist" type="template">
       {% for loctype, data in locations %}
       <section id="{{ loctype }}">
-        <h3>{{ loctype | location }}</h3>
+        <h3>{{ loctype | location }}s</h3>
         <div class="inline-list">
           {% for location in data.keys() | sort %}
           <div class="item">
-            <a title="{{ location }}" href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location | truncate(50) }}</a>
-            <span class="info">{{ data[location].orgs | length | plural("organisation", "organisations") }}</span>
+            <a title="{{ location }}" href="location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">
+              {{ location | truncate(50) }}
+            </a>
+            <span class="info">{{ data[location].orgs | flatten | length | plural("organisation", "organisations") }}</span>
             <span class="info">{{ data[location].activities | length | plural("activity", "activities") }}</span>
           </div>
           {% endfor %}

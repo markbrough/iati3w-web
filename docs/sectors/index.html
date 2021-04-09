@@ -40,7 +40,7 @@
           {% set info=sectors.humanitarian[sector_name] %}
           <div class="item">
             <a href="sector.html?ref={{ sector_name |urlencode }}&amp;type=humanitarian">{{ sector_name }}</a>
-            <span class="info">{{ info.orgs | length | plural("organisation", "organisations") }}</span>
+            <span class="info">{{ info.orgs | flatten| length | plural("organisation", "organisations") }}</span>
             <span class="info">{{ info.activities | length | plural("activity", "activities") }}</span>
           </div>
           {% endfor %}

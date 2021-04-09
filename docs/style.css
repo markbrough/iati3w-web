@@ -94,7 +94,7 @@ main {
 
 dl {
     display: grid;
-    grid-template-columns: 8em auto;
+    grid-template-columns: 10em auto;
 }
 
 dt {
@@ -111,4 +111,16 @@ dd {
 
 ul li {
     margin-bottom: 1ex;
+}
+
+.fixture {
+    text-decoration: underline;
+    margin-bottom: .5ex;
+    color: #333333;
+    font-size: 83.333333%
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 120%;
 }

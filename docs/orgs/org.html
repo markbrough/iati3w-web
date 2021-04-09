@@ -35,9 +35,27 @@
         <a href="#activities">Activities</a>
       </nav>
 
-      <h2>Organisation: {{ org.info.name }}</h2>
+      <p class="fixture">{{ org.info.scope | scope }}</p>
+      <h2>{{ org.info.name }}</h2>
 
-      <p><b>Scope of work:</b> {{ org.info.scope | scope }}</p>
+      <dl>
+        {% if org.info.synonyms | length > 0 %}
+        <dt>Also referred to as</dt>
+        <dd>
+          <i>{{ org.info.synonyms | join }}</i>
+        </dd>
+        {% endif %}
+        {% if org.info.url %}
+        <dt>Web site</dt>
+        <dd>
+          <a rel="nofollow" target="_blank" href="{{ org.info.url }}">{{ org.info.url }}</a>
+        </dd>
+        {% endif %}
+        <dt>Humanitarian?</dt>
+        <dd>
+          {% if org.humanitarian %}yes{% else %}no humanitarian activities found{% endif %}
+        </dd>
+      </dl>
 
       <section id="partners">
         <h3>Who do they collaborate with?</h3>
