@@ -109,11 +109,8 @@
         <section id="locations.{{ type }}">
           <h4>{{ type | location }}s</h4>
           <div id="locations.admin1" class="inline-list">
-            {% for location in org.locations[type].keys() | sort %}
-            <div class="item">
-              <a href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ type | urlenc }}">{{ location }}</a>
-              <span class="info">{{ org.locations[type][location] | plural("activity", "activities") }}</span>
-            </div>
+            {% for location_name in org.locations[type].keys() | sort %}
+            {{ macros.location(location_name, type, activity_count=org.locations[type][location_name]) }}
             {% endfor %}
           </div>
         </section>

@@ -57,11 +57,8 @@
         <section id="locations.{{ loctype }}">
           <h4>{{ loctype | location }}s</h4>
           <div class="inline-list">
-            {% for location in sector.locations[loctype].keys() | sort %}
-            <div class="item">
-              <a title="{{ location }}" href="../locations/location.html?ref={{ location | urlenc }}&amp;type={{ loctype | urlenc }}">{{ location | truncate(50) }}</a>
-              <span class="info">{{ sector.locations[loctype][location] | plural("activity", "activities") }}</span>
-            </div>
+            {% for location_name in sector.locations[loctype].keys() | sort %}
+            {{ macros.location(location_name, loctype, sector.locations[loctype][location_name]) }}
             {% endfor %}
           </div>
         </section>
