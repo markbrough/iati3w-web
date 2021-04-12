@@ -129,13 +129,7 @@
           <h4>{{ type | role }} ({{ org.activities[type] | length }})</h4>
           <div class="inline-list wide">
             {% for activity_id in org.activities[type] %}
-            {% set activity = activities[activity_id] %}
-            <div class="item">
-              <a title="{{ activity.title }}" href="../activity.html?ref={{ activity.identifier | urlenc }}">{{ activity.title | truncate }}</a>
-              <span class="info"><b>Who:</b> {{ activity.orgs | join }}</span>
-              <span class="info"><b>Where:</b> {{ activity.locations | join }}</span>
-              <span class="info"><b>Source:</b> {{ activity.source }}</span>
-            </div>
+            {{ macros.activity(activities[activity_id]) }}
             {% endfor %}
           </div>
         </section>
