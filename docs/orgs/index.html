@@ -41,16 +41,14 @@
       </section>
     </main>
     <script id="template.orglist" type="template">
+      {% import "../templates/macros.html" as macros %}
       {% for scope in ["local", "regional", "international", "unknown"] %}
       <section id="{{ scope }}">
         <h2>{{ scope | scope }}s</h2>
         <div class="inline-list">
           {% for org_name in orgs.keys() | sort %}
           {% if orgs[org_name].info.scope == scope %}
-          <div class="item">
-            <a title="{{ org_name}}" href="org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
-            <span class="info">{{ orgs[org_name].total_activities | plural("activity", "activities") }}</span>
-          </div>
+          {{ macros.org(org_name, orgs[org_name].total_activities) }}
           {% endif %}
           {% endfor %}
         </div>

@@ -28,6 +28,7 @@
       </section>
     </main>
     <script id="template.org" type="template">
+      {% import "../templates/macros.html" as macros %}
       <nav class="secondary">
         <a href="#partners">Partners</a>
         <a href="#sectors">Sectors</a>
@@ -42,7 +43,7 @@
         {% if org.info.synonyms | length > 0 %}
         <dt>Also referred to as</dt>
         <dd>
-          <i>{{ org.info.synonyms | join }}</i>
+          <i>{{ org.info.synonyms | join | truncate }}</i>
         </dd>
         {% endif %}
         {% if org.info.url %}
@@ -67,10 +68,7 @@
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
             {% for partner in org.partners[scope].keys() | sort %}
-            <div class="item">
-              <a title="{{ partner }}" href="org.html?ref={{ partner | urlenc }}">{{ partner | truncate }}</a>
-            <span class="info">{{ org.partners[scope][partner] | plural("activity", "activities") }}</span>
-          </div>
+            {{ macros.org(partner, org.partners[scope][partner]) }}
           {% endfor %}
         </div>
         </section>

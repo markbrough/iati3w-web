@@ -1,0 +1,10 @@
+<div>
+
+  {% macro org(org_name, activity_count, root="..") %}
+  <div class="item">
+    <a title="{{ org_name}}" href="{{root}}/orgs/org.html?ref={{ org_name | urlenc }}">{{ org_name | truncate }}</a>
+    <span class="info">{{ activity_count | plural("activity", "activities") }}</span>
+  </div>
+  {% endmacro %}
+  
+</div>

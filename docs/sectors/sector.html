@@ -28,6 +28,7 @@
       </section>
     </main>
     <script id="template.sector" type="template">
+      {% import "../templates/macros.html" as macros %}
       <nav class="secondary">
         <a href="#orgs">Organisations</a>
         <a href="#locations">Locations</a>
@@ -41,11 +42,8 @@
         <section id="orgs.{{ scope }}">
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
-            {% for org in sector.orgs[scope].keys() | sort %}
-            <div class="item">
-              <a title="{{ org }}" href="../orgs/org.html?ref={{ org | urlenc }}">{{ org | truncate }}</a>
-              <span class="info">{{ sector.orgs[scope][org] | plural("activity", "activities") }}</span>
-            </div>
+            {% for org_name in sector.orgs[scope].keys() | sort %}
+            {{ macros.org(org_name, sector.orgs[scope][org_name]) }}
             {% endfor %}
           </div>
         </section>
