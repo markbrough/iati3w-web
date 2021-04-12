@@ -6,5 +6,17 @@
     <span class="info">{{ activity_count | plural("activity", "activities") }}</span>
   </div>
   {% endmacro %}
+
+  {% macro sector(sector_name, type, org_count=-1, activity_count=-1, root="..") %}
+  <div class="item">
+    <a href="{{ root }}/sectors/sector.html?ref={{ sector_name |urlencode }}&amp;type={{ type | urlenc }}">{{ sector_name }}</a>
+    {% if org_count > -1 %}
+    <span class="info">{{ org_count | plural("organisation", "organisations") }}</span>
+    {% endif %}
+    {% if activity_count > -1 %}
+    <span class="info">{{ activity_count | plural("activity", "activities") }}</span>
+    {% endif %}
+  </div>
+  {% endmacro %}
   
 </div>

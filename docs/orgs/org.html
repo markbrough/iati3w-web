@@ -88,11 +88,8 @@
         <section id="sectors.{{ type }}">
           <h4>{{ type | sector }}s</h4>
           <div class="inline-list">
-            {% for sector in org.sectors[type].keys() | sort %}
-            <div class="item">
-              <a href="../sectors/sector.html?ref={{ sector | urlenc }}&amp;type={{ type | urlenc }}">{{ sector }}</a>
-              <span class="info">{{ org.sectors[type][sector] | plural("activity", "activities") }}</span>
-            </div>
+            {% for sector_name in org.sectors[type].keys() | sort %}
+            {{ macros.sector(sector_name, type, activity_count=org.sectors[type][sector_name]) }}
             {% endfor %}
           </div>
         </section>
