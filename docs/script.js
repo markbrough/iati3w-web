@@ -261,6 +261,7 @@ export function render_location () {
     promise.then(results => {
         const [locations, activities] = results;
         if (location_type in locations && location_name in locations[location_type]) {
+            console.log(locations[location_type][location_name]);
             content_node().innerHTML = render_template("template.location", {
                 location_name: location_name,
                 location_type: location_type,

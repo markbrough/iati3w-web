@@ -36,6 +36,14 @@
       </nav>
       <p class="fixture">{{ location_type | location }}</p>
       <h2>{{ location_name }}</h2>
+      {% for level in ["admin1", "admin2"] %}
+      {% if info.info[level] %}
+      <p>
+        <b>{{ level | location }}: </b>
+        <a href="location.html?ref={{ info.info[level] | urlenc }}&amp;type={{ level | urlenc }}">{{ info.info[level] }}</a>
+      </p>
+      {% endif %}
+      {% endfor %}
       <section id="orgs">
         <h3>Organisations working in this location</h3>
         {% set hasContent = false %}
