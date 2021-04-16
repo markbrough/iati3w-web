@@ -37,7 +37,12 @@
       </nav>
 
       <p class="fixture">{{ org.info.scope | scope }}</p>
-      <h2>{{ org.info.name }}</h2>
+      <h2>
+        {{ org.info.name }}
+        {% if org.info.name != org.info.shortname %}
+        ({{ org.info.shortname }})
+        {% endif %}
+      </h2>
 
       <dl>
         {% if org.info.synonyms | length > 0 %}

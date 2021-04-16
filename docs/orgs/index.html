@@ -48,7 +48,7 @@
         <div class="inline-list">
           {% for org_name in orgs.keys() | sort %}
           {% if orgs[org_name].info.scope == scope %}
-          {{ macros.org(org_name, orgs[org_name].total_activities) }}
+          {{ macros.org(orgs[org_name].info.shortname, orgs[org_name].total_activities, fullname=orgs[org_name].info.name) }}
           {% endif %}
           {% endfor %}
         </div>
