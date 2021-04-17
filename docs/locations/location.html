@@ -30,6 +30,9 @@
     <script id="template.location" type="template">
       {% import "../templates/macros.html" as macros %}
       <nav class="secondary">
+        {% if location_type == "admin1" %}
+        <a href="#districts">Districts</a>
+        {% endif %}
         <a href="#orgs">Organisations</a>
         <a href="#sectors">Sectors</a>
         <a href="#activities">Activities</a>
@@ -44,8 +47,21 @@
       </p>
       {% endif %}
       {% endfor %}
+      {% if location_type == "admin1" %}
+      <section id="districts">
+        <h2>Districts of {{ location_name }}</h2>
+        <div class="inline-list">
+          {% for district_name in locations.admin2.keys() | sort %}
+          {% set district = locations.admin2[district_name] %}
+          {% if district.info.admin1 == location_name %}
+          {{ macros.location(district.info.name, "admin2", org_count=district.orgs | flatten |length, activity_count=district.activities | flatten | length) }}
+          {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
       <section id="orgs">
-        <h3>Organisations working in this location</h3>
+        <h3>Organisations working in {{ location_name }}</h3>
         {% set hasContent = false %}
         {% for scope in ["local", "regional", "international", "unknown"] %}
         {% if info.orgs[scope].keys() | length > 0 %}
@@ -54,7 +70,7 @@
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
             {% for org_name in info.orgs[scope].keys() | sort %}
-            {{ macros.org(org_name, info.orgs[scope][org_name]) }}
+            {{ macros.org(org_name, info.orgs[scope][org_name], fullname=orgs[org_name].info.name) }}
             {% endfor %}
           </div>
         </section>
@@ -62,20 +78,22 @@
         {% endfor %}
       </section>
       <section id="sectors">
-        <h3>What organisations are doing here</h3>
+        <h3>Sectors active in {{ location_name }}</h3>
         {% for type in info.sectors.keys() %}
+        {% if info.sectors[type].keys() | length > 0 %}
         <section id="sectors.{{ type }}">
-          <h4>{{ type | sector }}</h4>
+          <h4>{{ type | sector }}s</h4>
           <div class="inline-list">
             {% for sector_name in info.sectors[type].keys() | sort %}
             {{ macros.sector(sector_name, type, activity_count=info.sectors[type][sector_name]) }}
             {% endfor %}
           </div>
         </section>
+        {% endif %}
         {% endfor %}
       </section>
       <section id="activities">
-        <h3>Activities in this sector</h3>
+        <h3>Aid activities in {{ location_name }}</h3>
         <div class="inline-list wide">
           {% for identifier in info.activities %}
           {{ macros.activity(activities[identifier]) }}

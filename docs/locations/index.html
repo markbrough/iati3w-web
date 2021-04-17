@@ -23,31 +23,48 @@
       </nav>
     </header>
     <main>
-      <nav class="secondary">
-        <a href="#admin1">Regions</a>
-        <a href="#admin2">Districts</a>
-        <a href="#unclassified">Unclassified locations</a>
-      </nav>
       <h2>Locations for aid projects in Somalia</h2>
-      <p>
-        This page lists all the locations from the 3W and IATI reports
-        together. You can use your browser search function to find a
-        specific one.
-      </p>
       <section id="content">
         <p class="loading">Loading…</p>
       </section>
     </main>
     <script id="template.locationlist" type="template">
       {% import "../templates/macros.html" as macros %}
-      {% for loctype, data in locations %}
-      <section id="{{ loctype }}">
-        <h3>{{ loctype | location }}s</h3>
-        <div class="inline-list">
-          {% for location_name in data.keys() | sort %}
-          {{ macros.location(location_name, loctype, org_count=data[location_name].orgs | flatten | length, activity_count=data[location_name].activities | flatten | length) }}
-          {% endfor %}
-        </div>
+      <p>
+        These names reflect Somalia's official administrative
+        divisions. The regions of Awdal, Sanaag, Sool, Toghdeer, and
+        Woqooyi Galbeed make up <b>Somaliland</b>, a
+        separately-governed entity without international
+        recognition. Somaliland divides Somalia's region of Woqooyi
+        Galbeed into its own regions of <i>Maroodi Jeeh</i> and
+        <i>Sahil</i>.
+      </p>
+
+      {% for region_name in locations.admin1.keys() | sort %}
+      {% set region = locations.admin1[region_name] %}
+      <section>
+        <h3>
+          Region:
+          <a href="location.html?ref={{ region_name | urlencode }}&amp;type=admin1">{{ region_name }}</a>
+        </h3>
+        <p>
+          {{ region.orgs | flatten | length | plural("organisation is", "organisations are") }}
+          involved in
+          {{ region.activities | flatten | length | plural("activity", "activities") }}
+          in
+          {{ region.info.name }}.
+        </p>
+        <section>
+          <h4>Districts of {{ region_name }}</h4>
+          <div class="inline-list">
+            {% for district_name in locations.admin2.keys() | sort %}
+            {% set district = locations.admin2[district_name] %}
+            {% if district.info.admin1 == region_name %}
+            {{ macros.location(district.info.name, "admin2", org_count=district.orgs | flatten |length, activity_count=district.activities | flatten | length) }}
+            {% endif %}
+            {% endfor %}
+          </div>
+        </section>
       </section>
       {% endfor %}
     </script>

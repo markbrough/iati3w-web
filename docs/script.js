@@ -15,7 +15,7 @@ import * as Nunjucks from "./modules/nunjucks.min.js";
 //
 
 const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
-// const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
+//const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
 
 const DATA_URLS = {
     activities: BASE_DATA_URL + "activities.json",
@@ -255,18 +255,23 @@ export function render_location () {
     const location_type = new URLSearchParams(window.location.search).get('type');
     const promise = Promise.all([
         get_location_index(),
-        get_activities()
+        get_activities(),
+        get_org_index()
     ]);
 
+
     promise.then(results => {
-        const [locations, activities] = results;
+        const [locations, activities, orgs] = results;
+        console.log(locations[location_type][location_name]);
         if (location_type in locations && location_name in locations[location_type]) {
             console.log(locations[location_type][location_name]);
             content_node().innerHTML = render_template("template.location", {
                 location_name: location_name,
                 location_type: location_type,
                 info: locations[location_type][location_name],
-                activities: activities
+                activities: activities,
+                locations: locations,
+                orgs: orgs
             });
         } else {
             // FIXME display in page
