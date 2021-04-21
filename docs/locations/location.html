@@ -70,7 +70,9 @@
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
             {% for org_name in info.orgs[scope].keys() | sort %}
-            {{ macros.org(org_name, info.orgs[scope][org_name], fullname=orgs[org_name].info.name) }}
+            {% set org = orgs[org_name] %}
+            {% set activity_count = info.orgs[scope][org_name] %}
+            {{ macros.org(org, activity_count) }}
             {% endfor %}
           </div>
         </section>

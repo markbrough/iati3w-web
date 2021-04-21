@@ -1,8 +1,9 @@
 <div>
 
-  {% macro org(name, activity_count, root="..", fullname=undefined) %}
+  {% macro org(org, activity_count, root="..") %}
   <div class="item">
-    <a title="{{ fullname | d(name) }}" href="{{root}}/orgs/org.html?ref={{ name | urlenc }}">{{ name | truncate }}</a>
+    <a title="{{ org.info.name }}" href="{{root}}/orgs/org.html?ref={{ org.info.shortname | urlenc }}">{{ org.info.shortname | truncate }}</a>
+    <span class="info"><b>Source:</b> {{ org.sources | join }}</span>
     <span class="info">{{ activity_count | plural("activity", "activities") }}</span>
   </div>
   {% endmacro %}

@@ -61,6 +61,8 @@
         <dd>
           {% if org.humanitarian %}yes{% else %}no humanitarian activities found{% endif %}
         </dd>
+        <dt>Source</dt>
+        <dd>{{ org.sources | join }}</dd>
       </dl>
 
       <section id="partners">
@@ -72,8 +74,10 @@
         <section id="partners.{{ scope }}">
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
-            {% for partner in org.partners[scope].keys() | sort %}
-            {{ macros.org(partner, org.partners[scope][partner]) }}
+            {% for partner_name in org.partners[scope].keys() | sort %}
+            {% set partner = orgs[partner_name] %}
+            {% set activity_count = org.partners[scope][partner_name] %}
+            {{ macros.org(partner, activity_count) }}
           {% endfor %}
         </div>
         </section>

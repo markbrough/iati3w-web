@@ -15,7 +15,7 @@ import * as Nunjucks from "./modules/nunjucks.min.js";
 //
 
 const BASE_DATA_URL = "https://davidmegginson.github.io/iati3w-data/";
-//const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
+// const BASE_DATA_URL = "https://files.localdomain/DI/iati3w-data/output/"; // for local testing; change as needed
 
 const DATA_URLS = {
     activities: BASE_DATA_URL + "activities.json",
@@ -209,17 +209,21 @@ export function render_sector () {
     const sector_type = new URLSearchParams(window.location.search).get('type');
     const promise = Promise.all([
         get_sector_index(),
-        get_activities()
+        get_activities(),
+        get_org_index(),
+        get_location_index()
     ]);
 
     promise.then(results => {
-        const [sectors, activities] = results;
+        const [sectors, activities, orgs, locations] = results;
         if (sector_type in sectors && sector_name in sectors[sector_type]) {
             content_node().innerHTML = render_template("template.sector", {
                 sector_name: sector_name,
                 sector_type: sector_type,
                 sector: sectors[sector_type][sector_name],
-                activities: activities
+                activities: activities,
+                orgs: orgs,
+                locations: locations
             });
         } else {
             // FIXME display in page

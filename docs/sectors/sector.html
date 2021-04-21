@@ -36,14 +36,16 @@
       </nav>
       <h2>{{ sector_type | sector }}: {{ sector_name }}</h2>
       <section id="orgs">
-        <h3>Organisations working in this sector</h3>
+        <h3>Organisations working in {{ sector_name }}</h3>
         {% for scope in ["local", "regional", "international", "unknown"] %}
         {% if sector.orgs[scope].keys() | length > 0 %}
         <section id="orgs.{{ scope }}">
           <h4>{{ scope | scope }}s</h4>
           <div class="inline-list">
             {% for org_name in sector.orgs[scope].keys() | sort %}
-            {{ macros.org(org_name, sector.orgs[scope][org_name]) }}
+            {% set org = orgs[org_name] %}
+            {% set activity_count = sector.orgs[scope][org_name] %}
+            {{ macros.org(org, activity_count) }}
             {% endfor %}
           </div>
         </section>
@@ -51,22 +53,25 @@
         {% endfor %}
       </section>
       <section id="locations">
-        <h3>Locations where this sector is active</h3>
-        {% for loctype in sector.locations.keys() %}
-        {% if sector.locations[loctype].keys() | length > 0 %}
-        <section id="locations.{{ loctype }}">
-          <h4>{{ loctype | location }}s</h4>
+        <h3>Where {{ sector_name }} is active</h3>
+        {% for region_name in sector.locations.admin1.keys() | sort %}
+        <section>
+          <h4>{{ region_name }}</h4>
           <div class="inline-list">
-            {% for location_name in sector.locations[loctype].keys() | sort %}
-            {{ macros.location(location_name, loctype, sector.locations[loctype][location_name]) }}
+            {% for district_name in sector.locations.admin2.keys() | sort %}
+            {% set district = locations.admin2[district_name] %}
+            {% if district.info.admin1 == region_name %}
+            {{ macros.location(district_name, level="admin2", activity_count=sector.locations.admin2[district_name]) }}
+            {% endif %}
             {% endfor %}
           </div>
         </section>
-        {% endif %}
+        {% else %}
+        <p class="warning">No location information available for {{ sector_name }}.</p>
         {% endfor %}
       </section>
       <section id="activities">
-        <h3>Activities in this sector ({{ sector.activities | length }})</h3>
+        <h3>Activities related to {{ sector_name }} ({{ sector.activities | length }})</h3>
         <div class="inline-list wide">
           {% for identifier in sector.activities %}
           {{ macros.activity(activities[identifier]) }}
