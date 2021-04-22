@@ -37,8 +37,7 @@
         <a href="#sectors">Sectors</a>
         <a href="#activities">Activities</a>
       </nav>
-      <p class="fixture">{{ location_type | location }}</p>
-      <h2>{{ location_name }}</h2>
+      <h2>{{ location_name }} {{ location_type | location | capitalize }}</h2>
       {% for level in ["admin1", "admin2"] %}
       {% if info.info[level] %}
       <p>
@@ -49,7 +48,7 @@
       {% endfor %}
       {% if location_type == "admin1" %}
       <section id="districts">
-        <h2>Districts of {{ location_name }}</h2>
+        <h3>Districts of {{ location_name }}</h3>
         <div class="inline-list">
           {% for district_name in locations.admin2.keys() | sort %}
           {% set district = locations.admin2[district_name] %}
@@ -67,7 +66,7 @@
         {% if info.orgs[scope].keys() | length > 0 %}
         {% set hasContent = true %}
         <section id="orgs.{{ scope }}">
-          <h4>{{ scope | scope }}s</h4>
+          <h4>{{ scope | scope | capitalize }}s</h4>
           <div class="inline-list">
             {% for org_name in info.orgs[scope].keys() | sort %}
             {% set org = orgs[org_name] %}

@@ -64,6 +64,20 @@ main {
     
 }
 
+main h2 {
+    font-size: 172.8%;
+}
+
+main h3 {
+    font-size: 144%;
+    font-weight: normal;
+}
+
+main h4 {
+    font-size: 120%;
+    font-weight: normal;
+}
+
 .pre {
     white-space: pre-wrap;
 }
@@ -123,4 +137,9 @@ ul li {
 h2 {
     margin-top: 0;
     font-size: 120%;
+}
+
+#map {
+    width: 100vw;
+    height: 50vh;
 }

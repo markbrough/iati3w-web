@@ -31,10 +31,10 @@ const ORG_ROLE_LABELS = {
 };
 
 const ORG_SCOPE_LABELS = {
-    local: "Local or national actor",
-    regional: "Regional actor",
-    international: "International actor",
-    unknown: "Undetermined actor"
+    local: "local/national actor",
+    regional: "regional actor",
+    international: "international actor",
+    unknown: "undetermined actor"
 };
 
 const SECTOR_TYPE_LABELS = {
@@ -124,7 +124,7 @@ template_env.addFilter("flatten", l => {
     let result = [];
     for (var key in l) {
         if (Array.isArray(l[key])) {
-            result.concat(l[key]);
+            result = result.concat(l[key]);
         } else if (l[key]) {
             result = result.concat(Object.keys(l[key]));
         }
@@ -148,6 +148,9 @@ export function render_org_list () {
     const promise = get_org_index();
 
     promise.then(orgs => {
+
+        // draw_map("map");
+        
         content_node().innerHTML = render_template("template.orglist", {
             orgs: orgs
         });
@@ -164,15 +167,17 @@ export function render_org () {
     const org_name = new URLSearchParams(window.location.search).get('ref');
     const promise = Promise.all([
         get_org_index(),
+        get_location_index(),
         get_activities()
     ]);
 
     promise.then(results => {
-        const [orgs, activities] = results;
+        const [orgs, locations, activities] = results;
         if (org_name in orgs) {
             content_node().innerHTML = render_template("template.org", {
                 org: orgs[org_name],
                 orgs: orgs,
+                locations: locations,
                 activities: activities
             });
         } else {
@@ -336,6 +341,19 @@ async function get_location_index () {
 // fetch the activity list
 async function get_activities () {
     return fetch_json(DATA_URLS.activities);
+}
+
+
+//
+// Visualisation
+//
+
+function draw_map (id) {
+    let map = L.map(id).setView([5.1521, 46.1996], 5);
+    let OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 }
 
 

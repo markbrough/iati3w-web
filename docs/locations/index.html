@@ -44,27 +44,17 @@
       {% set region = locations.admin1[region_name] %}
       <section>
         <h3>
-          Region:
-          <a href="location.html?ref={{ region_name | urlencode }}&amp;type=admin1">{{ region_name }}</a>
+          {{ macros.location_link(region_name, "admin1") }}
+          ({{ region.orgs | flatten | length | plural("organisation", "organisations") }})
         </h3>
-        <p>
-          {{ region.orgs | flatten | length | plural("organisation is", "organisations are") }}
-          involved in
-          {{ region.activities | flatten | length | plural("activity", "activities") }}
-          in
-          {{ region.info.name }}.
-        </p>
-        <section>
-          <h4>Districts of {{ region_name }}</h4>
-          <div class="inline-list">
-            {% for district_name in locations.admin2.keys() | sort %}
-            {% set district = locations.admin2[district_name] %}
-            {% if district.info.admin1 == region_name %}
-            {{ macros.location(district.info.name, "admin2", org_count=district.orgs | flatten |length, activity_count=district.activities | flatten | length) }}
-            {% endif %}
-            {% endfor %}
-          </div>
-        </section>
+        <div class="inline-list">
+          {% for district_name in locations.admin2.keys() | sort %}
+          {% set district = locations.admin2[district_name] %}
+          {% if district.info.admin1 == region_name %}
+          {{ macros.location(district.info.name, "admin2", org_count=district.orgs | flatten |length, activity_count=district.activities | flatten | length) }}
+          {% endif %}
+          {% endfor %}
+        </div>
       </section>
       {% endfor %}
     </script>

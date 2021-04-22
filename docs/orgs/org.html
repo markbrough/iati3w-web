@@ -29,14 +29,10 @@
     </main>
     <script id="template.org" type="template">
       {% import "../templates/macros.html" as macros %}
-      <nav class="secondary">
-        <a href="#partners">Partners</a>
-        <a href="#sectors">Sectors</a>
-        <a href="#locations">Locations</a>
-        <a href="#activities">Activities</a>
-      </nav>
-
-      <p class="fixture">{{ org.info.scope | scope }}</p>
+      {% set sector_count = org.sectors | flatten | length %}
+      {% set partner_count = org.partners | flatten | length %}
+      {% set region_count = org.locations.admin1 | length %}
+      {% set activity_count = org.activities | flatten | length %}
       <h2>
         {{ org.info.name }}
         {% if org.info.name != org.info.shortname %}
@@ -44,42 +40,55 @@
         {% endif %}
       </h2>
 
-      <dl>
-        {% if org.info.synonyms | length > 0 %}
-        <dt>Also referred to as</dt>
-        <dd>
-          <i>{{ org.info.synonyms | join | truncate }}</i>
-        </dd>
+      <p>
+        According to the {{ org.sources | join(" and ") }} data,
+        {{ org.info.scope | scope }} <b>{{ org.info.name }}</b>
+        works
+        {% if region_count > 0 %}
+        in <a href="#locations">{{ region_count | plural("region", "regions") }}</a> of Somalia,
         {% endif %}
-        {% if org.info.url %}
-        <dt>Web site</dt>
-        <dd>
-          <a rel="nofollow" target="_blank" href="{{ org.info.url }}">{{ org.info.url }}</a>
-        </dd>
+        {% if sector_count > 0 %}
+        through <a href="#sectors">{{ sector_count | plural("sector", "sectors") }}</a>,
         {% endif %}
-        <dt>Humanitarian?</dt>
-        <dd>
-          {% if org.humanitarian %}yes{% else %}no humanitarian activities found{% endif %}
-        </dd>
-        <dt>Source</dt>
-        <dd>{{ org.sources | join }}</dd>
-      </dl>
+        {% if partner_count > 0 %}
+        collaborating with <a href="#partners">{{ partner_count | plural("partner organisation", "partner organisations") }}</a>,
+        {% endif %}
+        on a total of <a href="#activities">{{ activity_count | plural("aid activity", "aid activities") }}</a>
+        {% if org.humanitarian %}
+        (including humanitarian activities).
+        {% else %}
+        (none flagged as humanitarian).
+        {% endif %}
+      </p>
 
+      {% if org.info.synonyms | length > 0 %}
+      <p>
+        Alternative names: <i>{{ org.info.synonyms | join }}</i>
+      </p>
+      {% endif %}
+
+      {% if org.info.url %}
+      <p>
+        You can learn more about {{ org.info.shortname }} at <a href="{{ org.info.url }}" target="_blank" rel="nofollow">{{ org.info.url }}</a>
+      </p>
+      {% endif %}
+
+      {% if partner_count > 0 %}
       <section id="partners">
-        <h3>Who do they collaborate with?</h3>
+        <h3>Organisations who partner with {{ org.info.shortname }}</h3>
         {% set hasContent = false %}
         {% for scope in ["local", "regional", "international", "unknown"] %}
         {% if org.partners[scope].keys() | length > 0 %}
         {% set hasContent = true %}
         <section id="partners.{{ scope }}">
-          <h4>{{ scope | scope }}s</h4>
+          <h4>{{ scope | scope | capitalize }}s</h4>
           <div class="inline-list">
             {% for partner_name in org.partners[scope].keys() | sort %}
             {% set partner = orgs[partner_name] %}
             {% set activity_count = org.partners[scope][partner_name] %}
             {{ macros.org(partner, activity_count) }}
-          {% endfor %}
-        </div>
+            {% endfor %}
+          </div>
         </section>
         {% endif %}
         {% endfor %}
@@ -87,9 +96,11 @@
         <p class="notice">(No partner organisations found for {{ org.info.name }}.)</p>
         {% endif %}
       </section>
-      
+      {% endif %}
+
+      {% if sector_count > 0 %}
       <section id="sectors">
-        <h3>What do they do?</h3>
+        <h3>Sectors where {{ org.info.shortname }} works</h3>
         {% set hasContent = false %}
         {% for type in org.sectors.keys() %}
         {% if org.sectors[type] | length > 0 %}
@@ -108,34 +119,34 @@
         <p class="notice">(No sectors found for {{ org.info.name }}.)</p>
         {% endif %}
       </section>
-      
+      {% endif %}
+
+      {% if region_count > 0 %}
       <section id="locations">
-        <h3>Where do they work?</h3>
-        {% set hasContent = false %}
-        {% for type in org.locations.keys() %}
-        {% if org.locations[type] | length > 0 %}
-        {% set hasContent = true %}
-        <section id="locations.{{ type }}">
-          <h4>{{ type | location }}s</h4>
-          <div id="locations.admin1" class="inline-list">
-            {% for location_name in org.locations[type].keys() | sort %}
-            {{ macros.location(location_name, type, activity_count=org.locations[type][location_name]) }}
-            {% endfor %}
-          </div>
-        </section>
-        {% endif %}
+        <h3>Regions where {{ org.info.shortname }} works</h3>
+        {% for region_name in org.locations.admin1.keys() | sort %}
+        <h4>
+          {{ macros.location_link(region_name, "admin1") }}
+          ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
+        </h4>
+        <div class="inline-list">
+          {% for district_name in org.locations.admin2.keys() | sort %}
+          {% set district = locations.admin2[district_name] %}
+          {% if district.info.admin1 == region_name %}
+          {{ macros.location(district_name, "admin2", activity_count=org.locations.admin2[district_name]) }}
+          {% endif %}
+          {% endfor %}
+        </div>
         {% endfor %}
-        {% if not hasContent %}
-        <p class="notice">(No locations found for {{ org.info.name }}.)</p>
-        {% endif %}
       </section>
+      {% endif %}
       
       <section id="activities">
-        <h3>Activities</h3>
+        <h3>Activities involving {{ org.info.shortname }}</h3>
         {% for type in org.activities.keys() %}
         {% if org.activities[type] | length > 0 %}
         <section id="activities.{{ type }}">
-          <h4>{{ type | role }} ({{ org.activities[type] | length }})</h4>
+          <h4>{{ org.info.shortname }} as {{ type | role }} ({{ org.activities[type] | length }})</h4>
           <div class="inline-list wide">
             {% for activity_id in org.activities[type] %}
             {{ macros.activity(activities[activity_id]) }}

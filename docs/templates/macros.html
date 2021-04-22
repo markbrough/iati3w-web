@@ -20,9 +20,15 @@
   </div>
   {% endmacro %}
 
+  {% macro location_link(name, type, root="..") %}
+  <a href="{{ root }}/locations/location.html?ref={{ name | urlencode }}&amp;type={{ type | urlenc }}">
+    {{ name }} {{ type | location | capitalize }}
+  </a>
+  {% endmacro %}
+
   {% macro location(name, type, org_count=-1, activity_count=-1, root="..") %}
   <div class="item">
-    <a href="{{ root }}/locations/location.html?ref={{ name |urlencode }}&amp;type={{ type | urlenc }}">{{ name }}</a>
+    {{ location_link(name, type, root) }}
     {% if org_count > -1 %}
     <span class="info">{{ org_count | plural("organisation", "organisations") }}</span>
     {% endif %}
