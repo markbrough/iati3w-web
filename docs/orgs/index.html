@@ -55,7 +55,7 @@
       {% import "../templates/macros.html" as macros %}
       {% for scope in ["local", "regional", "international", "unknown"] %}
       <section id="{{ scope }}">
-        <h2>{{ scope | scope }}s</h2>
+        <h2>{{ scope | scope | capitalize }}s</h2>
         <div class="inline-list">
           {% for org_name in orgs.keys() | sort %}
           {% set org = orgs[org_name] %}
