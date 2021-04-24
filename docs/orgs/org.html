@@ -66,9 +66,9 @@
         Alternative names: <i>{{ org.info.synonyms | join | truncate }}</i>
       </p>
       {% endif %}
-      {% if org.info.iati %}
+      {% if org.info.iati_id %}
       <p>
-        IATI organisation identifier: <a href="https://d-portal.org/ctrack.html?reporting_ref={{ org.info.iati.code | urlenc }}" target="_blank">{{ org.info.iati.code }}</a> (link opens in D-Portal).
+        IATI organisation identifier: <a href="https://d-portal.org/ctrack.html?reporting_ref={{ org.info.iati_id | urlenc }}" target="_blank">{{ org.info.iati_id }}</a> (link opens in D-Portal).
       </p>
       {% endif %}
       {% if org.info.url %}
