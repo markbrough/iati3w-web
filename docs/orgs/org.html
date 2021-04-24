@@ -63,7 +63,7 @@
 
       {% if org.info.synonyms | length > 0 %}
       <p>
-        Alternative names: <i>{{ org.info.synonyms | join }}</i>
+        Alternative names: <i>{{ org.info.synonyms | join | truncate }}</i>
       </p>
       {% endif %}
       {% if org.info.iati %}
