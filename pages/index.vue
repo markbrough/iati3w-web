@@ -1,27 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>IATI/3W explorer</title>
-    <link rel="stylesheet" href="./style.css"/>
-    <link rel="icon" type="image/png" sizes="512x512" href="./iati3w-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <header>
-      <a href="./" title="Home">
-        <img src="./iati3w-icon.png" class="logo" />
-      </a>
-      <h1>
-        IATI/3W explorer
-      </h1>
-      <nav id="primary-nav" class="tabs">
-        <a href="./orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
-        <a href="./sectors/" title="Aid sectors active in Somalia.">What?</a>
-        <a href="./locations/" title="Locations active in Somalia.">Where?</a>
-        <a class="active">About</a>
-      </nav>
-    </header>
+<template>
+  <div class="container">
     <main>
       <section id="overview">
         <h2>About the prototype IATI/3W explorer</h2>
@@ -147,5 +125,16 @@
         </section>
       </section>
     </main>
-  </body>
-</html>
+  </div>
+</template>
+
+<script>
+
+export default {
+  components: {
+  }
+}
+</script>
+
+<style>
+</style>
