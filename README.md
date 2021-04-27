@@ -22,6 +22,33 @@ This repository is paired with
 [iati3w-data](https://github.com/davidmegginson/iati3w-data), which
 handles the backend data preparation.
 
+## ## Build Setup
+
+``` bash
+# install dependencies
+$ npm run install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm run start
+
+# generate static project
+$ npm run generate
+```
+
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+
+---
+
+NB: the below documentation needs to be updated, as this site is now generated using the [Nuxt.js](https://nuxtjs.org) framework.
+
+---
+
+
 ## Overview
 
 This web site will render entirely on in the browser. It depends on
