@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <main v-if="busy!=true">
+    <main v-if="busy">
+      <div class="d-flex justify-content-center mb-3">
+        <b-spinner variant="secondary" label="Loading..."></b-spinner>
+      </div>
+    </main>
+    <main v-else>
       <h2>Locations for aid projects in Somalia</h2>
       <section id="content" v-if="locations">
         <p>

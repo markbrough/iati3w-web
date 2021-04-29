@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <main>
+    <main v-if="busy">
+      <div class="d-flex justify-content-center mb-3">
+        <b-spinner variant="secondary" label="Loading..."></b-spinner>
+      </div>
+    </main>
+    <main v-else>
       <nav class="secondary">
         <a href="#local">Local and national actors</a>
         <a href="#regional">Regional actors</a>
