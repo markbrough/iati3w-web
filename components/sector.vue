@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <nuxt-link :to="{name: 'sectors-sectorname', params: { sectorname: name, type: type }}">{{ name }}</nuxt-link>
+    <nuxt-link :to="{name: 'sectors-type-sectorname', params: { type: type, sectorname: name }}">{{ name }}</nuxt-link>
     <template v-if="org_count > -1">
       <span class="info">{{ org_count | plural("organisation", "organisations") }}</span>
     </template>
