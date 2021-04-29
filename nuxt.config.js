@@ -1,4 +1,8 @@
-
+const routerBase = process.env.DEPLOY_ENV === 'WITH_SUBFOLDER' ? {
+  router: {
+    base: '/iati3w-web/'
+  }
+} : {}
 export default {
   mode: 'universal',
   /*
@@ -58,5 +62,6 @@ export default {
     */
     extend (config, ctx) {
     }
-  }
+  },
+  ...routerBase
 }
