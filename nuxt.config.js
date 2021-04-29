@@ -5,6 +5,9 @@ const routerBase = process.env.DEPLOY_ENV === 'WITH_SUBFOLDER' ? {
 } : {}
 export default {
   target: 'static',
+  generate: {
+    fallback: true
+  },
   /*
   ** Headers of the page
   */
