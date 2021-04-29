@@ -2,8 +2,7 @@
   <div class="item">
     <LocationLink
       :name="name"
-      :type="type"
-      :root="root" />
+      :type="type" />
     <span class="info" v-if="org_count > -1">
       {{ org_count | plural("organisation", "organisations") }}
     </span>
@@ -28,10 +27,6 @@ export default {
     activity_count: {
       type: Number,
       default: -1
-    },
-    root: {
-      type: String,
-      default: ".."
     }
   },
   components: {

@@ -12,11 +12,7 @@ export default {
   },
   props: {
     org: Object,
-    activity_count: Number,
-    root: {
-      type: String,
-      default: ".."
-    }
+    activity_count: Number
   }
 }
 </script>

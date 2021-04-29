@@ -16,11 +16,7 @@ export default {
     return { }
   },
   props: {
-    activity: Object,
-    root: {
-      type: String,
-      default: ".."
-    }
+    activity: Object
   }
 }
 </script>

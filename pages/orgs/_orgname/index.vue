@@ -64,7 +64,7 @@
                 <Org
                   v-for="partner_name in Object.keys(org.partners[scope]).sort()"
                   :key="partner_name"
-                  :org="orgs[partner_name]" root=".."
+                  :org="orgs[partner_name]"
                   :activity_count="org.partners[scope][partner_name]" />
               </div>
             </section>

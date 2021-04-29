@@ -24,10 +24,6 @@ export default {
     activity_count: {
       type: Number,
       default: -1
-    },
-    root: {
-      type: String,
-      default: ".."
     }
   }
 }

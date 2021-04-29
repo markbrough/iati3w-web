@@ -45,7 +45,7 @@
                 v-if="org.info.scope==scope"
                 :org="org"
                 :activity_count="org.total_activities"
-                root=".." />
+                />
             </div>
           </section>
         </div>

@@ -10,11 +10,7 @@ export default {
   },
   props: {
     name: String,
-    type: String,
-    root: {
-      type: String,
-      default: ".."
-    }
+    type: String
   }
 }
 </script>
