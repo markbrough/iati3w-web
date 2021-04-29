@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="{name: 'locations-locationname', params: { locationname: name, type: type }}">
+  <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: name, type: type }}">
     {{ name }} {{ type | location | capitalize }}
   </nuxt-link>
 </template>
