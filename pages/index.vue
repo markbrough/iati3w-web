@@ -10,9 +10,9 @@
           relationships with regional and international partners.
         </p>
         <p>
-          Start by looking at the <a href="orgs/">Organisations</a>
-          (who), <a href="sectors/">Sectors</a> (what), or the <a
-          href="locations/">Places</a> (where) active in Somalia's aid
+          Start by looking at the <nuxt-link :to="{name: 'orgs'}">Organisations</nuxt-link>
+          (who), <nuxt-link :to="{name: 'sectors'}">Sectors</nuxt-link> (what), or the
+          <nuxt-link :to="{name: 'locations'}">Places</nuxt-link> (where) active in Somalia's aid
           response, then follow the connections.
         </p>
         <dl>
@@ -136,5 +136,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+dt {
+  padding-right: 15px;
+}
 </style>
