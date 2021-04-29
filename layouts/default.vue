@@ -1,19 +1,20 @@
 <template>
   <div>
-    <header>
-      <nuxt-link :to="{name: 'index'}" title="Home">
+    <b-navbar toggleable="lg" type="light" variant="light" class="navbar-primary" sticky>
+      <b-navbar-brand :to="{name: 'index'}" title="Home">
         <img src="~/assets/iati3w-icon.png" class="logo" />
-      </nuxt-link>
-      <h1>
-        IATI/3W explorer
-      </h1>
-      <nav id="primary-nav" class="tabs">
-        <nuxt-link :to="{name: 'orgs'}" title="Organisations involved in activites in Somalia.">Who?</nuxt-link>
-        <nuxt-link :to="{name: 'sectors'}" title="Aid sectors active in Somalia.">What?</nuxt-link>
-        <nuxt-link :to="{name: 'locations'}" title="Locations active in Somalia.">Where?</nuxt-link>
-        <a class="active">About</a>
-      </nav>
-    </header>
+        IATI/3W Explorer
+      </b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item :to="{name: 'orgs'}" title="Organisations involved in activites in Somalia." active-class="active" >Who?</b-nav-item>
+          <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >What?</b-nav-item>
+          <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Where?</b-nav-item>
+          <b-nav-item href="#" disabled>About</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <nuxt />
   </div>
 </template>
@@ -27,30 +28,14 @@ img.logo {
     height: 2ex;
 }
 
-header {
-    position: fixed;
-    display: flex;
+.navbar-primary {
     align-items: center;
-    top: 0;
-    left: 0;
-    height: 3ex;
     padding: 1ex;
-    width: 100vw;
     background: #ffffff;
     border-bottom: 1px solid #add8e6;
 }
 
-header h1 {
-    font-size: 80%;
-    padding-left: .5em;
-}
 
-header nav {
-    font-size: 80%;
-    flex-grow: 1.1;
-    text-align: right;
-    padding-right: 2em;
-}
 
 nav a {
     padding-left: 1em;
