@@ -8,9 +8,9 @@
         IATI/3W explorer
       </h1>
       <nav id="primary-nav" class="tabs">
-        <a href="./orgs/" title="Organisations involved in activites in Somalia.">Who?</a>
-        <a href="./sectors/" title="Aid sectors active in Somalia.">What?</a>
-        <a href="./locations/" title="Locations active in Somalia.">Where?</a>
+        <nuxt-link :to="{name: 'orgs'}" title="Organisations involved in activites in Somalia.">Who?</nuxt-link>
+        <nuxt-link :to="{name: 'sectors'}" title="Aid sectors active in Somalia.">What?</nuxt-link>
+        <nuxt-link :to="{name: 'locations'}" title="Locations active in Somalia.">Where?</nuxt-link>
         <a class="active">About</a>
       </nav>
     </header>
