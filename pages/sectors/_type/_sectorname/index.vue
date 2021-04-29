@@ -4,13 +4,13 @@
       <section id="content">
         <nav class="secondary">
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: type, sectorname: name }, hash: '#orgs'}"
+            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#orgs'}"
           >Organisations</nuxt-link>
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: type, sectorname: name }, hash: '#locations'}"
+            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#locations'}"
           >Locations</nuxt-link>
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: type, sectorname: name }, hash: '#activities'}"
+            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#activities'}"
           >Activities</nuxt-link>
         </nav>
         <h2>{{ sector_type | sector }}: {{ sector_name }}</h2>
