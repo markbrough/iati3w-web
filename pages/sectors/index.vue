@@ -36,11 +36,11 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Sector from '~/components/sector.vue'
 export default {
   data() {
     return {
-      sectors: [],
       busy: true
     }
   },
@@ -48,22 +48,16 @@ export default {
     Sector
   },
   methods: {
-    loadSectors() {
-      this.$axios
-        .get(`sector-index.json`)
-        .then(response => {
-          this.sectors = response.data
-          this.busy = false
-        })
-    },
     flatten(items) {
       return this.$options.filters.flatten(
         items
       )
     }
   },
-  mounted() {
-    this.loadSectors()
+  computed: mapState(['sectors']),
+  async mounted() {
+    await this.$store.dispatch('loadSectors')
+    this.busy = false
   }
 }
 </script>

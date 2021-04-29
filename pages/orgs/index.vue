@@ -49,14 +49,16 @@ import Org from '~/components/org.vue'
 export default {
   data() {
     return {
+      busy: true
     }
   },
   components: {
     Org
   },
   computed: mapState(['orgs']),
-  mounted() {
-    this.$store.dispatch('loadOrgs')
+  async mounted() {
+    await this.$store.dispatch('loadOrgs')
+    this.busy = false
   }
 }
 </script>
