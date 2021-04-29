@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import axios from 'axios'
+
+const baseURL = 'https://davidmegginson.github.io/iati3w-data'
 
 export const state = () => ({
   orgs: {},
@@ -27,32 +30,32 @@ export const actions = {
     if (Object.keys(state.orgs).length > 0) {
       return true
     }
-    const { data } = await this.$axios
-      .get(`org-index.json`)
+    const { data } = await axios
+      .get(`${baseURL}/org-index.json`)
     commit("setOrgs", data)
   },
   async loadSectors({ commit, state }) {
     if (Object.keys(state.sectors).length > 0) {
       return true
     }
-    const { data } = await this.$axios
-      .get(`sector-index.json`)
+    const { data } = await axios
+      .get(`${baseURL}/sector-index.json`)
     commit("setSectors", data)
   },
   async loadLocations({ commit, state }) {
     if (Object.keys(state.locations).length > 0) {
       return true
     }
-    const { data } = await this.$axios
-      .get(`location-index.json`)
+    const { data } = await axios
+      .get(`${baseURL}/location-index.json`)
     commit('setLocations', data)
   },
   async loadActivities({ commit, state }) {
     if (Object.keys(state.activities).length > 0) {
       return true
     }
-    const { data } = await this.$axios
-      .get(`activities.json`)
+    const { data } = await axios
+      .get(`${baseURL}/activities.json`)
     commit('setActivities', data)
   }
 }

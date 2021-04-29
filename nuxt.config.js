@@ -51,7 +51,6 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'https://davidmegginson.github.io/iati3w-data'
   },
   /*
   ** Build configuration
