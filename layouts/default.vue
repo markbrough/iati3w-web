@@ -1,9 +1,9 @@
 <template>
   <div>
     <header>
-      <a href="./" title="Home">
+      <nuxt-link :to="{name: 'index'}" title="Home">
         <img src="~/assets/iati3w-icon.png" class="logo" />
-      </a>
+      </nuxt-link>
       <h1>
         IATI/3W explorer
       </h1>
@@ -108,7 +108,7 @@ main h4 {
 .inline-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .inline-list .item {
