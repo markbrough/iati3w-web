@@ -14,18 +14,18 @@
         {{ org.info.scope | scope }} <b>{{ org.info.name }}</b>
         works
         <template v-if="region_count > 0">
-        in <nuxt-link :to="{name: 'orgs-orgname', params: { orgname: orgname }, hash: '#locations'}"
+        in <nuxt-link :to="{name: 'orgs-stub', params: { stub: org.info.stub }, hash: '#locations'}"
         >{{ region_count | plural("region", "regions") }}</nuxt-link> of Somalia,
         </template>
         <template v-if="sector_count > 0">
-        through <nuxt-link :to="{name: 'orgs-orgname', params: { orgname: orgname }, hash: '#sectors'}"
+        through <nuxt-link :to="{name: 'orgs-stub', params: { stub: org.info.stub }, hash: '#sectors'}"
         >{{ sector_count | plural("sector", "sectors") }}</nuxt-link>,
         </template>
         <template v-if="partner_count > 0">
-        collaborating with <nuxt-link :to="{name: 'orgs-orgname', params: { orgname: orgname }, hash: '#partners'}"
+        collaborating with <nuxt-link :to="{name: 'orgs-stub', params: { stub: org.info.stub }, hash: '#partners'}"
         >{{ partner_count | plural("partner organisation", "partner organisations") }}</nuxt-link>,
         </template>
-        on a total of <nuxt-link :to="{name: 'orgs-orgname', params: { orgname: orgname }, hash: '#activities'}"
+        on a total of <nuxt-link :to="{name: 'orgs-stub', params: { stub: org.info.stub }, hash: '#activities'}"
         >{{ activity_count | plural("aid activity", "aid activities") }}</nuxt-link>
         <template v-if="org.humanitarian">
         (including humanitarian activities).
@@ -171,9 +171,6 @@ export default {
     }
   },
   computed: {
-    orgname() {
-      return this.$route.params.orgname
-    },
     sector_count() {
       return this.$options.filters.flatten(
         this.org.sectors
@@ -196,7 +193,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
-    this.org = this.orgs[this.$route.params.orgname]
+    this.org = this.orgs[this.$route.params.stub]
     this.$store.dispatch('loadLocations')
     await this.$store.dispatch('loadActivities')
     this.busy = false
