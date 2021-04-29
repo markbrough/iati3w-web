@@ -26,6 +26,11 @@ const LOCATION_TYPE_LABELS = {
 
 Vue.filter('urlenc', encodeURIComponent);
 
+Vue.filter('length', (value) => {
+    if (!value) return 0
+    return value.length
+});
+
 Vue.filter('capitalize', (value) => {
     if (!value) return ''
     value = value.toString()
