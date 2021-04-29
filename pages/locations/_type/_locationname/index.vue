@@ -139,7 +139,6 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
-    this.org = this.orgs[this.$route.params.orgname]
     this.$store.dispatch('loadLocations')
     await this.$store.dispatch('loadActivities')
     this.info = this.locations[this.$route.params.type][this.$route.params.locationname]
