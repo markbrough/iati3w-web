@@ -20,7 +20,7 @@
             v-for='scope in ["local", "regional", "international", "unknown"]'
             :key="scope"
             v-if="Object.keys(sector.orgs[scope]).length > 0">
-            <h4>{{ scope | scope }}s</h4>
+            <h4>{{ scope | scope | capitalize }}s</h4>
             <div class="inline-list">
               <Org
                 v-for="org_name in Object.keys(sector.orgs[scope]).sort()"
