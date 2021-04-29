@@ -41,27 +41,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 export default {
   data() {
     return {
-      orgs: []
     }
   },
   components: {
     Org
   },
-  methods: {
-    loadOrgs() {
-      this.$axios
-        .get(`org-index.json`)
-        .then(response => {
-          this.orgs = response.data
-        })
-    }
-  },
+  computed: mapState(['orgs']),
   mounted() {
-    this.loadOrgs()
+    this.$store.dispatch('loadOrgs')
   }
 }
 </script>

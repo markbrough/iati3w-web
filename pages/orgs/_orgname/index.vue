@@ -96,14 +96,14 @@
         <h4>
           <LocationLink
             :name="region_name"
-            :type="admin1" />
+            type="admin1" />
           ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
         </h4>
         <div class="inline-list">
           <Location
             v-for="district_name in Object.keys(org.locations.admin2).sort()"
             :name="district_name"
-            :type="admin2"
+            type="admin2"
             :activity_count="org.locations.admin2[district_name]" />
         </div>
         </template>
@@ -127,6 +127,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 import Sector from '~/components/sector.vue'
 import LocationLink from '~/components/location_link.vue'
@@ -135,15 +136,12 @@ import Activity from '~/components/activity.vue'
 export default {
   data() {
     return {
-      orgs: [],
       org: {
         sectors: [],
         partners: {local: {}, regional: {}, international: {}, unknown: {}},
         locations: { admin1: [] },
         activities: []
       },
-      locations: [],
-      activities: [],
       busy: true
     }
   },
@@ -168,36 +166,14 @@ export default {
       return this.$options.filters.flatten(
         this.org.activities
       ).length
-    }
-  },
-  methods: {
-    async loadOrgs() {
-      await this.$axios
-        .get(`org-index.json`)
-        .then(response => {
-          this.orgs = response.data
-          this.org = this.orgs[this.$route.params.orgname]
-        })
     },
-    async loadLocations() {
-      await this.$axios
-        .get(`location-index.json`)
-        .then(response => {
-          this.locations = response.data
-        })
-    },
-    async loadActivities() {
-      await this.$axios
-        .get(`activities.json`)
-        .then(response => {
-          this.activities = response.data
-        })
-    }
+    ...mapState(['orgs', 'activities', 'locations']),
   },
   async mounted() {
-    await this.loadOrgs()
-    this.loadLocations()
-    await this.loadActivities()
+    await this.$store.dispatch('loadOrgs')
+    this.org = this.orgs[this.$route.params.orgname]
+    this.$store.dispatch('loadLocations')
+    await this.$store.dispatch('loadActivities')
     this.busy = false
   }
 }
