@@ -12,11 +12,13 @@
           <h3>Organisations working in {{ sector_name }}</h3>
           <section :id="`orgs.${ scope }`"
             v-for='scope in ["local", "regional", "international", "unknown"]'
+            :key="scope"
             v-if="Object.keys(sector.orgs[scope]).length > 0">
             <h4>{{ scope | scope }}s</h4>
             <div class="inline-list">
               <Org
                 v-for="org_name in Object.keys(sector.orgs[scope]).sort()"
+                :key="org_name"
                 :org="orgs[org_name]"
                 :activity_count="sector.orgs[scope][org_name]" />
             </div>
@@ -24,12 +26,15 @@
         </section>
         <section id="locations">
           <h3>Where {{ sector_name }} is active</h3>
-          <section v-for="region_name in Object.keys(sector.locations.admin1).sort()">
+          <section
+            v-for="region_name in Object.keys(sector.locations.admin1).sort()"
+            :key="region_name">
             <h4>{{ region_name }}</h4>
             <div class="inline-list">
 
               <Location
                 v-for="district_name in Object.keys(sector.locations.admin2).sort()"
+                :key="district_name"
                 :name="district_name"
                 type="admin2"
                 :activity_count="sector.locations.admin2[district_name]" />
@@ -42,7 +47,8 @@
           <div class="inline-list wide">
             <Activity
               v-for="activity_id in sector.activities"
-             :activity="activities[activity_id]" />
+              :key="activity_id"
+              :activity="activities[activity_id]" />
           </div>
         </section>
       </section>

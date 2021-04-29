@@ -31,14 +31,14 @@
         </template>
       </p>
 
-      <template v-if="org.info.synonyms | length > 0">
+      <template v-if="org.info.synonyms.length > 0">
       <p>
         Alternative names: <i>{{ org.info.synonyms | join | truncate }}</i>
       </p>
       </template>
       <template v-if="org.info.iati_id">
       <p>
-        IATI organisation identifier: <a :href="`https://d-portal.org/ctrack.html?reporting_ref=${ org.info.iati_id | urlenc }`" target="_blank">{{ org.info.iati_id }}</a> (link opens in D-Portal).
+        IATI organisation identifier: <a :href="`https://d-portal.org/ctrack.html?reporting_ref=${ urlenc(org.info.iati_id) }`" target="_blank">{{ org.info.iati_id }}</a> (link opens in D-Portal).
       </p>
       </template>
       <template v-if="org.info.url">
@@ -50,18 +50,21 @@
       <section id="partners">
         <h3>Organisations who partner with {{ org.info.shortname }}</h3>
         <template v-if="partner_count > 0">
-          <template v-for='scope in ["local", "regional", "international", "unknown"]'>
+          <div
+            v-for='scope in ["local", "regional", "international", "unknown"]'
+            :key="scope">
             <section :id="`partners.${ scope }`"
               v-if="Object.keys(org.partners[scope]).length > 0">
               <h4>{{ scope | scope | capitalize }}s</h4>
               <div class="inline-list">
                 <Org
                   v-for="partner_name in Object.keys(org.partners[scope]).sort()"
+                  :key="partner_name"
                   :org="orgs[partner_name]" root=".."
                   :activity_count="org.partners[scope][partner_name]" />
               </div>
             </section>
-          </template>
+          </div>
         </template>
         <template v-else>
           <p class="notice">(No partner organisations found for {{ org.info.name }}.)</p>
@@ -71,19 +74,22 @@
       <section id="sectors">
         <h3>Sectors where {{ org.info.shortname }} works</h3>
         <template v-if="sector_count > 0">
-          <template v-for="type in Object.keys(org.sectors)">
+          <div
+            v-for="type in Object.keys(org.sectors)"
+            :key="type">
             <section :id="`sectors.${ type }`"
               v-if="Object.keys(org.sectors[type]).length > 0">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
                   v-for="sector_name in Object.keys(org.sectors[type]).sort()"
+                  :key="sector_name"
                   :name="sector_name"
                   :type="type"
                   :activity_count="org.sectors[type][sector_name]" />
               </div>
             </section>
-          </template>
+          </div>
         </template>
         <template v-else>
           <p class="notice">(No sectors found for {{ org.info.name }}.)</p>
@@ -92,33 +98,38 @@
 
       <section id="locations" v-if="region_count > 0">
         <h3>Regions where {{ org.info.shortname }} works</h3>
-        <template v-for="region_name in Object.keys(org.locations.admin1).sort()">
-        <h4>
-          <LocationLink
-            :name="region_name"
-            type="admin1" />
-          ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
-        </h4>
-        <div class="inline-list">
-          <Location
-            v-for="district_name in Object.keys(org.locations.admin2).sort()"
-            :name="district_name"
-            type="admin2"
-            :activity_count="org.locations.admin2[district_name]" />
+        <div
+          v-for="region_name in Object.keys(org.locations.admin1).sort()"
+          :key="region_name">
+          <h4>
+            <LocationLink
+              :name="region_name"
+              type="admin1" />
+            ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
+          </h4>
+          <div class="inline-list">
+            <Location
+              v-for="district_name in Object.keys(org.locations.admin2).sort()"
+              :key="district_name"
+              :name="district_name"
+              type="admin2"
+              :activity_count="org.locations.admin2[district_name]" />
+          </div>
         </div>
-        </template>
       </section>
 
       <section id="activities">
         <h3>Activities involving {{ org.info.shortname }}</h3>
         <section :id="`activities.${ type }`"
           v-for="type in Object.keys(org.activities)"
+          :key="type"
           v-if="org.activities[type].length > 0">
           <h4>{{ org.info.shortname }} as {{ type | role }} ({{ org.activities[type].length }})</h4>
           <div class="inline-list wide">
             <Activity
               v-for="activity_id in org.activities[type]"
-             :activity="activities[activity_id]" />
+              :key="activity_id"
+              :activity="activities[activity_id]" />
           </div>
         </section>
       </section>
@@ -147,6 +158,13 @@ export default {
   },
   components: {
     Org, Sector, LocationLink, Location, Activity
+  },
+  methods: {
+    urlenc(value) {
+      return this.$options.filters.urlenc(
+        value
+      )
+    }
   },
   computed: {
     sector_count() {

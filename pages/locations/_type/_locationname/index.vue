@@ -11,8 +11,9 @@
           <a href="#activities">Activities</a>
         </nav>
         <h2>{{ location_name }} {{ location_type | location | capitalize }}</h2>
-        <template
+        <div
           v-for='level in ["admin1", "admin2"]'
+          :key="level"
           v-if="info.info[level]">
           <p>
             <b>{{ level | location }}: </b>
@@ -20,12 +21,13 @@
               {{ info.info[level] }}
             </nuxt-link>
           </p>
-        </template>
+        </div>
         <section id="districts" v-if="location_type == 'admin1'">
           <h3>Districts of {{ location_name }}</h3>
           <div class="inline-list">
             <Location
               v-for="district_name in Object.keys(locations.admin2).sort()"
+              :key="district_name"
               v-if="locations.admin2[district_name].info.admin1==location_name"
               :name="district_name"
               type="admin2"
@@ -42,6 +44,7 @@
             <div class="inline-list">
               <Org
                 v-for="org_name in Object.keys(info.orgs[scope]).sort()"
+                :key="org_name"
                 :org="orgs[org_name]"
                 :activity_count="info.orgs[scope][org_name]" />
             </div>
@@ -49,26 +52,30 @@
         </section>
         <section id="sectors">
           <h3>Sectors active in {{ location_name }}</h3>
-          <template v-for="type in Object.keys(info.sectors)">
+          <div
+            v-for="type in Object.keys(info.sectors)"
+            :key="type">
             <section :id="`sectors.${ type }`"
               v-if="Object.keys(info.sectors[type]).length > 0">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
                   v-for="sector_name in Object.keys(info.sectors[type]).sort()"
+                  :key="sector_name"
                   :name="sector_name"
                   :type="type"
                   :activity_count="info.sectors[type][sector_name]" />
               </div>
             </section>
-          </template>
+          </div>
         </section>
         <section id="activities">
           <h3>Aid activities in {{ location_name }}</h3>
           <div class="inline-list wide">
             <Activity
               v-for="activity_id in info.activities"
-             :activity="activities[activity_id]" />
+              :key="activity_id"
+              :activity="activities[activity_id]" />
           </div>
         </section>
       </section>

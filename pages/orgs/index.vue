@@ -20,19 +20,22 @@
         organisation.
       </p>
       <section id="content">
-        <template v-for='scope in ["local", "regional", "international", "unknown"]'>
+        <div
+          v-for='scope in ["local", "regional", "international", "unknown"]'
+          :key="scope">
           <section :id="scope">
             <h2>{{ scope | scope | capitalize }}s</h2>
             <div class="inline-list">
               <Org
                 v-for="org in orgs"
+                :key="org.info.name"
                 v-if="org.info.scope==scope"
                 :org="org"
                 :activity_count="org.total_activities"
                 root=".." />
             </div>
           </section>
-        </template>
+        </div>
         <p class="loading">Loading…</p>
       </section>
     </main>

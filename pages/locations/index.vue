@@ -13,7 +13,9 @@
           <i>Sahil</i>.
         </p>
 
-        <section v-for="region_name in Object.keys(locations.admin1).sort()">
+        <section
+          v-for="region_name in Object.keys(locations.admin1).sort()"
+          :key="region_name">
           <h3>
             <LocationLink
               :name="region_name"
@@ -23,6 +25,7 @@
           <div class="inline-list">
             <Location
               v-for="district_name in Object.keys(locations.admin2).sort()"
+              :key="district_name"
               :name="district_name"
               type="admin2"
               :org_count="flatten(locations.admin2[district_name].orgs).length"

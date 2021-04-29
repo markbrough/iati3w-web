@@ -12,6 +12,7 @@
           <div class="inline-list">
             <Sector
               v-for="sector_name in Object.keys(sectors.humanitarian).sort()"
+              :key="sector_name"
               :name="sector_name"
               type="humanitarian"
               :org_count="flatten(sectors.humanitarian[sector_name].orgs).length"
@@ -23,6 +24,7 @@
           <div class="inline-list">
             <Sector
               v-for="sector_name in Object.keys(sectors.dac).sort()"
+              :key="sector_name"
               :name="sector_name"
               type="dac"
               :org_count="flatten(sectors.dac[sector_name].orgs).length"
