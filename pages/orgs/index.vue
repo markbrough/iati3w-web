@@ -7,10 +7,18 @@
     </main>
     <main v-else>
       <nav class="secondary">
-        <a href="#local">Local and national actors</a>
-        <a href="#regional">Regional actors</a>
-        <a href="#international">International actors</a>
-        <a href="#unknown">Undetermined actors</a>
+        <nuxt-link
+            :to="{name: 'orgs', hash: '#local'}"
+        >Local and national actors</nuxt-link>
+        <nuxt-link
+            :to="{name: 'orgs', hash: '#regional'}"
+        >Regional actors</nuxt-link>
+        <nuxt-link
+            :to="{name: 'orgs', hash: '#international'}"
+        >International actors</nuxt-link>
+        <nuxt-link
+            :to="{name: 'orgs', hash: '#unknown'}"
+        >Undetermined actors</nuxt-link>
       </nav>
       <h1>Aid organisations active in Somalia</h1>
       <!--

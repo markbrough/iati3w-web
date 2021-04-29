@@ -4,11 +4,15 @@
       <section id="content">
         <nav class="secondary">
           <template v-if="location_type == 'admin1'">
-          <a href="#districts">Districts</a>
+          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#districts'}"
+            >Districts</nuxt-link>
           </template>
-          <a href="#orgs">Organisations</a>
-          <a href="#sectors">Sectors</a>
-          <a href="#activities">Activities</a>
+          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#orgs'}"
+            >Organisations</nuxt-link>
+          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#sectors'}"
+            >Sectors</nuxt-link>
+          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#activities'}"
+            >Activities</nuxt-link>
         </nav>
         <h2>{{ location_name }} {{ location_type | location | capitalize }}</h2>
         <div

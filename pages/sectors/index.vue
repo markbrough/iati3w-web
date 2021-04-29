@@ -7,8 +7,12 @@
     </main>
     <main v-else>
       <nav class="secondary">
-        <a href="#humanitarian">Humanitarian</a>
-        <a href="#dac">OECD</a>
+        <nuxt-link
+            :to="{name: 'sectors', hash: '#humanitarian'}"
+          >Humanitarian</nuxt-link>
+        <nuxt-link
+            :to="{name: 'sectors', hash: '#dac'}"
+          >OECD</nuxt-link>
       </nav>
       <h2>Aid clusters and sectors in Somalia</h2>
       <section id="content">
