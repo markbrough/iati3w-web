@@ -35,21 +35,21 @@
             <nuxt-link
               v-for="org in activity.orgs.implementing"
               :key="org"
-              :to="{name: 'orgs-orgname', params: { orgname: orgs[org].info.shortname }}">{{ org }}</nuxt-link>
+              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
           </p>
           <p v-if="activity.orgs.programming">
             <b>Programming:</b>
             <nuxt-link
               v-for="org in activity.orgs.programming"
               :key="org"
-              :to="{name: 'orgs-orgname', params: { orgname: orgs[org].info.shortname }}">{{ org }}</nuxt-link>
+              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
           </p>
           <p v-if="activity.orgs.funding">
             <b>Funding:</b>
             <nuxt-link
               v-for="org in activity.orgs.funding"
               :key="org"
-              :to="{name: 'orgs-orgname', params: { orgname: orgs[org].info.shortname }}">{{ org }}</nuxt-link>
+              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
           </p>
         </section>
         <section id="sectors">
