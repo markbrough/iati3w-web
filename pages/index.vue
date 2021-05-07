@@ -47,7 +47,5 @@ export default {
 </script>
 
 <style scoped>
-dt {
-  padding-right: 15px;
-}
+
 </style>
