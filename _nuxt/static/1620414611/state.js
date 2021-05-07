@@ -1,0 +1,1 @@
+window.__NUXT__=(function(a){return {staticAssetsBase:"\u002Fiati3w-web\u002F_nuxt\u002Fstatic\u002F1620414611",layout:"default",error:a,state:{orgs:{},sectors:{},activities:{},locations:{}},serverRendered:true,routePath:"\u002F",config:{_app:{basePath:"\u002Fiati3w-web\u002F",assetsPath:"\u002Fiati3w-web\u002F_nuxt\u002F",cdnURL:a}}}}(null));
