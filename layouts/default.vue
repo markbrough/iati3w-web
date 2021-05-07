@@ -11,17 +11,40 @@
           <b-nav-item :to="{name: 'orgs'}" title="Organisations involved in activites in Somalia." active-class="active" >Who?</b-nav-item>
           <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >What?</b-nav-item>
           <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Where?</b-nav-item>
-          <b-nav-item href="#" disabled>About</b-nav-item>
+          <b-nav-item :to="{name: 'about'}" title="About the prototype IATI/3W explorer" active-class="active" >About</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <nuxt />
+    <footer class="mt-auto">
+      <b-container>
+        <b-row>
+          <b-col>
+            Created by <a href="https://www.devinit.org/"
+            target="_blank">Development Initiatives</a>, with funding
+            from the <a
+            href="https://www.government.nl/ministries/ministry-of-foreign-affairs"
+            target="_blank">Netherlands Ministry of Foreign
+            Affairs</a> on behalf of the <a
+            href="https://interagencystandingcommittee.org/greater-transparency"
+            target="_blank">Grand Bargain Transparency Workstream</a>
+          </b-col>
+          <b-col class="text-md-right">
+            This site is a prototype. Quality and accuracy are not guaranteed.
+          </b-col>
+        </b-row>
+      </b-container>
+    </footer>
   </div>
 </template>
 
 <style>
 body {
     font-family: sans-serif;
+}
+footer {
+  padding: 20px;
+  background-color: #e9ecef;
 }
 
 img.logo {
