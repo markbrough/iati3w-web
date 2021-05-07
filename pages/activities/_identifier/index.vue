@@ -11,7 +11,7 @@
             </tr>
             <tr>
               <th>Reported by</th>
-              <td>{{ activity.reported_by }} ({{ activity.source }})</td>
+              <td>{{ orgs[activity.reported_by].info.name }} ({{ activity.source }})</td>
             </tr>
             <template v-if="activity.dates.start">
               <tr>
@@ -32,43 +32,57 @@
           <h3>Who is working on this activity?</h3>
           <p v-if="activity.orgs.implementing">
             <b>Implementing:</b>
-            <nuxt-link
-              v-for="org in activity.orgs.implementing"
-              :key="org"
-              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
+            <span
+              v-for="(org, index) in activity.orgs.implementing"
+              :key="org">
+              <span v-if="index>0">;</span>
+              <nuxt-link
+                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                {{ orgs[org].info.name }}</nuxt-link>
+            </span>
           </p>
           <p v-if="activity.orgs.programming">
             <b>Programming:</b>
-            <nuxt-link
-              v-for="org in activity.orgs.programming"
-              :key="org"
-              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
+            <span
+              v-for="(org, index) in activity.orgs.programming"
+              :key="org">
+              <span v-if="index>0">;</span>
+              <nuxt-link
+                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                {{ orgs[org].info.name }}</nuxt-link>
+            </span>
           </p>
           <p v-if="activity.orgs.funding">
             <b>Funding:</b>
-            <nuxt-link
-              v-for="org in activity.orgs.funding"
-              :key="org"
-              :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">{{ orgs[org].info.name }}</nuxt-link>
+            <span
+              v-for="(org, index) in activity.orgs.funding"
+              :key="org">
+              <span v-if="index>0">;</span>
+              <nuxt-link
+                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                {{ orgs[org].info.name }}</nuxt-link>
+            </span>
           </p>
         </section>
         <section id="sectors">
           <h3>What sectors does the activity target?</h3>
           <p v-if="activity.sectors.humanitarian">
             <b>Humanitarian clusters:</b>
-            <LocationLink
+            <nuxt-link
               v-for="sector in activity.sectors.humanitarian"
               :key="sector"
-              type="humanitarian"
-              :name="sector" />
+              :to="{name: 'sectors-type-stub', params: { type: 'humanitarian', stub: sector }}"
+              :name="sector">{{ sectors.humanitarian[sector].name }}
+            </nuxt-link>
           </p>
-          <p v-if="activity.sectors.humanitarian">
+          <p v-if="activity.sectors.dac">
             <b>OECD sectors:</b>
-            <LocationLink
+            <nuxt-link
               v-for="sector in activity.sectors.dac"
               :key="sector"
-              type="dac"
-              :name="sector" />
+              :to="{name: 'sectors-type-stub', params: { type: 'dac', stub: sector }}"
+              :name="sector">{{ sectors.dac[sector].name }}
+            </nuxt-link>
           </p>
         </section>
         <section id="locations">
@@ -78,8 +92,8 @@
             <nuxt-link
               v-for="location in activity.locations.admin1"
               :key="location"
-              :to="{name: 'locations-type-locationname', params: { type: 'admin1', locationname: location }}">
-              {{ location }}
+              :to="{name: 'locations-type-stub', params: { type: 'admin1', stub: location, name: location }}">
+              {{ locations.admin1[location].info.name }}
             </nuxt-link>
           </p>
           <p>
@@ -87,8 +101,8 @@
             <nuxt-link
               v-for="location in activity.locations.admin2"
               :key="location"
-              :to="{name: 'locations-type-locationname', params: { type: 'admin2', locationname: location }}">
-              {{ location }}
+              :to="{name: 'locations-type-stub', params: { type: 'admin2', stub: location, name: location }}">
+              {{ locations.admin2[location].info.name }}
             </nuxt-link>
           </p>
           <p>
@@ -96,8 +110,8 @@
             <nuxt-link
               v-for="location in activity.locations.unclassified"
               :key="location"
-              :to="{name: 'locations-type-locationname', params: { type: 'unclassified', locationname: location }}">
-              {{ location }}
+              :to="{name: 'locations-type-stub', params: { type: 'unclassified', stub: location, name: location }}">
+              {{ locations.unclassified[location].info.name }}
             </nuxt-link>
           </p>
         </section>
@@ -119,11 +133,13 @@ export default {
     LocationLink
   },
   computed: {
-    ...mapState(['activities', 'orgs']),
+    ...mapState(['activities', 'orgs', 'locations', 'sectors']),
   },
   async mounted() {
     await this.$store.dispatch('loadActivities')
     await this.$store.dispatch('loadOrgs')
+    await this.$store.dispatch('loadLocations')
+    await this.$store.dispatch('loadSectors')
     this.activity = this.activities[this.$route.params.identifier]
     this.busy = false
   }
