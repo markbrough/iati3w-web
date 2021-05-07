@@ -8,7 +8,7 @@
     <main v-else>
       <h1>Locations of aid projects in Somalia</h1>
       <section id="content" v-if="locations">
-        <p>
+        <b-alert variant="info" show>
           These names reflect Somalia's official administrative
           divisions. The regions of Awdal, Sanaag, Sool, Toghdeer, and
           Woqooyi Galbeed make up <b>Somaliland</b>, a
@@ -16,7 +16,7 @@
           recognition. Somaliland divides Somalia's region of Woqooyi
           Galbeed into its own regions of <i>Maroodi Jeeh</i> and
           <i>Sahil</i>.
-        </p>
+        </b-alert>
 
         <section
           v-for="region_name in Object.keys(locations.admin1).sort()"
