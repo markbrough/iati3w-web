@@ -20,24 +20,26 @@
           <h3>Humanitarian clusters and areas of concern</h3>
           <div class="inline-list">
             <Sector
-              v-for="sector_name in Object.keys(sectors.humanitarian).sort()"
-              :key="sector_name"
-              :name="sector_name"
+              v-for="stub in Object.keys(sectors.humanitarian).sort()"
+              :key="stub"
+              :name="sectors.humanitarian[stub].name"
+              :stub="stub"
               type="humanitarian"
-              :org_count="flatten(sectors.humanitarian[sector_name].orgs).length"
-              :activity_count="flatten(sectors.humanitarian[sector_name].activities).length" />
+              :org_count="flatten(sectors.humanitarian[stub].orgs).length"
+              :activity_count="flatten(sectors.humanitarian[stub].activities).length" />
           </div>
         </section>
         <section id="dac">
           <h3>OECD-DAC purposes</h3>
           <div class="inline-list">
             <Sector
-              v-for="sector_name in Object.keys(sectors.dac).sort()"
-              :key="sector_name"
-              :name="sector_name"
+              v-for="stub in Object.keys(sectors.dac).sort()"
+              :key="stub"
+              :name="sectors.dac[stub].name"
+              :stub="stub"
               type="dac"
-              :org_count="flatten(sectors.dac[sector_name].orgs).length"
-              :activity_count="flatten(sectors.dac[sector_name].activities).length" />
+              :org_count="flatten(sectors.dac[stub].orgs).length"
+              :activity_count="flatten(sectors.dac[stub].activities).length" />
           </div>
         </section>
       </section>

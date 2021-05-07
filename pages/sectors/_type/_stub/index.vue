@@ -4,13 +4,13 @@
       <section id="content">
         <nav class="secondary">
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#orgs'}"
+            :to="{name: 'sectors-type-stub', params: { type: sector_type, stub: stub }, hash: '#orgs'}"
           >Organisations</nuxt-link>
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#locations'}"
+            :to="{name: 'sectors-type-stub', params: { type: sector_type, stub: stub }, hash: '#locations'}"
           >Locations</nuxt-link>
           <nuxt-link
-            :to="{name: 'sectors-type-sectorname', params: { type: sector_type, sectorname: sector_name }, hash: '#activities'}"
+            :to="{name: 'sectors-type-stub', params: { type: sector_type, stub: stub }, hash: '#activities'}"
           >Activities</nuxt-link>
         </nav>
         <h2>{{ sector_type | sector }}: {{ sector_name }}</h2>
@@ -35,13 +35,14 @@
           <section
             v-for="region_name in Object.keys(sector.locations.admin1).sort()"
             :key="region_name">
-            <h4>{{ region_name }}</h4>
+            <h4>{{ locations.admin1[region_name].info.name }}</h4>
             <div class="inline-list">
 
               <Location
                 v-for="district_name in Object.keys(sector.locations.admin2).sort()"
                 :key="district_name"
-                :name="district_name"
+                :name="locations.admin2[district_name].info.name"
+                :stub="district_name"
                 type="admin2"
                 :activity_count="sector.locations.admin2[district_name]" />
             </div>
@@ -88,14 +89,18 @@ export default {
       return this.$route.params.type
     },
     sector_name() {
-      return this.$route.params.sectorname
-    },...mapState(['sectors', 'orgs', 'activities'])
+      return this.sectors[this.sector_type][this.stub].name
+    },
+    stub() {
+      return this.$route.params.stub
+    },...mapState(['sectors', 'orgs', 'activities', 'locations'])
   },
   async mounted() {
     await this.$store.dispatch('loadSectors')
     await this.$store.dispatch('loadOrgs')
     await this.$store.dispatch('loadActivities')
-    this.sector = this.sectors[this.$route.params.type][this.$route.params.sectorname]
+    await this.$store.dispatch('loadLocations')
+    this.sector = this.sectors[this.$route.params.type][this.$route.params.stub]
     this.busy = false
   }
 }
