@@ -32,8 +32,9 @@
               :activity_count="flatten(sectors.humanitarian[stub].activities).length" />
           </div>
         </section>
+        <hr />
         <section id="dac">
-          <h3>OECD-DAC purposes</h3>
+          <h3>OECD-DAC sectors</h3>
           <client-only>
             <Treemap :data="sectors.dac" class="mb-4" />
           </client-only>
