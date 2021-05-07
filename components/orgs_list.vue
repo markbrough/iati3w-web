@@ -25,7 +25,7 @@
         </b-form-group>
       </b-col>
     </b-row>
-    <b-row v-if="totalRows > (page*perPage)">
+    <b-row v-if="totalRows > perPage">
       <b-col offset="md-6">
         <b-form-group
           label="Page"
@@ -97,6 +97,11 @@ export default {
     filteredOrgs() {
       return Object.fromEntries(
         this.filterOrgs.slice((this.page-1)*this.perPage, this.perPage*(this.page)))
+    }
+  },
+  watch: {
+    perPage() {
+      this.page = 1
     }
   }
 }

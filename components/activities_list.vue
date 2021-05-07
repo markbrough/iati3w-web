@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row class="mb-2" v-if="totalRows > (page*perPage)">
+    <b-row class="mb-2" v-if="totalRows > perPage">
       <b-col md="6"  class="my-1">
         <b-form-group
           label="Activities per page"
@@ -68,6 +68,11 @@ export default {
     },
     filteredActivities() {
       return this.activitiesList.slice((this.page-1)*this.perPage, this.perPage*(this.page))
+    }
+  },
+  watch: {
+    perPage() {
+      this.page = 1
     }
   }
 }
