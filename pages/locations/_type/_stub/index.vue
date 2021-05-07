@@ -4,14 +4,14 @@
       <section id="content">
         <nav class="secondary">
           <template v-if="location_type == 'admin1'">
-          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#districts'}"
+            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#districts'}"
             >Districts</nuxt-link>
           </template>
-          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#orgs'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#orgs'}"
             >Organisations</nuxt-link>
-          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#sectors'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#sectors'}"
             >Sectors</nuxt-link>
-          <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: location_name, type: location_type }, hash: '#activities'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#activities'}"
             >Activities</nuxt-link>
         </nav>
         <h2>{{ location_name }} {{ location_type | location | capitalize }}</h2>
@@ -21,8 +21,8 @@
           v-if="info.info[level]">
           <p>
             <b>{{ level | location }}: </b>
-            <nuxt-link :to="{name: 'locations-type-locationname', params: { locationname: info.info[level], type: level }}">
-              {{ info.info[level] }}
+            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info[level], type: level }}">
+              {{ locations[level][info.info[level]].info.name }}
             </nuxt-link>
           </p>
         </div>
@@ -32,8 +32,9 @@
             <Location
               v-for="district_name in Object.keys(locations.admin2).sort()"
               :key="district_name"
-              v-if="locations.admin2[district_name].info.admin1==location_name"
-              :name="district_name"
+              v-if="locations.admin2[district_name].info.admin1==stub"
+              :stub="district_name"
+              :name="locations.admin2[district_name].info.name"
               type="admin2"
               :org_count="flatten(locations.admin2[district_name].orgs).length"
               :activity_count="locations.admin2[district_name].activities.length" />
@@ -44,7 +45,7 @@
           <section :id="`orgs.${ scope }`"
             v-for='scope in ["local", "regional", "international", "unknown"]'
             v-if="Object.keys(info.orgs[scope]).length > 0">
-            <h4>{{ scope | scope }}s</h4>
+            <h4>{{ scope | scope | capitalize }}s</h4>
             <div class="inline-list">
               <Org
                 v-for="org_name in Object.keys(info.orgs[scope]).sort()"
@@ -64,11 +65,12 @@
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
-                  v-for="sector_name in Object.keys(info.sectors[type]).sort()"
-                  :key="sector_name"
-                  :name="sector_name"
+                  v-for="stub in Object.keys(info.sectors[type]).sort()"
+                  :key="stub"
+                  :stub="stub"
+                  :name="sectors[type][stub].name"
                   :type="type"
-                  :activity_count="info.sectors[type][sector_name]" />
+                  :activity_count="info.sectors[type][stub]" />
               </div>
             </section>
           </div>
@@ -129,19 +131,25 @@ export default {
         this.org.activities
       ).length
     },
+    location_name() {
+      if (Object.keys(this.locations).length > 0) {
+        return this.locations[this.$route.params.type][this.$route.params.stub].info.name
+      }
+    },
     location_type() {
       return this.$route.params.type
     },
-    location_name() {
-      return this.$route.params.locationname
+    stub() {
+      return this.$route.params.stub
     },
-    ...mapState(['orgs', 'activities', 'locations']),
+    ...mapState(['orgs', 'activities', 'locations', 'sectors']),
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
-    this.$store.dispatch('loadLocations')
+    await this.$store.dispatch('loadLocations')
     await this.$store.dispatch('loadActivities')
-    this.info = this.locations[this.$route.params.type][this.$route.params.locationname]
+    await this.$store.dispatch('loadSectors')
+    this.info = this.locations[this.$route.params.type][this.$route.params.stub]
     this.busy = false
   }
 }

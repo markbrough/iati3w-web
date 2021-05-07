@@ -23,7 +23,8 @@
           :key="region_name">
           <h3>
             <LocationLink
-              :name="region_name"
+              :stub="region_name"
+              :name="locations.admin1[region_name].info.name"
               type="admin1" />
             ({{ locations.admin1[region_name].orgs | flatten | length | plural("organisation", "organisations") }})
           </h3>
@@ -31,7 +32,8 @@
             <Location
               v-for="district_name in Object.keys(locations.admin2).sort()"
               :key="district_name"
-              :name="district_name"
+              :name="locations.admin2[district_name].info.name"
+              :stub="district_name"
               type="admin2"
               :org_count="flatten(locations.admin2[district_name].orgs).length"
               :activity_count="flatten(locations.admin2[district_name].activities).length" />
