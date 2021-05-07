@@ -6,7 +6,7 @@
       </div>
     </main>
     <main v-else>
-      <h2>Locations for aid projects in Somalia</h2>
+      <h1>Locations of aid projects in Somalia</h1>
       <section id="content" v-if="locations">
         <p>
           These names reflect Somalia's official administrative
