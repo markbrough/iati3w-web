@@ -20,7 +20,13 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/iati3w-icon.png' }
-    ]
+    ],
+    bodyAttrs: {
+      class: 'd-flex flex-column h-100'
+    },
+    htmlAttrs: {
+      class: 'h-100'
+    }
   },
   /*
   ** Customize the progress-bar color
