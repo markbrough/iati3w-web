@@ -19,7 +19,7 @@
     <footer class="mt-auto">
       <b-container>
         <b-row>
-          <b-col>
+          <b-col md="6">
             Created by <a href="https://www.devinit.org/"
             target="_blank">Development Initiatives</a>, with funding
             from the <a
@@ -29,7 +29,7 @@
             href="https://interagencystandingcommittee.org/greater-transparency"
             target="_blank">Grand Bargain Transparency Workstream</a>
           </b-col>
-          <b-col class="text-md-right">
+          <b-col md="6" class="text-md-right">
             This site is a prototype. Quality and accuracy are not guaranteed.
           </b-col>
         </b-row>

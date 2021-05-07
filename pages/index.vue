@@ -18,13 +18,19 @@
             Initiative</a> (IATI).
           </template>
           <hr />
-          <p class="lead text-center">
+          <p class="lead text-md-center">
             Explore the data on Somalia's aid response:
           </p>
           <b-row>
-            <b-col><b-btn block variant="primary" :to="{name: 'orgs'}">Who? (Organisations)</b-btn></b-col>
-            <b-col><b-btn block variant="primary" :to="{name: 'sectors'}">What? (Sectors)</b-btn></b-col>
-            <b-col><b-btn block variant="primary" :to="{name: 'locations'}">Where? (Places)</b-btn></b-col>
+            <b-col md="4" class="mb-2">
+              <b-btn block variant="primary" :to="{name: 'orgs'}">Who? (Organisations)</b-btn>
+            </b-col>
+            <b-col md="4" class="mb-2">
+              <b-btn block variant="primary" :to="{name: 'sectors'}">What? (Sectors)</b-btn>
+            </b-col>
+            <b-col md="4" class="mb-2">
+              <b-btn block variant="primary" :to="{name: 'locations'}">Where? (Places)</b-btn>
+            </b-col>
           </b-row>
         </b-jumbotron>
       </section>
