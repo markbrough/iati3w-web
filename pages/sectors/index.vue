@@ -18,6 +18,9 @@
       <section id="content">
         <section id="humanitarian">
           <h3>Humanitarian clusters and areas of concern</h3>
+          <client-only>
+            <Treemap :data="sectors.humanitarian" class="mb-4" />
+          </client-only>
           <div class="inline-list">
             <Sector
               v-for="stub in Object.keys(sectors.humanitarian).sort()"
@@ -31,6 +34,9 @@
         </section>
         <section id="dac">
           <h3>OECD-DAC purposes</h3>
+          <client-only>
+            <Treemap :data="sectors.dac" class="mb-4" />
+          </client-only>
           <div class="inline-list">
             <Sector
               v-for="stub in Object.keys(sectors.dac).sort()"
@@ -49,6 +55,7 @@
 <script>
 import { mapState } from 'vuex'
 import Sector from '~/components/sector.vue'
+import Treemap from '~/components/treemap.vue'
 export default {
   data() {
     return {
@@ -56,7 +63,7 @@ export default {
     }
   },
   components: {
-    Sector
+    Sector, Treemap
   },
   methods: {
     flatten(items) {
