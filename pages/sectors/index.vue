@@ -14,7 +14,7 @@
             :to="{name: 'sectors', hash: '#dac'}"
           >OECD</nuxt-link>
       </nav>
-      <h2>Aid clusters and sectors in Somalia</h2>
+      <h1>Aid clusters and sectors in Somalia</h1>
       <section id="content">
         <section id="humanitarian">
           <h3>Humanitarian clusters and areas of concern</h3>
