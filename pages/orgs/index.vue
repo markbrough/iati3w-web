@@ -49,7 +49,6 @@
             </div>
           </section>
         </div>
-        <p class="loading">Loading…</p>
       </section>
     </main>
 
