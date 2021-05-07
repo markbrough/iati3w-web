@@ -1,6 +1,7 @@
 <template>
   <div class="item">
     <LocationLink
+      :stub="stub"
       :name="name"
       :type="type" />
     <span class="info" v-if="org_count > -1">
@@ -18,6 +19,7 @@ export default {
     return { }
   },
   props: {
+    stub: String,
     name: String,
     type: String,
     org_count: {

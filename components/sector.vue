@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <nuxt-link :to="{name: 'sectors-type-sectorname', params: { type: type, sectorname: name }}">{{ name }}</nuxt-link>
+    <nuxt-link :to="{name: 'sectors-type-stub', params: { type: type, stub: stub }}">{{ name }}</nuxt-link>
     <template v-if="org_count > -1">
       <span class="info">{{ org_count | plural("organisation", "organisations") }}</span>
     </template>
@@ -17,6 +17,7 @@ export default {
   props: {
     name: String,
     type: String,
+    stub: String,
     org_count: {
       type: Number,
       default: -1

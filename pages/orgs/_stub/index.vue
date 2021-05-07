@@ -86,11 +86,12 @@
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
-                  v-for="sector_name in Object.keys(org.sectors[type]).sort()"
-                  :key="sector_name"
-                  :name="sector_name"
+                  v-for="stub in Object.keys(org.sectors[type]).sort()"
+                  :key="stub"
+                  :stub="stub"
+                  :name="sectors[type][stub].name"
                   :type="type"
-                  :activity_count="org.sectors[type][sector_name]" />
+                  :activity_count="org.sectors[type][stub]" />
               </div>
             </section>
           </div>
@@ -107,7 +108,8 @@
           :key="region_name">
           <h4>
             <LocationLink
-              :name="region_name"
+              :stub="region_name"
+              :name="locations.admin1[region_name].info.name"
               type="admin1" />
             ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
           </h4>
@@ -115,7 +117,8 @@
             <Location
               v-for="district_name in Object.keys(org.locations.admin2).sort()"
               :key="district_name"
-              :name="district_name"
+              :name="locations.admin2[district_name].info.name"
+              :stub="district_name"
               type="admin2"
               :activity_count="org.locations.admin2[district_name]" />
           </div>
@@ -189,13 +192,14 @@ export default {
         this.org.activities
       ).length
     },
-    ...mapState(['orgs', 'activities', 'locations']),
+    ...mapState(['orgs', 'activities', 'locations', 'sectors']),
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
     this.org = this.orgs[this.$route.params.stub]
     this.$store.dispatch('loadLocations')
     await this.$store.dispatch('loadActivities')
+    await this.$store.dispatch('loadSectors')
     this.busy = false
   }
 }
