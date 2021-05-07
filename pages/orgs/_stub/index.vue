@@ -50,7 +50,7 @@
         You can learn more about {{ org.info.shortname }} at <a :href="org.info.url" target="_blank" rel="nofollow">{{ org.info.url }}</a>
       </p>
       </template>
-
+      <hr />
       <section id="partners">
         <h3>Organisations who partner with {{ org.info.shortname }}</h3>
         <template v-if="partner_count > 0">
@@ -73,16 +73,16 @@
         <template v-else>
           <p class="notice">(No partner organisations found for {{ org.info.name }}.)</p>
         </template>
+        <hr />
       </section>
-
       <section id="sectors">
         <h3>Sectors where {{ org.info.shortname }} works</h3>
         <template v-if="sector_count > 0">
           <div
             v-for="type in Object.keys(org.sectors)"
-            :key="type">
-            <section :id="`sectors.${ type }`"
-              v-if="Object.keys(org.sectors[type]).length > 0">
+            :key="type"
+            v-if="Object.keys(org.sectors[type]).length > 0">
+            <section :id="`sectors.${ type }`">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
@@ -99,8 +99,8 @@
         <template v-else>
           <p class="notice">(No sectors found for {{ org.info.name }}.)</p>
         </template>
+        <hr />
       </section>
-
       <section id="locations" v-if="region_count > 0">
         <h3>Regions where {{ org.info.shortname }} works</h3>
         <div
@@ -123,8 +123,8 @@
               :activity_count="org.locations.admin2[district_name]" />
           </div>
         </div>
+        <hr />
       </section>
-
       <section id="activities">
         <h3>Activities involving {{ org.info.shortname }}</h3>
         <section :id="`activities.${ type }`"
@@ -132,12 +132,9 @@
           :key="type"
           v-if="org.activities[type].length > 0">
           <h4>{{ org.info.shortname }} as {{ type | role }} ({{ org.activities[type].length }})</h4>
-          <div class="inline-list wide">
-            <Activity
-              v-for="activity_id in org.activities[type]"
-              :key="activity_id"
-              :activity="activities[activity_id]" />
-          </div>
+          <ActivitiesList
+            :activities="activities"
+            :activitiesList="org.activities[type]" />
         </section>
       </section>
       </section>
@@ -150,7 +147,7 @@ import Org from '~/components/org.vue'
 import Sector from '~/components/sector.vue'
 import LocationLink from '~/components/location_link.vue'
 import Location from '~/components/location.vue'
-import Activity from '~/components/activity.vue'
+import ActivitiesList from '~/components/activities_list.vue'
 export default {
   data() {
     return {
@@ -164,7 +161,7 @@ export default {
     }
   },
   components: {
-    Org, Sector, LocationLink, Location, Activity
+    Org, Sector, LocationLink, Location, ActivitiesList
   },
   methods: {
     urlenc(value) {

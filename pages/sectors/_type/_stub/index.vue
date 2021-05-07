@@ -29,6 +29,7 @@
                 :activity_count="sector.orgs[scope][org_name]" />
             </div>
           </section>
+          <hr />
         </section>
         <section id="locations">
           <h3>Where {{ sector_name }} is active</h3>
@@ -48,15 +49,13 @@
             </div>
           </section>
           <p class="warning" v-if="Object.keys(sector.locations.admin1).length == 0">No location information available for {{ sector_name }}.</p>
+          <hr />
         </section>
         <section id="activities">
           <h3>Activities related to {{ sector_name }} ({{ sector.activities | length }})</h3>
-          <div class="inline-list wide">
-            <Activity
-              v-for="activity_id in sector.activities"
-              :key="activity_id"
-              :activity="activities[activity_id]" />
-          </div>
+          <ActivitiesList
+            :activities="activities"
+            :activitiesList="sector.activities" />
         </section>
       </section>
     </main>
@@ -66,7 +65,7 @@
 import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 import Location from '~/components/location.vue'
-import Activity from '~/components/activity.vue'
+import ActivitiesList from '~/components/activities_list.vue'
 export default {
   data() {
     return {
@@ -75,7 +74,7 @@ export default {
     }
   },
   components: {
-    Org, Location, Activity
+    Org, Location, ActivitiesList
   },
   methods: {
     flatten(items) {

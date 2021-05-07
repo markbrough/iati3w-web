@@ -77,12 +77,9 @@
         </section>
         <section id="activities">
           <h3>Aid activities in {{ location_name }}</h3>
-          <div class="inline-list wide">
-            <Activity
-              v-for="activity_id in info.activities"
-              :key="activity_id"
-              :activity="activities[activity_id]" />
-          </div>
+          <ActivitiesList
+            :activities="activities"
+            :activitiesList="info.activities" />
         </section>
       </section>
     </main>
@@ -94,7 +91,7 @@ import Org from '~/components/org.vue'
 import Sector from '~/components/sector.vue'
 import LocationLink from '~/components/location_link.vue'
 import Location from '~/components/location.vue'
-import Activity from '~/components/activity.vue'
+import ActivitiesList from '~/components/activities_list.vue'
 export default {
   data() {
     return {
@@ -103,7 +100,7 @@ export default {
     }
   },
   components: {
-    Org, Sector, LocationLink, Location, Activity
+    Org, Sector, LocationLink, Location, ActivitiesList
   },
   methods: {
     flatten(items) {
