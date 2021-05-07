@@ -87,7 +87,8 @@ nav.secondary a {
 }
 
 main {
-  margin-top:60px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   word-wrap: break-word;
 }
 
