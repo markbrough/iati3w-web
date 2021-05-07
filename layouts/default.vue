@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column h-100">
     <b-navbar toggleable="lg" type="light" variant="light" class="navbar-primary" sticky>
       <b-navbar-brand :to="{name: 'index'}" title="Home">
         <img src="~/assets/iati3w-icon.png" class="logo" />
@@ -49,6 +49,11 @@ footer {
 
 img.logo {
     height: 2ex;
+}
+div#__nuxt, div#__layout {
+  height: 100% !important;
+  flex-direction: column !important;
+  display: flex !important;
 }
 
 .navbar-primary {
