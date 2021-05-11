@@ -29,7 +29,7 @@
               :stub="stub"
               type="humanitarian"
               :org_count="flatten(sectors.humanitarian[stub].orgs).length"
-              :activity_count="flatten(sectors.humanitarian[stub].activities).length" />
+              :activity_count="sectors.humanitarian[stub].activities.length" />
           </div>
         </section>
         <hr />
@@ -46,7 +46,7 @@
               :stub="stub"
               type="dac"
               :org_count="flatten(sectors.dac[stub].orgs).length"
-              :activity_count="flatten(sectors.dac[stub].activities).length" />
+              :activity_count="sectors.dac[stub].activities.length" />
           </div>
         </section>
       </section>

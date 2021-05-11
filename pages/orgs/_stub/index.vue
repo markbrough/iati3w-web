@@ -116,6 +116,7 @@
           <div class="inline-list">
             <Location
               v-for="district_name in Object.keys(org.locations.admin2).sort()"
+              v-if="locations.admin2[district_name].info.admin1==region_name"
               :key="district_name"
               :name="locations.admin2[district_name].info.name"
               :stub="district_name"
