@@ -19,7 +19,10 @@
         <section id="humanitarian">
           <h3>Humanitarian clusters and areas of concern</h3>
           <client-only>
-            <Treemap :data="sectors.humanitarian" class="mb-4" />
+            <Treemap
+              :data="sectors.humanitarian"
+              type="humanitarian"
+              class="mb-4" />
           </client-only>
           <div class="inline-list">
             <Sector
@@ -36,7 +39,10 @@
         <section id="dac">
           <h3>OECD-DAC sectors</h3>
           <client-only>
-            <Treemap :data="sectors.dac" class="mb-4" />
+            <Treemap
+              :data="sectors.dac"
+              type="dac"
+              class="mb-4" />
           </client-only>
           <div class="inline-list">
             <Sector
