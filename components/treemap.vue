@@ -3,7 +3,11 @@
       <canvas ref="treemapCanvas" class="treemap"></canvas>
     </div>
 </template>
-
+<style scoped>
+canvas {
+  cursor: pointer;
+}
+</style>
 <script>
 import Chart from 'chart.js';
 import 'chartjs-chart-treemap';
