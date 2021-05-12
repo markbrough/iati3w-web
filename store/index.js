@@ -7,7 +7,8 @@ export const state = () => ({
   orgs: {},
   sectors: {},
   activities: {},
-  locations: {}
+  locations: {},
+  geoJSONData: {}
 })
 
 export const mutations = {
@@ -22,6 +23,9 @@ export const mutations = {
   },
   setLocations (state, locations) {
     state.locations = locations
+  },
+  setGeoJSONData (state, data) {
+    state.geoJSONData = data
   }
 }
 
@@ -57,5 +61,12 @@ export const actions = {
     const { data } = await axios
       .get(`${baseURL}/activities.json`)
     commit('setActivities', data)
+  },
+  async loadMapData({ commit, state }) {
+    if (Object.keys(state.geoJSONData).length > 0) {
+      return true
+    }
+    const { data } = await axios.get('https://brough.io/somalia-3w-iati/somalia-adm1.geojson')
+    commit('setGeoJSONData', data)
   }
 }

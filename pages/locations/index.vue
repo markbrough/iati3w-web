@@ -17,7 +17,11 @@
           Galbeed into its own regions of <i>Maroodi Jeeh</i> and
           <i>Sahil</i>.
         </b-alert>
-
+        <client-only>
+          <RegionMap
+            :locations="locations"
+            class="mb-4" />
+        </client-only>
         <section
           v-for="region_name in Object.keys(locations.admin1).sort()"
           :key="region_name">
@@ -48,6 +52,7 @@
 import { mapState } from 'vuex'
 import Location from '~/components/location.vue'
 import LocationLink from '~/components/location_link.vue'
+import RegionMap from '~/components/Maps/RegionMap.vue'
 export default {
   data() {
     return {
@@ -55,7 +60,8 @@ export default {
     }
   },
   components: {
-    Location, LocationLink
+    Location, LocationLink,
+    RegionMap
   },
   methods: {
     flatten(items) {
