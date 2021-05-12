@@ -61,7 +61,7 @@ export default {
   computed: {
     regions () {
       const locationsNamesStubs = Object.entries(this.locations.admin1).reduce((summary, item) => {
-        summary[item[1].info.name] = item[0]
+        summary[item[1].info.name] = { stub: item[0], data: item[1] }
         return summary
       }, {})
       if (Object.keys(this.geoJSONData).length === 0) { return [] }
@@ -70,7 +70,8 @@ export default {
           region: feature.properties.admin1Name,
           regionName: feature.properties.admin1Name,
           features: [feature],
-          stub: locationsNamesStubs[feature.properties.admin1Name]
+          stub: locationsNamesStubs[feature.properties.admin1Name] ? locationsNamesStubs[feature.properties.admin1Name].stub : '',
+          data: locationsNamesStubs[feature.properties.admin1Name] ? locationsNamesStubs[feature.properties.admin1Name].data : {}
         }
       })
     },

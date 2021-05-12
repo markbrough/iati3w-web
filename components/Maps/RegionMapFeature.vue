@@ -33,8 +33,9 @@ export default {
         layer.on('click', () => {
           this.clickRegion()
         })
+        const activities = this.geojson.data.activities ? this.geojson.data.activities.length : 'unknown'
         layer.bindTooltip(
-          this.regionName,
+          `${this.regionName}: ${activities} activities`,
           { permanent: false, sticky: true }
         )
       }
