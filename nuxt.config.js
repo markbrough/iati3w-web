@@ -16,7 +16,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: 'This prototype throws an international spotlight on the work of local and national aid actors in Somalia, and their relationships with regional and international partners.' }
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/iati3w-icon.png' }
