@@ -18,8 +18,11 @@
     "bootstrap-vue": "^2.0.0",
     "chart.js": "^2.9.4",
     "chartjs-chart-treemap": "^0.2.2",
+    "leaflet": "^1.7.1",
     "nuxt": "^2.0.0",
-    "vue-chartjs": "^3.5.1"
+    "nuxt-leaflet": "0.0.25",
+    "vue-chartjs": "^3.5.1",
+    "vue2-leaflet": "^2.7.0"
   },
   "devDependencies": {
     "push-dir": "^0.4.1"
