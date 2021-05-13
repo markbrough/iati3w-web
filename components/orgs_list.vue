@@ -1,46 +1,13 @@
 <template>
   <div>
     <b-row class="mb-2">
-      <b-col lg="6" class="my-1">
+      <b-col lg="12" class="my-1">
         <b-form-input
           id="filter-input"
           v-model="filter"
           type="search"
           placeholder="Type to search organisations..."
         ></b-form-input>
-      </b-col>
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Organisations per page"
-          label-for="per-page"
-          label-cols-sm="5"
-          label-align-sm="right"
-          class="mb-0"
-        >
-          <b-form-select
-            id="per-page"
-            v-model="perPage"
-            :options="[100,200,500,1000]"
-          ></b-form-select>
-        </b-form-group>
-      </b-col>
-    </b-row>
-    <b-row v-if="totalRows > perPage">
-      <b-col offset="md-6">
-        <b-form-group
-          label="Page"
-          label-cols-sm="5"
-          label-align-sm="right"
-          class="mb-0">
-          <b-pagination
-            v-model="page"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            align="fill"
-            size="sm"
-            class="my-0"
-          ></b-pagination>
-        </b-form-group>
       </b-col>
     </b-row>
     <hr />
@@ -69,9 +36,7 @@ import Org from '~/components/org.vue'
 export default {
   data() {
     return {
-      perPage: 100,
       filter: null,
-      page: 1
     }
   },
   components: {
@@ -81,28 +46,19 @@ export default {
     orgs: Object
   },
   computed: {
-    filterStub() {
-      return this.filter.toLowerCase().replace(/[\W_]+/g,"-")
-    },
     filterOrgs() {
       const entries = Object.entries(this.orgs)
       if ([null, ''].includes(this.filter)) { return entries }
       return entries.filter(item => {
-        return item[0].includes(this.filterStub)
+        return item[1].info.name.includes(this.filter)
       })
-    },
-    totalRows() {
-      return this.filterOrgs.length
     },
     filteredOrgs() {
       return Object.fromEntries(
-        this.filterOrgs.slice((this.page-1)*this.perPage, this.perPage*(this.page)))
+        this.filterOrgs)
     }
   },
   watch: {
-    perPage() {
-      this.page = 1
-    }
   }
 }
 </script>
