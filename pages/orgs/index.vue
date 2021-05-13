@@ -21,11 +21,6 @@
         >Undetermined actors</nuxt-link>
       </nav>
       <h1>Aid organisations active in Somalia</h1>
-      <!--
-      <div id="map">
-        Loading map...
-      </div>
-      -->
       <p>
         The following organisations are associated with 3W and IATI
         activities from 2020 onwards.
