@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <nuxt-link :title="org.info.stub" :to="{name: 'orgs-stub', params: { stub: org.info.stub }}">{{ org.info.shortname | truncate }}</nuxt-link>
+    <nuxt-link :title="org.info.stub" :to="{name: 'orgs-stub', params: { stub: org.info.stub }}">{{ org.info.name }}</nuxt-link>
     <span class="info"><b>Source:</b> {{ org.sources | join }}</span>
     <span class="info">{{ activity_count | plural("activity", "activities") }}</span>
   </div>
