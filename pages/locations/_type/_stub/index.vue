@@ -51,13 +51,13 @@
             v-for='scope in ["local", "regional", "international", "unknown"]'
             v-if="Object.keys(info.orgs[scope]).length > 0">
             <h4>{{ scope | scope | capitalize }}s</h4>
-            <div class="inline-list">
+            <b-card-group columns>
               <Org
                 v-for="org_name in Object.keys(info.orgs[scope]).sort()"
                 :key="org_name"
                 :org="orgs[org_name]"
                 :activity_count="info.orgs[scope][org_name]" />
-            </div>
+            </b-card-group>
           </section>
         </section>
         <section id="sectors">

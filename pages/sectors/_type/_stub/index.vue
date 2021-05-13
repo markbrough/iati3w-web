@@ -26,13 +26,13 @@
             :key="scope"
             v-if="Object.keys(sector.orgs[scope]).length > 0">
             <h4>{{ scope | scope | capitalize }}s</h4>
-            <div class="inline-list">
+            <b-card-group columns>
               <Org
                 v-for="org_name in Object.keys(sector.orgs[scope]).sort()"
                 :key="org_name"
                 :org="orgs[org_name]"
                 :activity_count="sector.orgs[scope][org_name]" />
-            </div>
+            </b-card-group>
           </section>
           <hr />
         </section>

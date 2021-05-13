@@ -31,7 +31,7 @@
           <b-collapse :id="`accordion-${scope}`" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
-                <div class="inline-list">
+                <b-card-group columns>
                   <Org
                     v-for="org in filteredOrgs"
                     :key="org.info.name"
@@ -39,7 +39,7 @@
                     :org="org"
                     :activity_count="org.total_activities"
                     />
-                </div>
+                </b-card-group>
               </b-card-text>
             </b-card-body>
           </b-collapse>
