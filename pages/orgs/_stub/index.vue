@@ -162,6 +162,7 @@
   </div>
 </template>
 <script>
+import VueScrollTo from 'vue-scrollto'
 import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 import Sector from '~/components/sector.vue'
@@ -189,7 +190,16 @@ export default {
       return this.$options.filters.urlenc(
         value
       )
-    }
+    },
+    handleScroll() {
+      var hash = this.$route.hash.split("#")[1]
+      if (this.$route.hash) {
+        setTimeout(() => {
+          var anchor = document.getElementById(hash)
+          VueScrollTo.scrollTo(anchor, 500)
+        }, 300)
+      }
+    },
   },
   computed: {
     sector_count() {
@@ -219,6 +229,7 @@ export default {
     await this.$store.dispatch('loadActivities')
     await this.$store.dispatch('loadSectors')
     this.busy = false
+    this.handleScroll()
   }
 }
 </script>
