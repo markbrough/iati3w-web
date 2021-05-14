@@ -10,8 +10,8 @@
 export default {
   components: {
   },
-  props: ['opacity', 'region', 'regionName',
-    'geojson', 'type'],
+  props: ['activities', 'region', 'regionName',
+    'geojson', 'type', 'totalActivities'],
   computed: {
     options () {
       return {
@@ -33,15 +33,19 @@ export default {
         layer.on('click', () => {
           this.clickRegion()
         })
-        const activities = this.geojson.data.activities ? this.geojson.data.activities.length : 'unknown'
+        const activities = this.numActivities
         layer.bindTooltip(
           `${this.regionName}: ${activities} activities`,
           { permanent: false, sticky: true }
         )
       }
     },
+    numActivities() {
+      if (!(this.regionName in this.activities)) { return 0 }
+      return this.activities[this.regionName]
+    },
     fillOpacity () {
-      return this.opacity[this.regionName] || 0
+      return ((this.numActivities / this.totalActivities) * 10) || 0
     },
     optionsStyle () {
       const _fillColor = '#585fd2'

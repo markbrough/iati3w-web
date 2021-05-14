@@ -16,7 +16,8 @@
           v-for="region in regions"
           :key="region.region"
           :geojson="region"
-          :opacity="opacity"
+          :activities="activities"
+          :total-activities="totalActivities"
           :region="region.region"
           :region-name="region.regionName"
           type="admin1" />
@@ -39,7 +40,7 @@ export default {
   components: {
     RegionMapFeature
   },
-  props: ['locations'],
+  props: ['locations', 'locationsList'],
   data () {
     return {
       busy: true,
@@ -59,28 +60,61 @@ export default {
     }
   },
   computed: {
-    regions () {
-      const locationsNamesStubs = Object.entries(this.locations.admin1).reduce((summary, item) => {
+    locationsNamesStubs() {
+      return Object.entries(this.locations.admin1).reduce((summary, item) => {
         summary[item[1].info.name] = { stub: item[0], data: item[1] }
         return summary
       }, {})
+    },
+    locationsStubsNames() {
+      return Object.entries(this.locations.admin1).reduce((summary, item) => {
+        summary[item[0]] = item[1].info.name
+        return summary
+      }, {})
+    },
+    regions () {
       if (Object.keys(this.geoJSONData).length === 0) { return [] }
       return this.geoJSONData.features.map((feature) => {
         return {
           region: feature.properties.admin1Name,
           regionName: feature.properties.admin1Name,
           features: [feature],
-          stub: locationsNamesStubs[feature.properties.admin1Name] ? locationsNamesStubs[feature.properties.admin1Name].stub : '',
-          data: locationsNamesStubs[feature.properties.admin1Name] ? locationsNamesStubs[feature.properties.admin1Name].data : {}
+          stub: this.locationsNamesStubs[feature.properties.admin1Name] ? this.locationsNamesStubs[feature.properties.admin1Name].stub : '',
+          data: this.locationsNamesStubs[feature.properties.admin1Name] ? this.locationsNamesStubs[feature.properties.admin1Name].data : {}
         }
       })
     },
-    opacity () {
-      const totalActivities = Object.entries(this.locations.admin1).reduce((summary, item) => {
+    activities() {
+      if (this.locationsList) { return this.activitiesLocationsList }
+      else { return this.activitiesLocations }
+    },
+    totalActivities() {
+      if (this.locationsList) {
+        return this.totalActivitiesLocationsList
+      }
+      else {
+        return this.totalActivitiesLocations
+      }
+    },
+    totalActivitiesLocationsList(){
+      return Object.entries(this.locationsList.admin1).reduce((summary, item) => {
+        return summary + item[1]
+      }, 0)
+    },
+    totalActivitiesLocations(){
+      return Object.entries(this.locations.admin1).reduce((summary, item) => {
         return summary + item[1].activities.length
       }, 0)
+    },
+    activitiesLocationsList() {
+      return Object.entries(this.locationsList.admin1).reduce((summary, item) => {
+        summary[this.locationsStubsNames[item[0]]] = item[1]
+        return summary
+      }, {})
+    },
+    activitiesLocations() {
       return Object.entries(this.locations.admin1).reduce((summary, item) => {
-        summary[item[1].info.name] = (item[1].activities.length / totalActivities) * 10
+        summary[item[1].info.name] = item[1].activities.length
         return summary
       }, {})
     },...mapState(['geoJSONData']),

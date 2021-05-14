@@ -108,27 +108,39 @@
       </section>
       <section id="locations" v-if="region_count > 0">
         <h3>Regions where {{ org.info.shortname }} works</h3>
-        <div
-          v-for="region_name in Object.keys(org.locations.admin1).sort()"
-          :key="region_name">
-          <h4>
-            <LocationLink
-              :stub="region_name"
-              :name="locations.admin1[region_name].info.name"
-              type="admin1" />
-            ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
-          </h4>
-          <div class="inline-list">
-            <Location
-              v-for="district_name in Object.keys(org.locations.admin2).sort()"
-              v-if="locations.admin2[district_name].info.admin1==region_name"
-              :key="district_name"
-              :name="locations.admin2[district_name].info.name"
-              :stub="district_name"
-              type="admin2"
-              :activity_count="org.locations.admin2[district_name]" />
-          </div>
-        </div>
+        <b-row>
+          <b-col>
+            <client-only>
+              <RegionMap
+                :locations="locations"
+                :locations-list="org.locations"
+                class="mb-4" />
+            </client-only>
+          </b-col>
+          <b-col>
+            <div
+              v-for="region_name in Object.keys(org.locations.admin1).sort()"
+              :key="region_name">
+              <h4>
+                <LocationLink
+                  :stub="region_name"
+                  :name="locations.admin1[region_name].info.name"
+                  type="admin1" />
+                ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
+              </h4>
+              <div class="inline-list">
+                <Location
+                  v-for="district_name in Object.keys(org.locations.admin2).sort()"
+                  v-if="locations.admin2[district_name].info.admin1==region_name"
+                  :key="district_name"
+                  :name="locations.admin2[district_name].info.name"
+                  :stub="district_name"
+                  type="admin2"
+                  :activity_count="org.locations.admin2[district_name]" />
+              </div>
+            </div>
+          </b-col>
+        </b-row>
         <hr />
       </section>
       <section id="activities">
@@ -154,6 +166,7 @@ import Sector from '~/components/sector.vue'
 import LocationLink from '~/components/location_link.vue'
 import Location from '~/components/location.vue'
 import ActivitiesList from '~/components/activities_list.vue'
+import RegionMap from '~/components/Maps/RegionMap.vue'
 export default {
   data() {
     return {
@@ -167,7 +180,7 @@ export default {
     }
   },
   components: {
-    Org, Sector, LocationLink, Location, ActivitiesList
+    Org, Sector, LocationLink, Location, ActivitiesList, RegionMap
   },
   methods: {
     urlenc(value) {
