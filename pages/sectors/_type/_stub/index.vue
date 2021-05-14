@@ -38,22 +38,35 @@
         </section>
         <section id="locations">
           <h3>Where {{ sector_name }} is active</h3>
-          <section
-            v-for="region_name in Object.keys(sector.locations.admin1).sort()"
-            :key="region_name">
-            <h4>{{ locations.admin1[region_name].info.name }}</h4>
-            <div class="inline-list">
-
-              <Location
-                v-for="district_name in Object.keys(sector.locations.admin2).sort()"
-                v-if="locations.admin2[district_name].info.admin1==region_name"
-                :key="district_name"
-                :name="locations.admin2[district_name].info.name"
-                :stub="district_name"
-                type="admin2"
-                :activity_count="sector.locations.admin2[district_name]" />
-            </div>
-          </section>
+          <b-row>
+            <b-col lg="4">
+              <client-only>
+                <RegionMap
+                  :locations="locations"
+                  :locations-list="sector.locations"
+                  class="mb-4" />
+              </client-only>
+            </b-col>
+            <b-col lg="8">
+              <b-card-group columns>
+                <b-card
+                  v-for="region_name in Object.keys(sector.locations.admin1).sort()"
+                  :key="region_name">
+                  <h4>{{ locations.admin1[region_name].info.name }}</h4>
+                  <div class="inline-list">
+                    <Location
+                      v-for="district_name in Object.keys(sector.locations.admin2).sort()"
+                      v-if="locations.admin2[district_name].info.admin1==region_name"
+                      :key="district_name"
+                      :name="locations.admin2[district_name].info.name"
+                      :stub="district_name"
+                      type="admin2"
+                      :activity_count="sector.locations.admin2[district_name]" />
+                  </div>
+                </b-card>
+              </b-card-group>
+            </b-col>
+          </b-row>
           <p class="warning" v-if="Object.keys(sector.locations.admin1).length == 0">No location information available for {{ sector_name }}.</p>
           <hr />
         </section>
@@ -72,6 +85,7 @@ import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 import Location from '~/components/location.vue'
 import ActivitiesList from '~/components/activities_list.vue'
+import RegionMap from '~/components/Maps/RegionMap.vue'
 export default {
   data() {
     return {
@@ -80,7 +94,7 @@ export default {
     }
   },
   components: {
-    Org, Location, ActivitiesList
+    Org, Location, ActivitiesList, RegionMap
   },
   methods: {
     flatten(items) {
