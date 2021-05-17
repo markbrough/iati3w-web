@@ -57,20 +57,35 @@
       </template>
       <hr />
       <section id="partners">
-        <h3>Organisations who partner with {{ org.info.shortname }}</h3>
+        <b-row>
+          <b-col lg="9">
+            <h3>Organisations who partner with {{ org.info.shortname }}</h3>
+          </b-col>
+          <b-col lg="3" class="text-md-right">
+            <b-form-radio-group
+              v-model="source"
+              :options="sourceOptions"
+              button-variant="outline-secondary"
+              name="radio-btn-outline"
+              buttons
+              size="sm"
+              class="w-100"
+            ></b-form-radio-group>
+          </b-col>
+        </b-row>
         <template v-if="partner_count > 0">
           <div
             v-for='scope in ["local", "regional", "international", "unknown"]'
             :key="scope">
             <section :id="`partners.${ scope }`"
-              v-if="Object.keys(org.partners[scope]).length > 0">
+              v-if="Object.keys(org.partners[source][scope]).length > 0">
               <h4>{{ scope | scope | capitalize }}s</h4>
               <b-card-group columns>
                 <Org
-                  v-for="partner_name in Object.keys(org.partners[scope]).sort()"
+                  v-for="partner_name in Object.keys(org.partners[source][scope]).sort()"
                   :key="partner_name"
                   :org="orgs[partner_name]"
-                  :activity_count="org.partners[scope][partner_name]" />
+                  :activity_count="org.partners[source][scope][partner_name]" />
               </b-card-group>
             </section>
           </div>
@@ -179,7 +194,22 @@ export default {
         locations: { admin1: [] },
         activities: []
       },
-      busy: true
+      busy: true,
+      source: 'all',
+      sourceOptions: [
+        {
+          value: 'iati',
+          text: 'IATI'
+        },
+        {
+          value: '3w',
+          text: '3W'
+        },
+        {
+          value: 'all',
+          text: 'IATI + 3W'
+        }
+      ]
     }
   },
   components: {
@@ -209,7 +239,7 @@ export default {
     },
     partner_count() {
       return this.$options.filters.flatten(
-        this.org.partners
+        this.org.partners[this.source]
       ).length
     },
     region_count() {
