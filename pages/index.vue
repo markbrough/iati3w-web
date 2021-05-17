@@ -23,13 +23,13 @@
           </p>
           <b-row>
             <b-col md="4" class="mb-2">
-              <b-btn block variant="primary" :to="{name: 'organisations'}">Who? (Organisations)</b-btn>
+              <b-btn block variant="primary" :to="{name: 'organisations'}">Organisations (Who?)</b-btn>
             </b-col>
             <b-col md="4" class="mb-2">
-              <b-btn block variant="primary" :to="{name: 'sectors'}">What? (Sectors)</b-btn>
+              <b-btn block variant="primary" :to="{name: 'sectors'}">Sectors (What?)</b-btn>
             </b-col>
             <b-col md="4" class="mb-2">
-              <b-btn block variant="primary" :to="{name: 'locations'}">Where? (Places)</b-btn>
+              <b-btn block variant="primary" :to="{name: 'locations'}">Locations (Where?)</b-btn>
             </b-col>
           </b-row>
         </b-jumbotron>
