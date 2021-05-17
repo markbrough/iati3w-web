@@ -11,6 +11,7 @@
           <b-nav-item :to="{name: 'organisations'}" title="Organisations involved in activites in Somalia." active-class="active" >Organisations</b-nav-item>
           <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >Sectors</b-nav-item>
           <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Locations</b-nav-item>
+          <b-nav-text class="d-none d-lg-block">&#8226;</b-nav-text>
           <b-nav-item :to="{name: 'about'}" title="About the prototype IATI/3W explorer" active-class="active" >About</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
