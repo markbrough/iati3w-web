@@ -1,10 +1,10 @@
 <template>
     <div>
-      <canvas ref="treemapCanvas" class="treemap"></canvas>
+      <canvas ref="treemapCanvas" :class="`treemap${clickable ? ' clickable' : ''}`"></canvas>
     </div>
 </template>
 <style scoped>
-canvas {
+.clickable {
   cursor: pointer;
 }
 </style>
@@ -13,9 +13,46 @@ import Chart from 'chart.js';
 import 'chartjs-chart-treemap';
 export default {
   name: 'TreeMap',
-  props: ['data', 'type'],
+  props: {
+    data: Array,
+    type: String,
+    summariseBy: {
+      type: String,
+      default: 'activities'
+    },
+    colors: Object,
+    clickable: {
+      type: Boolean,
+      default: true
+    },
+  },
   data() {
     return {
+      chart: null,
+      defaultColors: [
+        '#CF3D1E',
+        '#F15623',
+        '#F68B1F',
+        '#FFC60B',
+        '#DFCE21',
+        '#BCD631',
+        '#95C93D',
+        '#48B85C',
+        '#00833D',
+        '#00B48D',
+        '#60C4B1',
+        '#27C4F4',
+        '#478DCB',
+        '#3E67B1',
+        '#4251A3',
+        '#59449B',
+        '#6E3F7C',
+        '#6A246D',
+        '#8A4873',
+        '#EB0080',
+        '#EF58A0',
+        '#C05A89'
+      ]
     }
   },
   computed: {
@@ -24,54 +61,42 @@ export default {
         return {
           entry: item[1].name,
           stub: item[1].stub,
-          activities: item[1].activities.length,
-          organisations: this.$options.filters.flatten(item[1].orgs).length
+          activities: item[1].activities ? item[1].activities.length : null,
+          organisations: item[1].organisations ? item[1].organisations : this.$options.filters.flatten(item[1].orgs).length
         }
       })
-    }
-  },
-  methods: {
-    drawChart() {
-      const datasets = [
+    },
+    datasets() {
+      return [
         {
           label: 'Sectors',
           tree: this.treeMapData,
-          key: "activities",
+          key: this.summariseBy,
           groups: ['entry'],
           borderWidth: 1,
           fontColor: "white",
           borderColor: "rgba(255,255,255,1)",
           //hoverBackgroundColor: "rgba(220,230,220,0.5)",
-          backgroundColor: [
-            '#CF3D1E',
-            '#F15623',
-            '#F68B1F',
-            '#FFC60B',
-            '#DFCE21',
-            '#BCD631',
-            '#95C93D',
-            '#48B85C',
-            '#00833D',
-            '#00B48D',
-            '#60C4B1',
-            '#27C4F4',
-            '#478DCB',
-            '#3E67B1',
-            '#4251A3',
-            '#59449B',
-            '#6E3F7C',
-            '#6A246D',
-            '#8A4873',
-            '#EB0080',
-            '#EF58A0',
-            '#C05A89'
-          ],
+          backgroundColor: (ctx) => {
+            if (ctx.dataset.data.length < 1) {
+              return 'transparent';
+            }
+            if (this.colors) {
+              return this.colors[ctx.dataset.data[ctx.dataIndex]._data.entry]
+            }
+
+            return this.defaultColors[ctx.dataIndex]
+          }
         }
       ]
-      new Chart(this.$refs.treemapCanvas, {
+    }
+  },
+  methods: {
+    drawChart() {
+      this.chart = new Chart(this.$refs.treemapCanvas, {
         type: "treemap",
         data: {
-          datasets: datasets
+          datasets: this.datasets
         },
         options: {
           maintainAspectRatio: false,
@@ -91,14 +116,22 @@ export default {
               var dataset = data.datasets[item.datasetIndex];
               var dataItem = dataset.data[item.index];
               const _d = dataItem._data.children[0]
-              return [` Activities: ${_d.activities}`, ` Organisations: ${_d.organisations}`]
+              var out = []
+              if (_d.activities) {
+                out.push(` Activities: ${_d.activities}`)
+              } else if (_d.organisations) {
+                out.push(` Organisations: ${_d.organisations}`)
+              }
+              return out
               }
             }
           },
           onClick: ((c, i, d) => {
-            const type = this.type
-            const stub = datasets[0].data[i[0]._index]._data.children[0].stub
-            this.$router.push({name: 'sectors-type-stub', params: { type: type, stub: stub }})
+            if (this.clickable) {
+              const type = this.type
+              const stub = this.datasets[0].data[i[0]._index]._data.children[0].stub
+              this.$router.push({name: 'sectors-type-stub', params: { type: type, stub: stub }})
+            }
           })
         }
       })
@@ -107,6 +140,12 @@ export default {
   mounted() {
     this.drawChart();
   },
+  watch: {
+    data() {
+      this.chart.data.datasets[0].tree = this.treeMapData
+      this.chart.update()
+    }
+  }
 }
 </script>
 
