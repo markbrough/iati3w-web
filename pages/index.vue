@@ -21,17 +21,17 @@
           <p class="lead text-md-center">
             Explore the data on Somalia's aid response:
           </p>
-          <b-row>
-            <b-col md="4" class="mb-2">
+          <b-card-group deck>
+            <b-card img-src="~/assets/who.png" img-alt="Image" img-top>
               <b-btn block variant="primary" :to="{name: 'organisations'}">Organisations (Who?)</b-btn>
-            </b-col>
-            <b-col md="4" class="mb-2">
+            </b-card>
+            <b-card img-src="~/assets/what.png" img-alt="Image" img-top>
               <b-btn block variant="primary" :to="{name: 'sectors'}">Sectors (What?)</b-btn>
-            </b-col>
-            <b-col md="4" class="mb-2">
+            </b-card>
+            <b-card img-src="~/assets/where.png" img-alt="Image" img-top>
               <b-btn block variant="primary" :to="{name: 'locations'}">Locations (Where?)</b-btn>
-            </b-col>
-          </b-row>
+            </b-card>
+          </b-card-group>
         </b-jumbotron>
       </section>
     </main>
