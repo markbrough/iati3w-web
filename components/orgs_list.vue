@@ -9,7 +9,7 @@
           placeholder="Type to search organisations..."
         ></b-form-input>
       </b-col>
-      <b-col class="text-md-right">
+      <b-col lg="3" class="text-md-right">
         <b-form-radio-group
           v-model="source"
           :options="sourceOptions"
