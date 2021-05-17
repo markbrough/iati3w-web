@@ -8,7 +8,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item :to="{name: 'orgs'}" title="Organisations involved in activites in Somalia." active-class="active" >Who?</b-nav-item>
+          <b-nav-item :to="{name: 'organisations'}" title="Organisations involved in activites in Somalia." active-class="active" >Who?</b-nav-item>
           <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >What?</b-nav-item>
           <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Where?</b-nav-item>
           <b-nav-item :to="{name: 'about'}" title="About the prototype IATI/3W explorer" active-class="active" >About</b-nav-item>

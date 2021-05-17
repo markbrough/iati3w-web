@@ -23,7 +23,7 @@
           </p>
           <b-row>
             <b-col md="4" class="mb-2">
-              <b-btn block variant="primary" :to="{name: 'orgs'}">Who? (Organisations)</b-btn>
+              <b-btn block variant="primary" :to="{name: 'organisations'}">Who? (Organisations)</b-btn>
             </b-col>
             <b-col md="4" class="mb-2">
               <b-btn block variant="primary" :to="{name: 'sectors'}">What? (Sectors)</b-btn>
