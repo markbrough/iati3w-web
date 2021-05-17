@@ -11,7 +11,7 @@
       </b-col>
       <b-col lg="3" class="text-md-right">
         <b-form-radio-group
-          v-model="source"
+          v-model="_source"
           :options="sourceOptions"
           button-variant="outline-secondary"
           name="radio-btn-outline"
@@ -55,7 +55,6 @@ export default {
   data() {
     return {
       filter: null,
-      source: 'both',
       sourceOptions: [
         {
           value: 'IATI',
@@ -66,7 +65,7 @@ export default {
           text: '3W'
         },
         {
-          value: 'both',
+          value: 'all',
           text: 'IATI + 3W'
         }
       ]
@@ -76,11 +75,15 @@ export default {
     Org
   },
   props: {
-    orgs: Object
+    orgs: Object,
+    source: {
+      type: String,
+      default: 'all'
+    }
   },
   methods: {
     filterSource(item) {
-      if (this.source == 'both') { return true }
+      if (this.source == 'all') { return true }
       return item[1].sources.includes(this.source)
     },
     filterOrgs(item) {
@@ -89,11 +92,19 @@ export default {
     },
   },
   computed: {
+    _source: {
+      get: function() {
+        return this.source
+      },
+      set: function(value) {
+        this.$emit('update:source', value)
+      }
+    },
     entries() {
       return Object.entries(this.orgs)
     },
     filteredOrgs() {
-      if (([null, ''].includes(this.filter)) && (this.source == 'both')) {
+      if (([null, ''].includes(this.filter)) && (this.source == 'all')) {
         return this.orgs
       }
       return Object.fromEntries(
