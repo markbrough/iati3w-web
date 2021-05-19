@@ -45,6 +45,9 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    [
+      '@nuxtjs/gtm'
+    ],
   ],
   /*
   ** Nuxt.js modules
@@ -65,6 +68,9 @@ export default {
   /*
   ** Build configuration
   */
+  gtm: {
+    id: 'GTM-NFZ6TRR'
+  },
   build: {
     /*
     ** You can extend webpack config here
