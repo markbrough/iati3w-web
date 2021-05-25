@@ -13,7 +13,8 @@
             <Treemap
               :data="sectors.humanitarian"
               type="humanitarian"
-              class="mb-4" />
+              class="mb-4"
+              :colors="sectorColors" />
           </client-only>
           <div class="inline-list">
             <Sector
@@ -23,7 +24,7 @@
               :stub="stub"
               type="humanitarian"
               :org_count="flatten(sectors.humanitarian[stub].orgs).length"
-              :activity_count="sectors.humanitarian[stub].activities.length" />
+              :activity_count="sectors.humanitarian[stub].activities.filter(activity => checkSource(activity)).length" />
           </div>
         </section>
       </section>
@@ -42,7 +43,26 @@ import Treemap from '~/components/treemap.vue'
 export default {
   data() {
     return {
-      busy: true
+      busy: true,
+      sectorColors: {
+        'Water Sanitation Hygiene': '#CF3D1E',
+        'Health': '#F15623',
+        'Protection': '#F68B1F',
+        '(No corresponding humanitarian cluster)': '#FFC60B',
+        'Nutrition': '#DFCE21',
+        'Food Security': '#BCD631',
+        'Education': '#95C93D',
+        'Shelter/ NFI': '#48B85C',
+        'Camp Coordination / Management': '#00833D',
+        'Early Recovery': '#00B48D',
+        'Emergency Shelter and NFI': '#60C4B1',
+        'Logistics': '#27C4F4',
+        'Emergency Telecommunications': '#478DCB',
+        'Gender Based Violence': '#3E67B1',
+        'Child Protection': '#4251A3',
+        'Housing, Land and Property': '#59449B',
+        'Mine Action': '#6E3F7C'
+      }
     }
   },
   components: {
@@ -53,9 +73,19 @@ export default {
       return this.$options.filters.flatten(
         items
       )
+    },
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
     }
   },
-  computed: mapState(['sectors']),
+  computed: mapState(['sectors', 'source']),
   async mounted() {
     await this.$store.dispatch('loadSectors')
     this.busy = false
