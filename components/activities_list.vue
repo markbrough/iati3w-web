@@ -39,7 +39,7 @@
     <section id="content">
       <div class="inline-list wide">
         <Activity
-          v-for="activity_id in filteredActivities"
+          v-for="activity_id in pageActivities"
           :key="activity_id"
           :activity="activities[activity_id]" />
       </div>
@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Activity from '~/components/activity.vue'
 export default {
   data() {
@@ -64,10 +65,25 @@ export default {
   },
   computed: {
     totalRows() {
-      return this.activitiesList.length
+      return this.filteredActivities.length
     },
     filteredActivities() {
-      return this.activitiesList.slice((this.page-1)*this.perPage, this.perPage*(this.page))
+      return this.activitiesList.filter(item => this.checkSource(item))
+    },
+    pageActivities() {
+      return this.filteredActivities.slice((this.page-1)*this.perPage, (this.page)*this.perPage)
+    },...mapState(['source'])
+  },
+  methods: {
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
     }
   },
   watch: {
