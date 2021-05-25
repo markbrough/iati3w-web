@@ -58,19 +58,8 @@
       <hr />
       <section id="partners">
         <b-row>
-          <b-col lg="9">
+          <b-col lg="12">
             <h3>Organisations who partner with {{ org.info.shortname }}</h3>
-          </b-col>
-          <b-col lg="3" class="text-md-right">
-            <b-form-radio-group
-              v-model="source"
-              :options="sourceOptions"
-              button-variant="outline-secondary"
-              name="radio-btn-outline"
-              buttons
-              size="sm"
-              class="w-100"
-            ></b-form-radio-group>
           </b-col>
         </b-row>
         <template v-if="partner_count > 0">
@@ -194,22 +183,7 @@ export default {
         locations: { admin1: [] },
         activities: []
       },
-      busy: true,
-      source: 'all',
-      sourceOptions: [
-        {
-          value: 'iati',
-          text: 'IATI'
-        },
-        {
-          value: '3w',
-          text: '3W'
-        },
-        {
-          value: 'all',
-          text: 'IATI + 3W'
-        }
-      ]
+      busy: true
     }
   },
   components: {
@@ -250,7 +224,8 @@ export default {
         this.org.activities
       ).length
     },
-    ...mapState(['orgs', 'activities', 'locations', 'sectors']),
+    ...mapState(['orgs', 'activities', 'locations',
+      'sectors', 'source']),
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
