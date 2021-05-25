@@ -102,7 +102,6 @@ export default {
   data() {
     return {
       busy: true,
-      source: 'all',
       location: {}
     }
   },
@@ -155,7 +154,8 @@ export default {
     stub() {
       return this.$route.params.stub
     },
-    ...mapState(['orgs', 'activities', 'locations', 'sectors']),
+    ...mapState(['orgs', 'activities', 'locations', 'sectors',
+      'source']),
   },
   async mounted() {
     await this.$store.dispatch('loadOrgs')
