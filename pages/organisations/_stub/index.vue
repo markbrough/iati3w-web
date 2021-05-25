@@ -99,19 +99,19 @@
         <h3>Sectors where {{ org.info.shortname }} works</h3>
         <template v-if="sector_count > 0">
           <div
-            v-for="type in Object.keys(org.sectors)"
+            v-for="type in Object.keys(org.sectors[source])"
             :key="type"
-            v-if="Object.keys(org.sectors[type]).length > 0">
+            v-if="Object.keys(org.sectors[source][type]).length > 0">
             <section :id="`sectors.${ type }`">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
-                  v-for="stub in Object.keys(org.sectors[type]).sort()"
+                  v-for="stub in Object.keys(org.sectors[source][type]).sort()"
                   :key="stub"
                   :stub="stub"
                   :name="sectors[type][stub].name"
                   :type="type"
-                  :activity_count="org.sectors[type][stub]" />
+                  :activity_count="org.sectors[source][type][stub]" />
               </div>
             </section>
           </div>
@@ -128,31 +128,31 @@
             <client-only>
               <RegionMap
                 :locations="locations"
-                :locations-list="org.locations"
+                :locations-list="org.locations[source]"
                 class="mb-4" />
             </client-only>
           </b-col>
           <b-col lg="8">
             <b-card-group columns>
               <b-card
-                v-for="region_name in Object.keys(org.locations.admin1).sort()"
+                v-for="region_name in Object.keys(org.locations[source].admin1).sort()"
                 :key="region_name">
                 <h4>
                   <LocationLink
                     :stub="region_name"
                     :name="locations.admin1[region_name].info.name"
                     type="admin1" />
-                  ({{ org.locations.admin1[region_name] | plural("activity", "activities") }})
+                  ({{ org.locations[source].admin1[region_name] | plural("activity", "activities") }})
                 </h4>
                 <div class="inline-list">
                   <Location
-                    v-for="district_name in Object.keys(org.locations.admin2).sort()"
+                    v-for="district_name in Object.keys(org.locations[source].admin2).sort()"
                     v-if="locations.admin2[district_name].info.admin1==region_name"
                     :key="district_name"
                     :name="locations.admin2[district_name].info.name"
                     :stub="district_name"
                     type="admin2"
-                    :activity_count="org.locations.admin2[district_name]" />
+                    :activity_count="org.locations[source].admin2[district_name]" />
                 </div>
               </b-card>
             </b-card-group>
@@ -234,7 +234,7 @@ export default {
   computed: {
     sector_count() {
       return this.$options.filters.flatten(
-        this.org.sectors
+        this.org.sectors[this.source]
       ).length
     },
     partner_count() {
@@ -243,7 +243,7 @@ export default {
       ).length
     },
     region_count() {
-      return Object.keys(this.org.locations.admin1).length
+      return Object.keys(this.org.locations[this.source].admin1).length
     },
     activity_count() {
       return this.$options.filters.flatten(
