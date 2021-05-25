@@ -122,7 +122,7 @@ export default {
           VueScrollTo.scrollTo(anchor, 500)
         }, 300)
       }
-    },
+    }
   },
   computed: {
     sector_count() {
