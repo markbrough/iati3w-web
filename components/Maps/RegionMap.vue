@@ -103,7 +103,7 @@ export default {
     },
     totalActivitiesLocations(){
       return Object.entries(this.locations.admin1).reduce((summary, item) => {
-        return summary + item[1].activities.length
+        return summary + item[1].activities.filter(activity => this.checkSource(activity)).length
       }, 0)
     },
     activitiesLocationsList() {
@@ -114,10 +114,22 @@ export default {
     },
     activitiesLocations() {
       return Object.entries(this.locations.admin1).reduce((summary, item) => {
-        summary[item[1].info.name] = item[1].activities.length
+        summary[item[1].info.name] = item[1].activities.filter(activity => this.checkSource(activity)).length
         return summary
       }, {})
-    },...mapState(['geoJSONData']),
+    },...mapState(['geoJSONData', 'source']),
+  },
+  methods: {
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
+    }
   },
   async mounted() {
     await this.$store.dispatch('loadMapData')
