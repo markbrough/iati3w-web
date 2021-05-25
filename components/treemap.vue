@@ -9,12 +9,13 @@
 }
 </style>
 <script>
+import { mapState } from 'vuex'
 import Chart from 'chart.js';
 import 'chartjs-chart-treemap';
 export default {
   name: 'TreeMap',
   props: {
-    data: Array,
+    data: Object,
     type: String,
     summariseBy: {
       type: String,
@@ -61,7 +62,7 @@ export default {
         return {
           entry: item[1].name,
           stub: item[1].stub,
-          activities: item[1].activities ? item[1].activities.length : null,
+          activities: item[1].activities ? item[1].activities.filter(activity => this.checkSource(activity)).length : null,
           organisations: item[1].organisations ? item[1].organisations : this.$options.filters.flatten(item[1].orgs).length
         }
       })
@@ -89,7 +90,7 @@ export default {
           }
         }
       ]
-    }
+    },...mapState(['source'])
   },
   methods: {
     drawChart() {
@@ -135,6 +136,16 @@ export default {
           })
         }
       })
+    },
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
     }
   },
   mounted() {
@@ -142,6 +153,10 @@ export default {
   },
   watch: {
     data() {
+      this.chart.data.datasets[0].tree = this.treeMapData
+      this.chart.update()
+    },
+    source() {
       this.chart.data.datasets[0].tree = this.treeMapData
       this.chart.update()
     }
