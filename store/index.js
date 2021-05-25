@@ -8,7 +8,8 @@ export const state = () => ({
   sectors: {},
   activities: {},
   locations: {},
-  geoJSONData: {}
+  geoJSONData: {},
+  source: 'all'
 })
 
 export const mutations = {
@@ -26,6 +27,9 @@ export const mutations = {
   },
   setGeoJSONData (state, data) {
     state.geoJSONData = data
+  },
+  setSource (state, newSource) {
+    state.source = newSource
   }
 }
 
