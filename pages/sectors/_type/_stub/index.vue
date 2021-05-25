@@ -91,7 +91,6 @@ export default {
   data() {
     return {
       busy: true,
-      source: 'all',
       sector: {}
     }
   },
@@ -123,7 +122,8 @@ export default {
     },
     stub() {
       return this.$route.params.stub
-    },...mapState(['sectors', 'orgs', 'activities', 'locations'])
+    },...mapState(['sectors', 'orgs', 'activities',
+      'locations', 'source'])
   },
   async mounted() {
     await this.$store.dispatch('loadSectors')
