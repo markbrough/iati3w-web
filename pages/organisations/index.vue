@@ -28,8 +28,7 @@
           :colors="orgTypeColors" />
       </client-only>
       <OrgsList
-        :orgs="orgs"
-        :source.sync="source" />
+        :orgs="orgs" />
     </main>
 
   </div>
@@ -65,7 +64,6 @@ export default {
           'organisations': 0
         }
       },
-      source: 'all',
       orgTypeColors: {
         'Local and national actors': '#CF3D1E',
         'Regional actors': '#F15623',
@@ -83,7 +81,7 @@ export default {
         Object.values(this.orgs).reduce((summary, item) => {
           if (this.source == 'all') {
             summary[item.info.scope].organisations += 1
-          } else if (item.sources.includes(this.source)) {
+          } else if (item.sources.includes(this.source.toUpperCase())) {
             summary[item.info.scope].organisations += 1
           }
           return summary
@@ -110,7 +108,7 @@ export default {
           }
         })
       )
-    },...mapState(['orgs']),
+    },...mapState(['orgs', 'source']),
   },
   methods: {
   },
