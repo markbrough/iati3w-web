@@ -10,7 +10,7 @@
         <nuxt-link
           v-for="scope in Object.values(scopes)"
           :key="scope.type"
-          :to="{name: 'orgs', hash: `#${scope.type}`}"
+          :to="{name: 'organisations', hash: `#${scope.type}`}"
         >{{ scope.name }}</nuxt-link>
       </nav>
       <h1>Aid organisations active in Somalia</h1>
