@@ -8,10 +8,10 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-form class="mr-2">
+          <b-nav-form class="mr-2" v-if="$route.name!='network'">
             <b-form-select :options="sourceOptions" v-model="_source"></b-form-select>
           </b-nav-form>
-          <b-nav-text class="d-none d-lg-block">&#8226;</b-nav-text>
+          <b-nav-text class="d-none d-lg-block" v-if="$route.name!='network'">&#8226;</b-nav-text>
           <b-nav-item :to="{name: 'organisations'}" title="Organisations involved in activites in Somalia." active-class="active" >Organisations</b-nav-item>
           <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >Sectors</b-nav-item>
           <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Locations</b-nav-item>
