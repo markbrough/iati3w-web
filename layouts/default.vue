@@ -8,6 +8,10 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
+          <b-nav-form class="mr-2">
+            <b-form-select :options="sourceOptions" v-model="_source"></b-form-select>
+          </b-nav-form>
+          <b-nav-text class="d-none d-lg-block">&#8226;</b-nav-text>
           <b-nav-item :to="{name: 'organisations'}" title="Organisations involved in activites in Somalia." active-class="active" >Organisations</b-nav-item>
           <b-nav-item :to="{name: 'sectors'}" title="Aid sectors active in Somalia." active-class="active" >Sectors</b-nav-item>
           <b-nav-item :to="{name: 'locations'}" title="Locations active in Somalia." active-class="active" >Locations</b-nav-item>
@@ -39,6 +43,39 @@
     </footer>
   </div>
 </template>
+<script>
+import { mapState } from 'vuex'
+export default {
+  data() {
+    return {
+      sourceOptions: [
+        {
+          value: 'iati',
+          text: 'IATI'
+        },
+        {
+          value: '3w',
+          text: '3W'
+        },
+        {
+          value: 'all',
+          text: 'IATI + 3W'
+        }
+      ]
+    }
+  },
+  computed: {
+    _source: {
+      get() {
+        return this.source
+      },
+      set(newSource) {
+        return this.$store.commit('setSource', newSource)
+      }
+    },...mapState(['source'])
+  }
+}
+</script>
 
 <style>
 body {
