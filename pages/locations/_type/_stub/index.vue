@@ -9,25 +9,25 @@
       <section id="content">
         <nav class="secondary">
           <template v-if="location_type == 'admin1'">
-            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#districts'}"
+            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: location.info.stub, type: location_type }, hash: '#districts'}"
             >Districts</nuxt-link>
           </template>
-          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#orgs'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: location.info.stub, type: location_type }, hash: '#orgs'}"
             >Organisations</nuxt-link>
-          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#sectors'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: location.info.stub, type: location_type }, hash: '#sectors'}"
             >Sectors</nuxt-link>
-          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info.stub, type: location_type }, hash: '#activities'}"
+          <nuxt-link :to="{name: 'locations-type-stub', params: { stub: location.info.stub, type: location_type }, hash: '#activities'}"
             >Activities</nuxt-link>
         </nav>
         <h2>{{ location_name }} {{ location_type | location | capitalize }}</h2>
         <div
           v-for='level in ["admin1", "admin2"]'
           :key="level"
-          v-if="info.info[level]">
+          v-if="location.info[level]">
           <p>
             <b>{{ level | location }}: </b>
-            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: info.info[level], type: level }}">
-              {{ locations[level][info.info[level]].info.name }}
+            <nuxt-link :to="{name: 'locations-type-stub', params: { stub: location.info[level], type: level }}">
+              {{ locations[level][location.info[level]].info.name }}
             </nuxt-link>
           </p>
         </div>
@@ -49,33 +49,33 @@
           <h3>Organisations working in {{ location_name }}</h3>
           <section :id="`orgs.${ scope }`"
             v-for='scope in ["local", "regional", "international", "unknown"]'
-            v-if="Object.keys(info.orgs[source][scope]).length > 0">
+            v-if="Object.keys(location.orgs[source][scope]).length > 0">
             <h4>{{ scope | scope | capitalize }}s</h4>
             <b-card-group columns>
               <Org
-                v-for="org_name in Object.keys(info.orgs[source][scope]).sort()"
+                v-for="org_name in Object.keys(location.orgs[source][scope]).sort()"
                 :key="org_name"
                 :org="orgs[org_name]"
-                :activity_count="info.orgs[source][scope][org_name]" />
+                :activity_count="location.orgs[source][scope][org_name]" />
             </b-card-group>
           </section>
         </section>
         <section id="sectors">
           <h3>Sectors active in {{ location_name }}</h3>
           <div
-            v-for="type in Object.keys(info.sectors[source])"
+            v-for="type in Object.keys(location.sectors[source])"
             :key="type">
             <section :id="`sectors.${ type }`"
-              v-if="Object.keys(info.sectors[source][type]).length > 0">
+              v-if="Object.keys(location.sectors[source][type]).length > 0">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
-                  v-for="stub in Object.keys(info.sectors[source][type]).sort()"
+                  v-for="stub in Object.keys(location.sectors[source][type]).sort()"
                   :key="stub"
                   :stub="stub"
                   :name="sectors[type][stub].name"
                   :type="type"
-                  :activity_count="info.sectors[source][type][stub]" />
+                  :activity_count="location.sectors[source][type][stub]" />
               </div>
             </section>
           </div>
@@ -84,7 +84,7 @@
           <h3>Aid activities in {{ location_name }}</h3>
           <ActivitiesList
             :activities="activities"
-            :activitiesList="info.activities" />
+            :activitiesList="location.activities" />
         </section>
       </section>
     </main>
@@ -103,7 +103,7 @@ export default {
     return {
       busy: true,
       source: 'all',
-      info: {}
+      location: {}
     }
   },
   components: {
@@ -162,7 +162,7 @@ export default {
     await this.$store.dispatch('loadLocations')
     await this.$store.dispatch('loadActivities')
     await this.$store.dispatch('loadSectors')
-    this.info = this.locations[this.$route.params.type][this.$route.params.stub]
+    this.location = this.locations[this.$route.params.type][this.$route.params.stub]
     this.busy = false
     this.handleScroll()
   }
