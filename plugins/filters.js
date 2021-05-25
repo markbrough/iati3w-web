@@ -15,7 +15,7 @@ const ORG_SCOPE_LABELS = {
 
 const SECTOR_TYPE_LABELS = {
     dac: "OECD-DAC sector",
-    humanitarian: "Humanitarian cluster"
+    humanitarian: "Sector"
 }
 
 const LOCATION_TYPE_LABELS = {
