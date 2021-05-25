@@ -27,6 +27,11 @@
           </div>
         </section>
       </section>
+      <b-alert variant="light" show>The sectors shown above are derived from humanitarian
+      clusters. Most activities published to IATI use OECD DAC CRS purpose codes
+      rather than humanitarian clusters. These have been mapped to the above
+      clusters. Note that this includes both humanitarian and development
+      activities.</b-alert>
     </main>
   </div>
 </template>
