@@ -36,13 +36,6 @@
 //! moment.js locale configuration
 
 
-/*!
-  * vue-scrollto v2.20.0
-  * (c) 2019 Randjelovic Igor
-  * @license MIT
-  */
-
-
 /* @preserve
  * Leaflet 1.7.1, a JS library for interactive maps. http://leafletjs.com
  * (c) 2010-2019 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -103,3 +96,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+/*!
+  * vue-scrollto v2.20.0
+  * (c) 2019 Randjelovic Igor
+  * @license MIT
+  */
