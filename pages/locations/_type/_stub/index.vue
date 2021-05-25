@@ -49,33 +49,33 @@
           <h3>Organisations working in {{ location_name }}</h3>
           <section :id="`orgs.${ scope }`"
             v-for='scope in ["local", "regional", "international", "unknown"]'
-            v-if="Object.keys(info.orgs[scope]).length > 0">
+            v-if="Object.keys(info.orgs[source][scope]).length > 0">
             <h4>{{ scope | scope | capitalize }}s</h4>
             <b-card-group columns>
               <Org
-                v-for="org_name in Object.keys(info.orgs[scope]).sort()"
+                v-for="org_name in Object.keys(info.orgs[source][scope]).sort()"
                 :key="org_name"
                 :org="orgs[org_name]"
-                :activity_count="info.orgs[scope][org_name]" />
+                :activity_count="info.orgs[source][scope][org_name]" />
             </b-card-group>
           </section>
         </section>
         <section id="sectors">
           <h3>Sectors active in {{ location_name }}</h3>
           <div
-            v-for="type in Object.keys(info.sectors)"
+            v-for="type in Object.keys(info.sectors[source])"
             :key="type">
             <section :id="`sectors.${ type }`"
-              v-if="Object.keys(info.sectors[type]).length > 0">
+              v-if="Object.keys(info.sectors[source][type]).length > 0">
               <h4>{{ type | sector }}s</h4>
               <div class="inline-list">
                 <Sector
-                  v-for="stub in Object.keys(info.sectors[type]).sort()"
+                  v-for="stub in Object.keys(info.sectors[source][type]).sort()"
                   :key="stub"
                   :stub="stub"
                   :name="sectors[type][stub].name"
                   :type="type"
-                  :activity_count="info.sectors[type][stub]" />
+                  :activity_count="info.sectors[source][type][stub]" />
               </div>
             </section>
           </div>
@@ -102,6 +102,7 @@ export default {
   data() {
     return {
       busy: true,
+      source: 'all',
       info: {}
     }
   },
