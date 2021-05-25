@@ -3,7 +3,7 @@
     <main>
       <section id="overview">
         <b-jumbotron>
-          <template #header>Top-down meets bottom-up</template>
+          <template #header>Somalia Local Activity Explorer</template>
           <template #lead>
             This prototype throws an international spotlight on the work
             of local and national aid actors in Somalia, and their

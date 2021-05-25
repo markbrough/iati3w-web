@@ -3,7 +3,7 @@
     <b-navbar toggleable="lg" type="light" variant="light" class="navbar-primary" sticky>
       <b-navbar-brand :to="{name: 'index'}" title="Home">
         <img src="~/assets/iati3w-icon.png" class="logo" />
-        IATI/3W Explorer
+        Somalia Local Activity Explorer
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
