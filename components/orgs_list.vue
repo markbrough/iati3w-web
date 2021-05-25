@@ -1,23 +1,13 @@
 <template>
   <div>
     <b-row class="mb-2">
-      <b-col lg="9" class="my-1">
+      <b-col lg="12" class="my-1">
         <b-form-input
           id="filter-input"
           v-model="filter"
           type="search"
           placeholder="Type to search organisations..."
         ></b-form-input>
-      </b-col>
-      <b-col lg="3" class="text-md-right">
-        <b-form-radio-group
-          v-model="_source"
-          :options="sourceOptions"
-          button-variant="outline-secondary"
-          name="radio-btn-outline"
-          buttons
-          class="w-100"
-        ></b-form-radio-group>
       </b-col>
     </b-row>
     <hr />
@@ -50,41 +40,24 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import Org from '~/components/org.vue'
 export default {
   data() {
     return {
-      filter: null,
-      sourceOptions: [
-        {
-          value: 'IATI',
-          text: 'IATI'
-        },
-        {
-          value: '3W',
-          text: '3W'
-        },
-        {
-          value: 'all',
-          text: 'IATI + 3W'
-        }
-      ]
+      filter: null
     }
   },
   components: {
     Org
   },
   props: {
-    orgs: Object,
-    source: {
-      type: String,
-      default: 'all'
-    }
+    orgs: Object
   },
   methods: {
     filterSource(item) {
       if (this.source == 'all') { return true }
-      return item[1].sources.includes(this.source)
+      return item[1].sources.includes(this.source.toUpperCase())
     },
     filterOrgs(item) {
       if ([null, ''].includes(this.filter)) { return true }
@@ -92,14 +65,6 @@ export default {
     },
   },
   computed: {
-    _source: {
-      get: function() {
-        return this.source
-      },
-      set: function(value) {
-        this.$emit('update:source', value)
-      }
-    },
     entries() {
       return Object.entries(this.orgs)
     },
@@ -112,7 +77,7 @@ export default {
           return this.filterOrgs(entry) && this.filterSource(entry)
         })
       )
-    }
+    },...mapState(['source'])
   },
   watch: {
   }
