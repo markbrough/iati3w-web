@@ -12,11 +12,11 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: 'IATI/3W explorer',
+    title: 'Somalia Local Activity Explorer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'This prototype throws an international spotlight on the work of local and national aid actors in Somalia, and their relationships with regional and international partners.' }
+      { hid: 'description', name: 'description', content: 'This prototype throws a spotlight on the work of local and national aid actors in Somalia, and their relationships with regional and international partners.' }
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/iati3w-icon.png' }

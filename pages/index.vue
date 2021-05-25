@@ -5,7 +5,7 @@
         <b-jumbotron>
           <template #header>Somalia Local Activity Explorer</template>
           <template #lead>
-            This prototype explorer throws an international spotlight on the work
+            This prototype explorer throws a spotlight on the work
             of local and national aid actors in Somalia, and their
             relationships with regional and international partners.
             It combines the monthly humanitarian <a

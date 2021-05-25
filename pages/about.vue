@@ -3,25 +3,21 @@
     <main>
       <section id="overview">
         <section id="background">
-          <h2>About the prototype IATI/3W explorer</h2>
+          <h2>About the prototype Somalia Local Activity Explorer</h2>
           <p>
             The 2016 <b><a
             href="https://interagencystandingcommittee.org/grand-bargain">Grand
-            Bargain</a></b> promises <i><a
+            Bargain</a></b> committed signatories to <i><a
             href="https://interagencystandingcommittee.org/greater-transparency">Greater
             Transparency</a></i> and <i><a
             href="https://interagencystandingcommittee.org/more-support-and-funding-tools-for-local-and-national-responders">More
             support and funding tools for local and national
-            responders</a></i> in humanitarian aid response.
-          </p>
-          <p>
-            The Grand Bargain uses <b><a
+            responders</a></i> in humanitarian aid response. The transparency commitments included publication of data using the <b><a
             href="https://iatistandard.org">International Aid
-            Transparency Initiative</a></b> (IATI) for transparency,
-            but unfortunately, the current IATI ecosystem seriously
-            underreports the activities of local and national
-            responders, so much of their work remains effectively
-            invisible internationally.
+            Transparency Initiative</a> (IATI)</b>.
+            However, there is currently a limited coverage of activities
+            from local and national responders in IATI data. As a result,
+            much of their work remains effectively invisible internationally.
           </p>
           <p>
             Another useful source of aid-activity information is the
@@ -41,7 +37,7 @@
             carried out by local and national actors at a local
             level. Often, international actors appear in both the IATI
             and 3W information, so the prototype is able to extract
-            information about relationships of different kinds:
+            information about relationships of different kinds. For example:
           </p>
           <ul>
             <li>
@@ -60,10 +56,19 @@
               what kinds of work do they fund?
             </li>
           </ul>
+          <b-alert variant="warning" show>
+            Note that this site is still an early prototype, with limited
+            or incomplete functionality. Quality and accuracy are not
+            guaranteed. You can select the source of the
+            data for the visualisations (between IATI and 3W) from the
+            navigation bar at the top of the page. However, note that
+            some elements will not currently be updated to reflect the
+            change in source.
+          </b-alert>
           <p>
             We hope this information will be helpful primarily for
             local and national organisations, in helping to get the
-            word out about the foundational aid work they do, and it
+            word out about the foundational aid work they do, and in
             helping them to discover new opportunities for partnership
             and funding. We also believe that this new way of looking
             at aid information — as a network of relationships rather
