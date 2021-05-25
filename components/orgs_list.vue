@@ -28,7 +28,7 @@
                     :key="org.info.name"
                     v-if="org.info.scope==scope"
                     :org="org"
-                    :activity_count="org.total_activities"
+                    :activity_count="org.activity_totals[source]"
                     />
                 </b-card-group>
               </b-card-text>
