@@ -24,14 +24,14 @@
           <section :id="`orgs.${ scope }`"
             v-for='scope in ["local", "regional", "international", "unknown"]'
             :key="scope"
-            v-if="Object.keys(sector.orgs[scope]).length > 0">
+            v-if="Object.keys(sector.orgs[source][scope]).length > 0">
             <h4>{{ scope | scope | capitalize }}s</h4>
             <b-card-group columns>
               <Org
-                v-for="org_name in Object.keys(sector.orgs[scope]).sort()"
+                v-for="org_name in Object.keys(sector.orgs[source][scope]).sort()"
                 :key="org_name"
                 :org="orgs[org_name]"
-                :activity_count="sector.orgs[scope][org_name]" />
+                :activity_count="sector.orgs[source][scope][org_name]" />
             </b-card-group>
           </section>
           <hr />
@@ -43,31 +43,31 @@
               <client-only>
                 <RegionMap
                   :locations="locations"
-                  :locations-list="sector.locations"
+                  :locations-list="sector.locations[source]"
                   class="mb-4" />
               </client-only>
             </b-col>
             <b-col lg="8">
               <b-card-group columns>
                 <b-card
-                  v-for="region_name in Object.keys(sector.locations.admin1).sort()"
+                  v-for="region_name in Object.keys(sector.locations[source].admin1).sort()"
                   :key="region_name">
                   <h4>{{ locations.admin1[region_name].info.name }}</h4>
                   <div class="inline-list">
                     <Location
-                      v-for="district_name in Object.keys(sector.locations.admin2).sort()"
+                      v-for="district_name in Object.keys(sector.locations[source].admin2).sort()"
                       v-if="locations.admin2[district_name].info.admin1==region_name"
                       :key="district_name"
                       :name="locations.admin2[district_name].info.name"
                       :stub="district_name"
                       type="admin2"
-                      :activity_count="sector.locations.admin2[district_name]" />
+                      :activity_count="sector.locations[source].admin2[district_name]" />
                   </div>
                 </b-card>
               </b-card-group>
             </b-col>
           </b-row>
-          <p class="warning" v-if="Object.keys(sector.locations.admin1).length == 0">No location information available for {{ sector_name }}.</p>
+          <p class="warning" v-if="Object.keys(sector.locations[source].admin1).length == 0">No location information available for {{ sector_name }}.</p>
           <hr />
         </section>
         <section id="activities">
@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       busy: true,
+      source: 'all',
       sector: {}
     }
   },
