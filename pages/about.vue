@@ -75,6 +75,13 @@
             than a single chain of funding — will be valuable for all
             aid actors, everywhere.
           </p>
+          <hr />
+          <h3>Feedback</h3>
+          <p class="lead">We welcome your feedback! We're interested to hear if you
+            have ideas about how we can improve the explorer, the data,
+            or how this could be used in future. Get in touch with us:
+            <a href="mailto:humportal@devinit.org">humportal@devinit.org</a>.
+          </p>
         </section>
       </section>
     </main>
