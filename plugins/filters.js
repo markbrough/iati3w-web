@@ -24,6 +24,15 @@ const LOCATION_TYPE_LABELS = {
     unclassified: "Unclassified location"
 }
 
+const formatNumber = function(number) {
+    if (isNaN(number)) { return number }
+    return number.toLocaleString(undefined, {maximumFractionDigits: 0})
+}
+
+Vue.filter('formatNumber', (number) => {
+    return formatNumber(number)
+})
+
 Vue.filter('urlenc', encodeURIComponent);
 
 Vue.filter('length', (value) => {
@@ -39,9 +48,9 @@ Vue.filter('capitalize', (value) => {
 
 Vue.filter('plural', (n, singular, plural) => {
     if (n > 1) {
-        return "" + n + " " + plural;
+        return "" + formatNumber(n) + " " + plural;
     } else {
-        return "" + n + " " + singular;
+        return "" + formatNumber(n) + " " + singular;
     }
 })
 Vue.filter('truncate', (s, length) => {
