@@ -82,6 +82,11 @@
             or how this could be used in future. Get in touch with us:
             <a href="mailto:humportal@devinit.org">humportal@devinit.org</a>.
           </p>
+          <hr />
+          <h3>Privacy Policy and Cookies</h3>
+          <p>View our <a href="/Privacy Policy.pdf">privacy policy and cookies
+            policy</a>. If you have any further questions, please get in touch
+            with us via <a href="mailto:humportal@devinit.org">humportal@devinit.org</a>.</p>
         </section>
       </section>
     </main>
