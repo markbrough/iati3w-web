@@ -60,7 +60,8 @@ export default {
     treeMapData() {
       return Object.entries(this.data).map(item => {
         return {
-          entry: item[1].name,
+          item: item[1].name,
+          entry: this.truncate(item[1].name),
           stub: item[1].stub,
           activities: item[1].activities ? item[1].activities.filter(activity => this.checkSource(activity)).length : null,
           organisations: item[1].organisations ? item[1].organisations : this.$options.filters.flatten(item[1].orgs).length
@@ -83,7 +84,7 @@ export default {
               return 'transparent';
             }
             if (this.colors) {
-              return this.colors[ctx.dataset.data[ctx.dataIndex]._data.entry]
+              return this.colors[ctx.dataset.data[ctx.dataIndex]._data.children[0].item]
             }
 
             return this.defaultColors[ctx.dataIndex]
@@ -93,6 +94,11 @@ export default {
     },...mapState(['source'])
   },
   methods: {
+    truncate(string) {
+      return this.$options.filters.truncate(
+        string, 15
+      )
+    },
     drawChart() {
       this.chart = new Chart(this.$refs.treemapCanvas, {
         type: "treemap",
