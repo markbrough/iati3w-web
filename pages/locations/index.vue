@@ -36,7 +36,7 @@
               :stub="region_name"
               :name="locations.admin1[region_name].info.name"
               type="admin1" />
-            ({{ locations.admin1[region_name].orgs | flatten | length | plural("organisation", "organisations") }})
+            ({{ locations.admin1[region_name].orgs[source] | flatten | length | plural("organisation", "organisations") }})
           </h3>
           <div class="inline-list">
             <Location
@@ -46,8 +46,8 @@
               :name="locations.admin2[district_name].info.name"
               :stub="district_name"
               type="admin2"
-              :org_count="flatten(locations.admin2[district_name].orgs).length"
-              :activity_count="flatten(locations.admin2[district_name].activities).length" />
+              :org_count="flatten(locations.admin2[district_name].orgs[source]).length"
+              :activity_count="flatten(locations.admin2[district_name].activities.filter(item => checkSource(item))).length" />
           </div>
         </section>
       </section>
@@ -74,9 +74,19 @@ export default {
       return this.$options.filters.flatten(
         items
       )
+    },
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
     }
   },
-  computed: mapState(['locations']),
+  computed: mapState(['locations', 'source']),
   async mounted() {
     await this.$store.dispatch('loadLocations')
     this.busy = false
