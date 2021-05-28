@@ -23,7 +23,7 @@
               :name="sectors.humanitarian[stub].name"
               :stub="stub"
               type="humanitarian"
-              :org_count="flatten(sectors.humanitarian[stub].orgs).length"
+              :org_count="flatten(sectors.humanitarian[stub].orgs[source]).length"
               :activity_count="sectors.humanitarian[stub].activities.filter(activity => checkSource(activity)).length" />
           </div>
         </section>
