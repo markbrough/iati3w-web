@@ -14,7 +14,7 @@
       >
         <RegionMapFeature
           v-for="region in regions"
-          :key="region.region"
+          :key="`${region.region}-${source}`"
           :geojson="region"
           :activities="activities"
           :total-activities="totalActivities"
