@@ -35,7 +35,7 @@ export default {
         })
         const activities = this.numActivities
         layer.bindTooltip(
-          `${this.regionName}: ${activities} activities`,
+          `${this.regionName}: ${this.plural(activities, 'activity', 'activities')}`,
           { permanent: false, sticky: true }
         )
       }
@@ -59,6 +59,11 @@ export default {
     }
   },
   methods: {
+    plural(_number, _singular, _plural) {
+      return this.$options.filters.plural(
+        _number, _singular, _plural
+      )
+    },
     clickRegion () {
       this.$router.push({
         name: 'locations-type-stub',
