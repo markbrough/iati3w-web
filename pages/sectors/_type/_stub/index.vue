@@ -71,10 +71,10 @@
           <hr />
         </section>
         <section id="activities">
-          <h3>Activities related to {{ sector_name }} ({{ sector.activities | length }})</h3>
+          <h3>Activities related to {{ sector_name }} ({{ sectorActivities | length }})</h3>
           <ActivitiesList
             :activities="activities"
-            :activitiesList="sector.activities" />
+            :activitiesList="sectorActivities" />
         </section>
       </section>
     </main>
@@ -112,8 +112,21 @@ export default {
         }, 300)
       }
     },
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
+    }
   },
   computed: {
+    sectorActivities() {
+      return this.sector.activities.filter(item => this.checkSource(item))
+    },
     sector_type() {
       return this.$route.params.type
     },
