@@ -33,7 +33,7 @@
             target="_blank">Netherlands Ministry of Foreign
             Affairs</a> on behalf of the <a
             href="https://interagencystandingcommittee.org/greater-transparency"
-            target="_blank">Grand Bargain Transparency Workstream</a>
+            target="_blank">Grand Bargain Transparency Workstream</a>.
           </b-col>
           <b-col md="6" class="text-md-right">
             This site is a prototype. Quality and accuracy are not guaranteed.
