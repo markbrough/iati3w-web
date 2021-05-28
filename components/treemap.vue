@@ -99,6 +99,11 @@ export default {
         string, 15
       )
     },
+    formatNumber(number) {
+      return this.$options.filters.formatNumber(
+        number
+      )
+    },
     drawChart() {
       this.chart = new Chart(this.$refs.treemapCanvas, {
         type: "treemap",
@@ -115,19 +120,19 @@ export default {
           },
           tooltips: {
           callbacks: {
-            title: function(item, data) {
+            title: (item, data) => {
               item = item[0];
               return data.datasets[item.datasetIndex].data[item.index].g;
               },
-            label: function(item, data) {
+            label: (item, data) => {
               var dataset = data.datasets[item.datasetIndex];
               var dataItem = dataset.data[item.index];
               const _d = dataItem._data.children[0]
               var out = []
               if (_d.activities) {
-                out.push(` Activities: ${_d.activities}`)
+                out.push(` Activities: ${this.formatNumber(_d.activities)}`)
               } else if (_d.organisations) {
-                out.push(` Organisations: ${_d.organisations}`)
+                out.push(` Organisations: ${this.formatNumber(_d.organisations)}`)
               }
               return out
               }
