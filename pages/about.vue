@@ -30,6 +30,10 @@
             lack much of the information that IATI publishers include
             about their activities.
           </p>
+          <b-alert variant="info" show>
+            You can select the data source for the visualisations (between
+            IATI and 3W) from the navigation bar at the top of the page.
+          </b-alert>
           <p>
             This prototype explores the feasibility of combining the
             two information sources to provide a fuller picture of aid
@@ -59,11 +63,7 @@
           <b-alert variant="warning" show>
             Note that this site is still an early prototype, with limited
             or incomplete functionality. Quality and accuracy are not
-            guaranteed. You can select the source of the
-            data for the visualisations (between IATI and 3W) from the
-            navigation bar at the top of the page. However, note that
-            some elements will not currently be updated to reflect the
-            change in source.
+            guaranteed.
           </b-alert>
           <p>
             We hope this information will be helpful primarily for
