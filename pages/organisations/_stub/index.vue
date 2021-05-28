@@ -154,11 +154,11 @@
         <section :id="`activities.${ type }`"
           v-for="type in Object.keys(org.activities)"
           :key="type"
-          v-if="org.activities[type].length > 0">
-          <h4>{{ org.info.shortname }} as {{ type | role }} ({{ org.activities[type].length }})</h4>
+          v-if="filterSource(org.activities[type]).length > 0">
+          <h4>{{ org.info.shortname }} as {{ type | role }} ({{ filterSource(org.activities[type]).length }})</h4>
           <ActivitiesList
             :activities="activities"
-            :activitiesList="org.activities[type]" />
+            :activitiesList="filterSource(org.activities[type])" />
         </section>
       </section>
       </section>
@@ -203,6 +203,19 @@ export default {
           VueScrollTo.scrollTo(anchor, 500)
         }, 300)
       }
+    },
+    filterSource(activities) {
+      return activities.filter(item => this.checkSource(item))
+    },
+    checkSource(activity) {
+      if (this.source == 'all') {
+        return true
+      } else if ((this.source == '3w') && (activity.length == 8)) {
+        return true
+      } else if ((this.source == 'iati') && (activity.length != 8)) {
+        return true
+      }
+      return false
     },
   },
   computed: {
