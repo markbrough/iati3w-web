@@ -10,8 +10,8 @@
             relationships with regional and international partners.
             It combines the monthly humanitarian <a
             href="https://data.humdata.org/dataset/somalia-operational-presence"
-            target="_blank">Somalia 3W</a> (who? what? where?)
-            reports compiled by UN OCHA, and the the Somalia-focused
+            target="_blank">Somalia 3W</a> (Who? What? Where?)
+            reports compiled by UN OCHA, and the Somalia-focused
             activities that organisations self-publish through the <a
             href="https://iatistandard.org"
             target="_blank">International Aid Transparency
