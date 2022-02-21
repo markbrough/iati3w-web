@@ -11,7 +11,7 @@
             </tr>
             <tr>
               <th>Reported by</th>
-              <td>{{ orgs[activity.reported_by].info.name }} ({{ activity.source }})</td>
+              <td>{{ orgs[activity.reported_by] ? orgs[activity.reported_by].info.name : activity.reported_by }} ({{ activity.source }})</td>
             </tr>
             <template v-if="activity.dates.start">
               <tr>
@@ -37,7 +37,7 @@
               :key="org">
               <span v-if="index>0">;</span>
               <nuxt-link
-                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                :to="{name: 'organisations-stub', params: { stub: orgs[org].info.stub }}">
                 {{ orgs[org].info.name }}</nuxt-link>
             </span>
           </p>
@@ -48,7 +48,7 @@
               :key="org">
               <span v-if="index>0">;</span>
               <nuxt-link
-                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                :to="{name: 'organisations-stub', params: { stub: orgs[org].info.stub }}">
                 {{ orgs[org].info.name }}</nuxt-link>
             </span>
           </p>
@@ -59,7 +59,7 @@
               :key="org">
               <span v-if="index>0">;</span>
               <nuxt-link
-                :to="{name: 'orgs-stub', params: { stub: orgs[org].info.stub }}">
+                :to="{name: 'organisations-stub', params: { stub: orgs[org].info.stub }}">
                 {{ orgs[org].info.name }}</nuxt-link>
             </span>
           </p>
