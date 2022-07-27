@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-const baseURL = 'https://davidmegginson.github.io/iati3w-data'
+const baseURL = 'https://devinit.github.io/iati3w-data'
 
 export const state = () => ({
   orgs: {},
